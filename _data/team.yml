@@ -15,6 +15,7 @@
 - name: Chemin Lee
   photo: chemin-lee.jpg
   info: Graduate Student
+  intro: "Hunting viral RNA elements that keep mRNAs stable and busy"
   link: chemin-lee
   category: student
   sort-key: lee-chemin
@@ -23,6 +24,7 @@
 - name: Da-Eun Choi
   photo: da-eun-choi.jpg
   info: Research Assistant
+  intro: "Combing viral genomes for regulatory RNA elements"
   email: "daeun7291@gmail.com"
   link: da-eun-choi
   category: research-assistant
@@ -32,6 +34,7 @@
 - name: Daniel Lee
   photo: daniel-lee.jpg
   info: Graduate Student
+  intro: "Piecing together the silencing complex, part by part"
   link: daniel-lee
   category: student
   sort-key: lee-daniel
@@ -40,6 +43,7 @@
 - name: Dongbin Lim
   photo: dongbin-lim.jpg
   info: Graduate Student
+  intro: "Finding RNA elements that make mRNAs last and work harder"
   link: dongbin-lim
   category: student
   sort-key: lim-dongbin
@@ -48,6 +52,7 @@
 - name: Eunji Kim
   photo: eunji-kim.jpg
   info: Technician
+  intro: "Keeping every machine humming, possibly by telepathy"  # placeholder
   email: "beautifulej@naver.com"
   link: eunji-kim
   category: research-assistant
@@ -57,6 +62,7 @@
 - name: Eunju Shim
   photo: eunju-shim.jpg
   info: Senior Administrative Assistant
+  intro: "Defeating paperwork monsters before breakfast"  # placeholder
   email: "shimej@snu.ac.kr"
   link: eunju-shim
   category: support
@@ -66,6 +72,7 @@
 - name: Hyejun Kim
   photo: hyejun-kim.jpg
   info: Graduate Student
+  intro: "Turning sequencing data into stories about RNA"
   link: hyejun-kim
   category: student
   sort-key: kim-hyejun
@@ -74,6 +81,7 @@
 - name: Hyemin Choi
   photo: hyemin-choi.jpg
   info: Graduate Student
+  intro: "Hearing poly(A) tails whisper their lengths"  # placeholder
   link: hyemin-choi
   category: student
   sort-key: choi-hyemin
@@ -82,6 +90,7 @@
 - name: Hyojin Park
   photo: hyojin-park.jpg
   info: Administrative Assistant
+  intro: "Booking meeting rooms at the speed of light"  # placeholder
   email: "anita9992@snu.ac.kr"
   link: hyojin-park
   category: support
@@ -91,6 +100,7 @@
 - name: Jieun Lee
   photo: jieun-lee.jpg
   info: Research Assistant
+  intro: "Helping mRNA medicines last longer in cells"
   link: jieun-lee
   category: research-assistant
   sort-key: lee-jieun
@@ -99,6 +109,7 @@
 - name: Jihye Yang
   photo: jihye-yang.jpg
   info: Research Assistant
+  intro: "Chasing microRNAs and RNA tails for over a decade"
   email: "ing0614@gmail.com"
   link: jihye-yang
   category: research-assistant
@@ -108,6 +119,7 @@
 - name: Junyoung Park
   photo: junyoung-park.jpg
   info: Graduate Student
+  intro: "Catching ERH as it helps the Microprocessor make microRNAs"
   link: junyoung-park
   category: student
   sort-key: park-junyoung
@@ -116,6 +128,7 @@
 - name: Mijoo Sung
   photo: mijoo-sung.jpg
   info: Lab Manager
+  intro: "Running mission control for everything in the lab"  # placeholder
   email: "mjsung@snu.ac.kr"
   link: mijoo-sung
   category: support
@@ -125,6 +138,7 @@
 - name: Minseok Jeong
   photo: minseok-jeong.jpg
   info: Graduate Student
+  intro: "Picturing the silencing complex as it takes shape"
   link: minseok-jeong
   category: student
   sort-key: jeong-minseok
@@ -133,6 +147,7 @@
 - name: Myeonghwan Kim
   photo: myeonghwan-kim.jpg
   info: Postdoctoral Fellow
+  intro: "Shadowing the cell's patrol for foreign RNA"
   link: myeonghwan-kim
   category: postdoc
   sort-key: kim-myeonghwan
@@ -141,6 +156,7 @@
 - name: Seojin Lee
   photo: seojin-lee.jpg
   info: Graduate Student
+  intro: "Squeezing in extra experiments with a time-turner"  # placeholder
   link: seojin-lee
   category: student
   sort-key: lee-seojin
@@ -149,6 +165,7 @@
 - name: Sunghan Lee
   photo: sunghan-lee.jpg
   info: Graduate Student
+  intro: "Making modified mRNA medicines last longer"
   link: sunghan-lee
   category: student
   sort-key: lee-sunghan
@@ -157,6 +174,7 @@
 - name: Seong-In Hyun
   photo: seong-in-hyun.jpg
   info: Postdoctoral Fellow
+  intro: "Studying RNA alarms in cells, and mRNAs built to last"
   link: seong-in-hyun
   category: postdoc
   sort-key: hyun-seong-in
@@ -165,6 +183,7 @@
 - name: Seongjae Ken Kim
   photo: seongjae-ken-kim.jpg
   info: Graduate Student
+  intro: "Seeing RNA fold in slow motion"  # placeholder
   link: seongjae-ken-kim
   category: student
   sort-key: kim-seongjae-ken
@@ -173,6 +192,7 @@
 - name: Sunyoung Bang
   photo: sunyoung-bang.jpg
   info: Research Assistant
+  intro: "Raising the happiest cells in Gwanak"  # placeholder
   link: sunyoung-bang
   category: research-assistant
   sort-key: bang-sunyoung
@@ -181,6 +201,7 @@
 - name: Yeekyung Moon
   photo: yeekyung-moon.jpg
   info: Graduate Student
+  intro: "Locking a tractor beam onto RNA's toughest questions"  # placeholder
   link: yeekyung-moon
   category: student
   sort-key: moon-yeekyung
@@ -189,6 +210,7 @@
 - name: Yejin Moon
   photo: yejin-moon.jpg
   info: Research Assistant
+  intro: "Running three experiments at once, with two hands"  # placeholder
   link: yejin-moon
   category: research-assistant
   sort-key: moon-yejin
@@ -197,6 +219,7 @@
 - name: Yeonwoo Park
   photo: yeonwoo-park.jpg
   info: Postdoctoral Fellow
+  intro: "Following a molecular handshake through 460 million years"
   link: yeonwoo-park
   category: postdoc
   sort-key: park-yeonwoo
@@ -205,6 +228,7 @@
 - name: Youngjoon Pyo
   photo: youngjoon-pyo.jpg
   info: Graduate Student
+  intro: "Tracking TRIM25 as it sniffs out foreign RNA"
   link: youngjoon-pyo
   category: student
   sort-key: pyo-youngjoon
@@ -213,6 +237,7 @@
 - name: Youngran Park
   photo: youngran-park.jpg
   info: Postdoctoral Fellow
+  intro: "Finding the tag SARS-CoV-2 uses to pack its genome"
   link: youngran-park
   category: postdoc
   sort-key: park-youngran

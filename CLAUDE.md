@@ -209,9 +209,23 @@ All news from the home page.
 2. Create `_pages/people/<link>.md` (copy an existing one): front matter `layout: member`,
    `title` (the name), `position`, `image`, `permalink: /people/<link>`, and any of
    `email`, `github`, `scholar` (the user id), `pubmed` (a full search URL), `cv` that
-   apply; then an optional bio and `{% include publication_in_profile.html %}`
+   apply; then the body: a bio, `## Current project` (`## Role` for the office staff),
+   `## Education` as a `<ul class="chronological">` where known, and
+   `{% include publication_in_profile.html %}`
 3. Add the photo as `images/members/<link>.jpg`, at least 520px wide (the people page
    crops it to 4:5 around the centre and resizes it)
+
+### Replace a placeholder
+
+Much of what the profiles say is a stand-in until each member writes their own. The
+bios of members with papers or a public profile are drawn from those; everything else
+is invented, and so overblown (superpowers, starships, cartoon missions) that no
+reader takes it for real: each such block in a profile follows a
+`{% comment %}PLACEHOLDER ...{% endcomment %}` line, a made-up card intro in
+`_data/team.yml` and a made-up email in a profile's front matter carry a
+`# placeholder` comment, and every made-up email ends in `.example`, a domain reserved
+never to deliver mail. `grep -rn -i placeholder _pages/people _data/team.yml` lists them.
+Replace the text and drop the marker.
 
 ### Add a publication
 
