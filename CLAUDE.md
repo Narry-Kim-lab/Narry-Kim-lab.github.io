@@ -94,7 +94,7 @@ templates read -- when a template starts reading a new field, update the matchin
 - **publist.yml** — Papers, newest first; /publications/ groups them by `year` as they
   come, so the order matters (the data check enforces it). Fields: `authors`, `title`,
   `journal`, `year`, `vip` (volume and pages, optional), `doi`, `url` (where the title
-  links). Each author has `name` as printed ("J. J. Seo") and, for a lab member, either
+  links), and `supplement` (optional, a link to supplementary data or code). Each author has `name` as printed ("J. J. Seo") and, for a lab member, either
   `link` (a team.yml link, for someone with a profile page) or `lab: true` (bold, no
   link), plus `is_first`/`is_corresponding` for the superscripts. Journal names are
   spelled out in full and consistently, since /publications/by-journal/ groups by them.

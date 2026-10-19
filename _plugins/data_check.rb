@@ -101,6 +101,10 @@ module Jekyll
         previous = nil
         list(file).each_with_index do |p, i|
           require_fields(file, p, i, "title", "journal")
+          %w[url supplement].each do |field|
+            next if p[field].nil? || p[field].to_s.match?(%r{\Ahttps?://})
+            problem(file, p, i, "`#{field}` must be a full http(s) address")
+          end
           year = p["year"]
           if !year.is_a?(Integer)
             problem(file, p, i, "`year` must be a number")

@@ -1619,10 +1619,11 @@
       is_corresponding: true
   title: TUT7 controls the fate of precursor microRNAs by using three different uridylation mechanisms
   journal: EMBO Journal
-  vip: "35(2):115-236. Suppl"
+  vip: "35(2):115-236"
   year: 2015
   doi: 10.15252/embj.201590931
   url: "http://emboj.embopress.org/content/early/2015/05/15/embj.201590931.long"
+  supplement: "https://github.com/hyeshik/bskim-2015-pre-miRNA"
 
 - authors:
     - name: K. Boo
@@ -1985,7 +1986,7 @@
       lab: true
   title: LIN28A is a suppressor of ER-associated translation in embryonic stem cells
   journal: Cell
-  vip: "151: 765-777. Suppl"
+  vip: "151: 765-777"
   year: 2012
   doi: 10.1016/j.cell.2012.10.019
   url: "http://www.cell.com/abstract/S0092-8674(12)01234-2"
@@ -2119,7 +2120,7 @@
       lab: true
   title: "Dicer recognizes the 5′ end of RNA for efficient and accurate processing"
   journal: Nature
-  vip: "475:201-205. Suppl"
+  vip: "475:201-205"
   year: 2011
   doi: 10.1038/nature10198
   url: "http://www.nature.com/nature/journal/v475/n7355/full/nature10198.html"
