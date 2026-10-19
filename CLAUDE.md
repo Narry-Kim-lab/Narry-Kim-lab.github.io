@@ -86,11 +86,17 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   a few seconds (it turns back from an edge, and a watchdog sends a loiterer off). A
   phone has two of them, unlabelled. The tuning keeps U's about as common as the TENT4s'
   A's: TUTs notice from further off, a short tail shortens more slowly, and a narrow
-  scene's mRNAs come with shorter tails, so they get short before swimming out.
-  The water's colours are `--sea` and `--sea-deep`, which the script reads from the CSS.
-  It runs at about 30 frames a second in vector at the device's pixel ratio, stops while
-  out of view or in a hidden tab, shows one still frame under `prefers-reduced-motion`,
-  and starts the same on every visit (a fixed seed).
+  scene's mRNAs come with shorter tails, so they get short before swimming out; a scene
+  wider than 1000px holds the TUTs back a little (fully from 1400px), as more tails
+  come their way. The water's colours are `--sea` and `--sea-deep`, which the script
+  reads from the CSS. The water below the top `--sea-top` (20px) is the canvas's own
+  CSS background, painted once; each frame draws only the band where the surface
+  ripples, in the same gradient, reaching 2px into the background so that no hairline
+  shows between them. It runs at about 30 frames a second in vector at the device's
+  pixel ratio (at most 2), stepping down to 20 and then 12 on a device whose frames come
+  late or hold the main thread for over half the time between them; it stops while out
+  of view or in a hidden tab, shows one still frame under `prefers-reduced-motion`, and
+  starts the same on every visit (a fixed seed).
 - Icons: Font Awesome Free 5.15.3 shapes as inline SVG (see Conventions). The site icon is
   the old site's black RNA strand on a white rounded square with transparent corners:
   `favicon.ico` (16, 32, 48px), `favicon-192.png`, and

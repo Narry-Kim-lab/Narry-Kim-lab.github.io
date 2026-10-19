@@ -19,9 +19,13 @@
  * They swim in a sea: water under a slowly rippling surface, deepening
  * towards the bottom, with a few bubbles rising through it.
  * Its two colours are --sea and --sea-deep in css/main.scss, read here.
+ * The water below the surface's reach is the canvas's own CSS background,
+ * painted once; each frame draws the water only in the band at the top,
+ * --sea-top deep, where the surface ripples, with the same gradient.
  *
  * Drawn in vector on <canvas class="scene"> (_includes/hero.html) at the
- * device's pixel ratio, about 30 frames a second, in the site's colours. It
+ * device's pixel ratio, about 30 frames a second (20, or 12, on a device that
+ * cannot keep up), in the site's colours. It
  * draws nothing while the scene is out of view or the tab is hidden; under
  * prefers-reduced-motion it shows one still frame instead, and follows the
  * setting if it changes. The scene starts the same on every visit.
@@ -45,7 +49,7 @@
     { body: '#a9bd5c', flap: '#7f9634', strap: '#5b6d22' },  // olive green
     { body: '#5f7fae', flap: '#3f5f8f', strap: '#2f4870' }   // navy
   ];
-  let sea = '#dce9ee', seaDeep = '#bcd3dc';
+  let sea = '#dce9ee', seaDeep = '#bcd3dc', seaTop = 20, water = null;
   const FACE = '"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif';
 
   // A fixed-seed generator, so the scene starts the same on every visit.
@@ -69,6 +73,11 @@
     const cs = getComputedStyle(canvas);
     sea = cs.getPropertyValue('--sea').trim() || sea;
     seaDeep = cs.getPropertyValue('--sea-deep').trim() || seaDeep;
+    seaTop = parseFloat(cs.getPropertyValue('--sea-top')) || seaTop;
+    // the CSS background's gradient, from the canvas's top edge to its floor
+    water = ctx.createLinearGradient(0, 0, 0, H);
+    water.addColorStop(0, sea);
+    water.addColorStop(1, seaDeep);
   }
 
   // ---- The sea ---------------------------------------------------------------
@@ -91,16 +100,19 @@
     }
   }
 
+  // Only the water between the surface and seaTop: the CSS background
+  // (css/main.scss) is the rest, so there is no need to fill the whole scene
+  // every frame. The surface never dips below seaTop (at most 16u, u <= 1).
+  // The band reaches 2px into the background, in the same colours, so no
+  // hairline shows between them where a fractional pixel ratio rounds the
+  // two edges differently.
   function drawSea() {
     ctx.beginPath();
-    ctx.moveTo(0, H);
+    ctx.moveTo(0, seaTop + 2);
     for (let x = 0; x <= W + 8; x += 8) ctx.lineTo(x, surface(x));
-    ctx.lineTo(W + 8, H);
+    ctx.lineTo(W + 8, seaTop + 2);
     ctx.closePath();
-    const g = ctx.createLinearGradient(0, 8 * u, 0, H);
-    g.addColorStop(0, sea);
-    g.addColorStop(1, seaDeep);
-    ctx.fillStyle = g;
+    ctx.fillStyle = water;
     ctx.fill();
     ctx.beginPath();                                    // a sheen along the surface
     for (let x = 0; x <= W + 8; x += 8) { const y = surface(x); if (x) ctx.lineTo(x, y); else ctx.moveTo(x, y); }
@@ -139,12 +151,18 @@
     const at = tailEnd(p);
     p.tail.pop();
     crumbs.push({ x: at.x, y: at.y, base: last, s: p.s, vx: between(-7, -2), vy: between(6, 12), life: 1 });
-    // A tail of five or fewer goes more slowly, so the TUTs have time to find it.
-    p.nibble = between(2.8, 5.2) * (p.tail.length <= 5 ? 1.5 : 1);
+    // A tail of five or fewer goes more slowly, so the TUTs have time to find
+    // it; less so in a wide scene, where more tails come their way.
+    p.nibble = between(2.8, 5.2) * (p.tail.length <= 5 ? 1.5 - 0.5 * wide() : 1);
     if (!p.tail.length) p.dying = true;
   }
 
   const wanted = () => Math.max(3, Math.min(6, Math.round(W / 220)));
+
+  // How wide the scene is, 0 up to 1000px across and 1 from 1400px. Wider,
+  // with more tails coming by, the TUTs would mark too many, so they are held
+  // back a little: see nibble, reach and deliver.
+  const wide = () => Math.min(1, Math.max(0, (W / u - 1000) / 400));
 
   // A newcomer enters at the left, in the lane with the most room. In a
   // narrow scene it comes with a shorter tail, which would otherwise cross
@@ -169,9 +187,9 @@
 
   const tent = (kind) => kind.startsWith('TENT');
   // How near a tail must come to be noticed. The TUTs notice from further
-  // off, further still in a wide scene, as the short tails they serve are
-  // few and soon gone.
-  const reach = (h) => (tent(h.kind) ? 90 : Math.max(130, Math.min(170, W / u / 11))) * u;
+  // off, as the short tails they serve are few and soon gone, though less
+  // far in a wide scene.
+  const reach = (h) => (tent(h.kind) ? 90 : 130 - 20 * wide()) * u;
 
   function helper(kind, at) {
     return { kind, x: at * W, y: between(0.35, 0.65) * H, heading: between(0, 2 * Math.PI),
@@ -220,7 +238,7 @@
     flights.push({ p, kind: h.kind, bases, x0: h.x + 17 * u * h.face, y0: h.y + 2 * u, k: 0, x: 0, y: 0 });
     p.held = true;
     h.target = null;
-    h.cool = tent(h.kind) ? between(5, 10) : between(3, 6);
+    h.cool = tent(h.kind) ? between(5, 10) : between(3, 6) * (1 + 0.6 * wide());
     h.happy = 0.9;                                      // pleased with itself: smiling eyes and a hop
   }
 
@@ -752,14 +770,35 @@
   else [['TENT4A', 0.3], ['TUT7', 0.7]].forEach(([k, at]) => helpers.push(helper(k, at)));
   for (let i = 0; i < 120; i++) step(1 / 15);
 
+  // About 30 frames a second. A device that cannot keep that up steps down
+  // to 20 and then to 12, which spares its main thread: after two seconds at
+  // a rate, if for three seconds running the frames come late (half as far
+  // apart again as asked), or each holds the main thread for over half the
+  // time between them -- this script, and then the browser putting the frame
+  // on screen, which on a device without a GPU to draw the canvas is most of
+  // it. A message posted at the end of a frame is handled only once that is
+  // done, so its delay is the frame's whole cost. The averages leave out the
+  // first frame after a pause (out of view, a hidden tab).
+  const PERIODS = [30, 45, 78];                         // ms: at 60Hz, every 2nd, 3rd and 5th refresh
   let raf = 0, last = 0, inView = true;
+  let tier = 0, period = PERIODS[0], lag = 33, busy = 0, ran = 0, slowFor = 0, began = 0;
+  const done = new MessageChannel();
+  done.port1.onmessage = () => { busy += (performance.now() - began - busy) * 0.05; };
   function frame(now) {
     raf = requestAnimationFrame(frame);
-    if (now - last < 30) return;                        // about 30 frames a second
-    const dt = Math.min(0.1, (now - last) / 1000);
+    const gap = now - last;
+    if (gap < period) return;
     last = now;
-    step(dt);
+    began = performance.now();
+    step(Math.min(0.1, gap / 1000));
     draw();
+    if (tier < PERIODS.length - 1 && gap < 200) {
+      done.port2.postMessage(0);
+      lag += (gap - lag) * 0.05;
+      ran += gap;
+      slowFor = ran > 2000 && (lag > 1.45 * period || busy > 0.55 * period) ? slowFor + gap : 0;
+      if (slowFor > 3000) { period = PERIODS[++tier]; lag = period; ran = slowFor = 0; }
+    }
   }
   function schedule() {
     cancelAnimationFrame(raf);
