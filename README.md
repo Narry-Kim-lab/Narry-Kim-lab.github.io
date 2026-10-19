@@ -13,7 +13,7 @@ through `cdrun`:
 ```sh
 conda env create -f environment.yml        # once; `conda env update` after edits
 cdrun nklabwww "gem install --no-document bundler -v 4.0.6 && bundle install"
-./run.sh                                   # preview at http://localhost:4000
+./run.sh                                   # preview at http://localhost:4001
 ```
 
 Elsewhere, any Ruby of that version works: `gem install bundler -v 4.0.6`,

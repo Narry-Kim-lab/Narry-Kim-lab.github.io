@@ -59,12 +59,14 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
 Ruby version is pinned in `.ruby-version` (CI reads it too); `Gemfile.lock` needs Bundler 4.
 On the lab server Ruby, Bundler and the gems live in the `nklabwww` conda env
 (`environment.yml`). Enter it with `cdrun`; plain `bundle` outside it is the system Ruby
-and will not match. The Gemfile and lock are the Chang lab's, so its `qbiowww` env
-builds this site too.
+and will not match. The env was first made as a clone of the Chang lab's `qbiowww`,
+whose Gemfile and lock this site shares; if the locks drift apart, update this env, not
+that one. `run.sh` serves on port 4001 (the Chang lab preview takes 4000) with
+livereload, which also needs port 35729.
 
 ```bash
 cdrun nklabwww "bundle install"      # Install dependencies into the env
-./run.sh                             # Dev server at http://localhost:4000
+./run.sh                             # Dev server at http://localhost:4001, live reload
 cdrun nklabwww "JEKYLL_ENV=production bundle exec jekyll build"   # Production build into _site/
 ```
 
