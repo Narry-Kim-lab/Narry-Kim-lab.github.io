@@ -11,7 +11,9 @@
  * TUT7 add U's to a tail that is nearly gone (uridylation), and that mRNA
  * swims on with its U's, its tail shortening no more. A tail a helper is
  * reaching for loses no beads, so no helper is seen near a tail as it
- * shrinks.
+ * shrinks. Two helpers that happen to linger side by side give each other a
+ * high five, and one left outside by a narrowing window dashes back in,
+ * startled.
  *
  * They swim in a sea: water under a slowly rippling surface, deepening
  * towards the bottom, with a few bubbles rising through it.
@@ -53,7 +55,7 @@
   // no smaller than 0.85 of that, so a phone's shorter scene keeps them legible.
   let W = 0, H = 0, u = 1, t = 0;
   const LANES = [0.3, 0.55, 0.8];
-  const tadpoles = [], crumbs = [], rings = [], helpers = [], flights = [], bubbles = [];
+  const tadpoles = [], crumbs = [], rings = [], claps = [], helpers = [], flights = [], bubbles = [];
 
   function size() {
     const r = canvas.getBoundingClientRect();
@@ -135,13 +137,16 @@
     const at = tailEnd(p);
     p.tail.pop();
     crumbs.push({ x: at.x, y: at.y, base: last, s: p.s, vx: between(-7, -2), vy: between(6, 12), life: 1 });
-    p.nibble = between(2.8, 5.2);
+    // A tail of five or fewer goes more slowly, so the TUTs have time to find it.
+    p.nibble = between(2.8, 5.2) * (p.tail.length <= 5 ? 1.5 : 1);
     if (!p.tail.length) p.dying = true;
   }
 
   const wanted = () => Math.max(3, Math.min(6, Math.round(W / 220)));
 
-  // A newcomer enters at the left, in the lane with the most room.
+  // A newcomer enters at the left, in the lane with the most room. In a
+  // narrow scene it comes with a shorter tail, which would otherwise cross
+  // the whole width before it got short enough for the TUTs.
   function spawn() {
     let best = -1, room = -Infinity;
     LANES.forEach((_, lane) => {
@@ -150,7 +155,7 @@
       if (r > room) { room = r; best = lane; }
     });
     if (room < 60 * u) return;
-    tadpoles.push(tadpole(-24 * u, best, Math.round(between(8, 14))));
+    tadpoles.push(tadpole(-24 * u, best, Math.round(between(8, 14) * Math.min(1, (W + 400) / 1300))));
   }
 
   // ---- The helpers -------------------------------------------------------------
@@ -161,14 +166,20 @@
   // close.
 
   const tent = (kind) => kind.startsWith('TENT');
-  const REACH = 90;                                     // how near a tail must come to be noticed
+  // How near a tail must come to be noticed. The TUTs notice from further
+  // off, further still in a wide scene, as the short tails they serve are
+  // few and soon gone.
+  const reach = (h) => (tent(h.kind) ? 90 : Math.max(130, Math.min(170, W / u / 11))) * u;
 
   function helper(kind, at) {
     return { kind, x: at * W, y: between(0.35, 0.65) * H, heading: between(0, 2 * Math.PI),
              face: 1, target: null, cool: between(1, 4), phase: between(0, 6),
              // the face: where the eyes look (-1 left to 1 right), and its moods
              look: 0, lookGoal: 0, lookHold: 0, nextLook: between(2, 7),
-             blinks: [], nextBlink: between(0.5, 4), wink: 0, happy: 0 };
+             blinks: [], nextBlink: between(0.5, 4), wink: 0, happy: 0,
+             surprise: 0, dash: null,
+             // where it has been loitering, and since when; and its high fives
+             rest: null, restless: between(4, 6), five: null, fiveCool: between(0, 10), near: new Map() };
   }
 
   // Where the next base goes: one bead past the end of the tail.
@@ -179,11 +190,11 @@
 
   function serves(h, p) {
     const n = p.tail.length;
-    return tent(h.kind) ? n >= 2 && n <= 7 && p.tail[n - 1] !== 'G' : n >= 1 && n <= 4;
+    return tent(h.kind) ? n >= 2 && n <= 7 && p.tail[n - 1] !== 'G' : n >= 1 && n <= 5;
   }
 
   function notice(h) {
-    let best = null, d = REACH * u;
+    let best = null, d = reach(h);
     for (const p of tadpoles) {
       if (p.dying || p.marked || p.held || !serves(h, p)) continue;
       if (helpers.some((o) => o !== h && o.target === p)) continue;
@@ -207,7 +218,7 @@
     flights.push({ p, kind: h.kind, bases, x0: h.x + 17 * u * h.face, y0: h.y + 2 * u, k: 0, x: 0, y: 0 });
     p.held = true;
     h.target = null;
-    h.cool = between(5, 10);
+    h.cool = tent(h.kind) ? between(5, 10) : between(3, 6);
     h.happy = 0.9;                                      // pleased with itself: smiling eyes and a hop
   }
 
@@ -227,7 +238,8 @@
     if (h.blinks.length) { h.blinks[0] -= dt; if (h.blinks[0] <= 0) h.blinks.shift(); }
     if (h.wink) h.wink = Math.abs(h.wink) - dt > 0 ? Math.sign(h.wink) * (Math.abs(h.wink) - dt) : 0;
     if (h.happy > 0) h.happy = Math.max(0, h.happy - dt);
-    if ((h.nextBlink -= dt) <= 0) {
+    if (h.surprise > 0) h.surprise = Math.max(0, h.surprise - dt);
+    if ((h.nextBlink -= dt) <= 0 && h.surprise <= 0) {        // startled eyes stay open
       const r = rand();
       if (r < 0.18) h.wink = (rand() < 0.5 ? -1 : 1) * 0.4;              // a wink, left or right eye
       else if (r < 0.38) h.blinks = [0.11, 0.1, 0.11];                   // a double blink: shut, open, shut
@@ -240,36 +252,19 @@
       h.lookHold = between(0.6, 1.3);
       h.nextLook = between(3, 8);
     }
-    if (h.lookHold <= 0) h.lookGoal = h.target ? Math.sign(attach(h.target).x - h.x) || h.face : 0.6 * h.face;
+    if (h.dash) h.lookGoal = h.face;                           // dashing, eyes front
+    else if (h.five) h.lookGoal = h.five.side;                 // high-fiving, eyes on the other
+    else if (h.lookHold <= 0) h.lookGoal = h.target ? Math.sign(attach(h.target).x - h.x) || h.face : 0.6 * h.face;
     h.look += (h.lookGoal - h.look) * Math.min(1, 9 * dt);
   }
 
-  function stepHelper(h, dt) {
-    stepFace(h, dt);
-    h.cool -= dt;
-    let p = h.target;
-    if (p && (p.gone || p.dying || p.marked || p.held || !serves(h, p))) p = h.target = null;
-    if (!p && h.cool <= 0) p = h.target = notice(h);
-    let at = null, dist = Infinity;
-    if (p) {
-      at = attach(p);
-      dist = Math.hypot(at.x - h.x, at.y - h.y);
-      if (dist > 1.4 * REACH * u) { p = h.target = null; at = null; }   // it got away: let it go
-    }
-    // Wandering: the heading drifts at random, flattened (the scene is wide
-    // and shallow), and turns back from the edges. A tail it has noticed
-    // only bends that course towards it.
-    h.heading += between(-1, 1) * 2.4 * dt;
-    let vx = Math.cos(h.heading), vy = 0.55 * Math.sin(h.heading);
-    if (h.x < 40 * u) vx += 1.2; else if (h.x > W - 40 * u) vx -= 1.2;
-    if (h.y < 22 * u) vy += 0.8; else if (h.y > H - 22 * u) vy -= 0.8;
-    if (at) { vx += 1.1 * (at.x - h.x) / dist; vy += 1.1 * (at.y - h.y) / dist; }
-    const len = Math.hypot(vx, vy) || 1, speed = (at ? 22 : 12) * u;
-    h.x += vx / len * speed * dt;
-    h.y += vy / len * speed * dt;
-    if (Math.abs(vx) > 0.15) h.face = vx > 0 ? 1 : -1;
-    // Never on top of another helper, nor, unless it is reaching a tail, on
-    // top of an mRNA: within reach of a helper, a head or a bead, it drifts off.
+  // Left outside by a narrowing window, a helper is startled: wide eyes, an
+  // open mouth and a "!", and it dashes back in, then glides on a little
+  // way once inside, slowing, its course wavering at random, before it takes
+  // up wandering again.
+  // Never on top of another helper, nor, unless it is reaching that tail (p),
+  // on top of an mRNA: within reach of a helper, a head or a bead, it drifts off.
+  function keepClear(h, p, dt) {
     const away = (x, y, reach) => {
       const ox = h.x - x, oy = h.y - y, od = Math.hypot(ox, oy) || 1;
       if (od < reach) { const push = (reach - od) * Math.min(1, 3 * dt); h.x += ox / od * push; h.y += oy / od * push; }
@@ -279,6 +274,131 @@
       away(q.x, headY(q), 30 * u);
       if (q !== p) for (let i = 0; i < q.tail.length; i++) { const b = beadAt(q, i); away(b.x, b.y, 18 * u); }
     }
+  }
+
+  function dash(h, dt) {
+    const out = h.x < -6 * u ? 1 : h.x > W + 6 * u ? -1 : 0;   // which way is back in
+    if (out && !h.dash) {
+      if (h.five) { h.five.mate.five = null; h.five = null; }
+      // how hard it slows, and how its course bends, differ from dash to dash
+      h.dash = { vx: out * between(150, 190) * u, vy: between(-20, 20) * u,
+                 drag: between(1.8, 2.8), turn: between(-0.8, 0.8) };
+      h.surprise = 1.5;
+      h.blinks = []; h.wink = 0; h.happy = 0;
+      h.target = null;
+    }
+    const d = h.dash;
+    if (!d) return false;
+    h.x += d.vx * dt;
+    h.y += d.vy * dt;
+    if (h.x > 24 * u && h.x < W - 24 * u) {                   // in again: gliding
+      const k = Math.exp(-d.drag * dt), c = Math.cos(d.turn * dt), s = Math.sin(d.turn * dt);
+      [d.vx, d.vy] = [k * (d.vx * c - d.vy * s), k * (d.vx * s + d.vy * c) + between(-40, 40) * u * dt];
+      if (Math.hypot(d.vx, d.vy) < 10 * u) { h.heading = Math.atan2(d.vy, d.vx); h.dash = null; }
+      keepClear(h, null, dt);                                 // gliding round what is in the way
+    } else {
+      h.surprise = Math.max(h.surprise, 1);                   // startled for as long as it is out
+    }
+    // kept low enough for its "!" to show, and bouncing off the bottom
+    if (h.y < 30 * u) h.y += (30 * u - h.y) * Math.min(1, 3 * dt);
+    if (h.y > H - 12 * u) { h.y = H - 12 * u; d.vy = -Math.abs(d.vy); }
+    h.face = d.vx > 0 ? 1 : -1;
+    return true;
+  }
+
+  // Two helpers that find themselves side by side for a while, neither on an
+  // errand, give each other a high five: they turn face to face, draw in a
+  // little, each raises a hand, the hands meet with a slap, and they hop and
+  // part. None goes looking for one; it only comes to those that linger close.
+  const FIVE = 1;                                       // how long one takes, in seconds
+  const raised = (k) => {                               // how high the hand is, 0 to 1
+    const e = (v) => { v = Math.min(1, Math.max(0, v)); return v * v * (3 - 2 * v); };
+    return k < 0.45 ? e(k / 0.45) : 1 - e((k - 0.62) / 0.35);
+  };
+
+  function meet(dt) {
+    const free = (h) => !h.five && !h.dash && !h.target && h.happy <= 0 && h.fiveCool <= 0;
+    for (let i = 0; i < helpers.length; i++) {
+      for (let j = i + 1; j < helpers.length; j++) {
+        const a = helpers[i], b = helpers[j];
+        const close = Math.abs(a.x - b.x) < 100 * u && Math.abs(a.y - b.y) < 36 * u;
+        const was = a.near.get(b) || 0;
+        const now = close && free(a) && free(b) ? was + dt : Math.max(0, was - 2 * dt);
+        a.near.set(b, now);
+        if (now < 2.5) continue;
+        a.near.set(b, 0);
+        const side = Math.sign(b.x - a.x) || 1, mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+        a.five = { mate: b, side, k: 0, x: mx - side * 18 * u, y: my, slapped: false };
+        b.five = { mate: a, side: -side, k: 0, x: mx + side * 18 * u, y: my, slapped: false };
+      }
+    }
+  }
+
+  function highFive(h, dt) {
+    const f = h.five;
+    f.k += dt;
+    h.face = f.side;
+    const ease = Math.min(1, 8 * dt);                   // into place, face to face
+    h.x += (f.x - h.x) * ease;
+    h.y += (f.y - h.y) * ease;
+    if (f.k >= 0.45 && !f.slapped) {
+      f.slapped = true;
+      h.happy = 0.9;                                    // both smile and hop
+      if (f.side > 0) claps.push({ x: f.x + 18 * u, y: f.y - 14 * u, life: 1 });
+    }
+    if (f.k >= FIVE) {                                  // and off they go, apart
+      h.five = null;
+      h.heading = (f.side > 0 ? Math.PI : 0) + between(-0.7, 0.7);
+      h.fiveCool = between(40, 80);
+      h.rest = null;
+    }
+  }
+
+  function stepHelper(h, dt) {
+    stepFace(h, dt);
+    if (dash(h, dt)) return;
+    if (h.fiveCool > 0) h.fiveCool -= dt;
+    if (h.five) { highFive(h, dt); return; }
+    h.cool -= dt;
+    let p = h.target;
+    if (p && (p.gone || p.dying || p.marked || p.held || !serves(h, p))) p = h.target = null;
+    if (!p && h.cool <= 0) p = h.target = notice(h);
+    let at = null, dist = Infinity;
+    if (p) {
+      at = attach(p);
+      dist = Math.hypot(at.x - h.x, at.y - h.y);
+      if (dist > 1.4 * reach(h)) { p = h.target = null; at = null; }   // it got away: let it go
+    }
+    // Wandering: the heading drifts at random, flattened (the scene is wide
+    // and shallow), and near an edge it turns back inwards, rather than
+    // pressing on against the edge until the drift happens to turn it. A
+    // tail it has noticed only bends that course towards it.
+    h.heading += between(-1, 1) * 2.4 * dt;
+    const inx = h.x < 50 * u ? 1 : h.x > W - 50 * u ? -1 : 0;
+    const iny = h.y < 28 * u ? 1 : h.y > H - 28 * u ? -1 : 0;
+    if (inx || iny) {
+      const off = Math.atan2(iny, inx) - h.heading;
+      h.heading += Math.atan2(Math.sin(off), Math.cos(off)) * Math.min(1, 1.6 * dt);
+    }
+    // However it comes to be held in one spot (pressed against another
+    // helper, or hemmed in by tails), it never stays there long: after a few
+    // seconds it lets go of any tail and sets off for somewhere else.
+    if (!h.rest || Math.hypot(h.x - h.rest.x, h.y - h.rest.y) > 16 * u) h.rest = { x: h.x, y: h.y, time: 0 };
+    else if ((h.rest.time += dt) > h.restless) {
+      h.heading = Math.atan2((between(0.3, 0.7) * H - h.y) / 0.55, between(0.15, 0.85) * W - h.x);
+      h.restless = between(4, 6);
+      h.rest = null;
+      if (p) { p = h.target = null; at = null; h.cool = Math.max(h.cool, 3); }
+    }
+    let vx = Math.cos(h.heading), vy = 0.55 * Math.sin(h.heading);
+    if (h.x < 40 * u) vx += 1.2; else if (h.x > W - 40 * u) vx -= 1.2;
+    if (h.y < 22 * u) vy += 0.8; else if (h.y > H - 22 * u) vy -= 0.8;
+    if (at) { vx += 1.1 * (at.x - h.x) / dist; vy += 1.1 * (at.y - h.y) / dist; }
+    const len = Math.hypot(vx, vy) || 1, speed = (at ? 22 : 12) * u;
+    h.x += vx / len * speed * dt;
+    h.y += vy / len * speed * dt;
+    if (Math.abs(vx) > 0.15) h.face = vx > 0 ? 1 : -1;
+    keepClear(h, p, dt);
     h.y = Math.min(H - 12 * u, Math.max(12 * u, h.y));
     if (p && dist < 26 * u) deliver(h);
   }
@@ -320,7 +440,10 @@
     }
     for (let i = crumbs.length - 1; i >= 0; i--) if (crumbs[i].life <= 0) crumbs.splice(i, 1);
     for (let i = rings.length - 1; i >= 0; i--) if (rings[i].life <= 0) rings.splice(i, 1);
+    for (const c of claps) c.life -= dt / 0.4;
+    for (let i = claps.length - 1; i >= 0; i--) if (claps[i].life <= 0) claps.splice(i, 1);
     helpers.forEach((h) => stepHelper(h, dt));
+    meet(dt);
     stepBubbles(dt);
   }
 
@@ -421,17 +544,47 @@
   function drawHelper(h) {
     const hop = h.happy > 0 ? 4 * u * Math.sin(Math.PI * (1 - h.happy / 0.9)) : 0;
     const x = h.x, y = h.y + 1.5 * u * Math.sin(t * 2 + h.phase) - hop, f = h.face;
+    // dashing, the body stretches along the way it goes
+    const rush = h.dash ? Math.min(1, Math.abs(h.dash.vx) / (170 * u)) : 0;
+    const body = tent(h.kind) ? GREY : RED;
+    if (h.five) {                                       // a hand raised for the high five, from behind the body
+      const r = raised(h.five.k), s = h.five.side;
+      const hx = x + s * (8 + 7 * r) * u, hy = y - (2 + 12 * r) * u;
+      ctx.beginPath();
+      ctx.moveTo(x + s * 6 * u, y - 2 * u); ctx.lineTo(hx, hy);
+      ctx.lineWidth = 3.4 * u; ctx.lineCap = 'round'; ctx.strokeStyle = body; ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(hx, hy, 3.8 * u, 0, 2 * Math.PI);
+      ctx.fillStyle = body; ctx.fill();
+    }
     ctx.beginPath();
-    ctx.ellipse(x, y, 12 * u, 9.2 * u, 0, 0, 2 * Math.PI);
-    ctx.fillStyle = tent(h.kind) ? GREY : RED; ctx.fill();
-    // two eyes, turned the way it looks: open (white, with a pupil), shut in
-    // a blink or a wink (a line), or smiling after a delivery (an arch)
+    ctx.ellipse(x, y, 12 * u * (1 + 0.2 * rush), 9.2 * u * (1 - 0.12 * rush), 0, 0, 2 * Math.PI);
+    ctx.fillStyle = body; ctx.fill();
+    if (h.surprise > 0) {                               // startled: an open mouth, and a "!" above
+      ctx.beginPath();
+      ctx.arc(x + h.look * 1.5 * u, y + 3.8 * u, 1.4 * u, 0, 2 * Math.PI);
+      ctx.fillStyle = '#ffffff'; ctx.fill();
+      ctx.globalAlpha = Math.min(1, h.surprise / 0.4);
+      ctx.font = `700 ${13 * u}px ${FACE}`;
+      ctx.fillStyle = INK;
+      ctx.fillText('!', x + 3 * u * f, y - 17 * u - 2 * u * Math.sin(Math.min(1, (1.5 - h.surprise) * 6) * Math.PI));
+      ctx.globalAlpha = 1;
+    }
+    // two eyes, turned the way it looks: open (white, with a pupil), wide and
+    // small-pupilled when startled, shut in a blink or a wink (a line), or
+    // smiling after a delivery (an arch)
     const blink = h.blinks.length % 2 === 1;            // the queue alternates shut, open, shut
     ctx.lineWidth = 1.3 * u; ctx.lineCap = 'round'; ctx.strokeStyle = '#ffffff';
     for (const side of [-1, 1]) {
       const ex = x + side * 3.9 * u + h.look * 2.3 * u, ey = y - 1.8 * u;
       ctx.beginPath();
-      if (h.happy > 0) {
+      if (h.surprise > 0) {
+        ctx.arc(ex, ey, 2.9 * u, 0, 2 * Math.PI);
+        ctx.fillStyle = '#ffffff'; ctx.fill();
+        ctx.beginPath();
+        ctx.arc(ex + h.look * 0.6 * u, ey, 0.9 * u, 0, 2 * Math.PI);
+        ctx.fillStyle = INK; ctx.fill();
+      } else if (h.happy > 0) {
         ctx.arc(ex, ey + 1 * u, 1.9 * u, Math.PI * 1.15, Math.PI * 1.85);
         ctx.stroke();
       } else if (blink || Math.sign(h.wink) === side) {
@@ -476,6 +629,19 @@
     ctx.globalAlpha = 1;
     [...tadpoles].sort((a, b) => a.s - b.s).forEach(drawTadpole);
     helpers.forEach(drawHelper);
+    for (const c of claps) {                            // the slap of a high five: a few short strokes, flaring
+      ctx.globalAlpha = Math.max(0, c.life);
+      ctx.lineWidth = 1.3 * u; ctx.lineCap = 'round'; ctx.strokeStyle = INK;
+      for (const a of [-2.6, -2.05, -1.57, -1.09, -0.54]) {
+        const r0 = (6 + 3 * (1 - c.life)) * u, r1 = r0 + (3 + 3 * (1 - c.life)) * u;
+        ctx.beginPath();
+        ctx.moveTo(c.x + r0 * Math.cos(a), c.y + r0 * Math.sin(a));
+        ctx.lineTo(c.x + r1 * Math.cos(a), c.y + r1 * Math.sin(a));
+        ctx.stroke();
+      }
+    }
+    ctx.globalAlpha = 1;
+    ctx.lineCap = 'butt';
     for (const f of flights) {                          // a base on its way to a tail
       ctx.font = `600 ${8.4 * 0.85 * u}px ${FACE}`;
       bead(f.x, f.y, tent(f.kind) ? 'G' : 'U', 0.85 * u);
@@ -522,7 +688,12 @@
   }).observe(canvas);
   document.addEventListener('visibilitychange', schedule);
   still.addEventListener('change', schedule);
-  window.addEventListener('resize', () => { size(); draw(); });
+  window.addEventListener('resize', () => {
+    size();
+    // With motion reduced there is no dash: a helper left outside is simply put back in.
+    if (still.matches) helpers.forEach((h) => { h.x = Math.min(W - 24 * u, Math.max(24 * u, h.x)); });
+    draw();
+  });
   if (document.fonts) document.fonts.ready.then(draw);  // the bead letters, once the face is in
   schedule();
 })();

@@ -78,7 +78,13 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   them -- TENT4A and TENT4B (grey) throw A's and a G onto a short tail that passes near
   (mixed tailing; the deadenylase stalls at the G), TUT4 and TUT7 (red) throw U's onto a
   nearly bare one (uridylation; it then stops shortening) -- blinking, winking, glancing
-  about, and smiling with a hop after a delivery. A phone has two of them, unlabelled.
+  about, and smiling with a hop after a delivery. Two that linger side by side give each
+  other a high five (none seeks one out); a helper left outside by a narrowing window
+  dashes back in, startled, and glides on a little; and none stays in one spot more than
+  a few seconds (it turns back from an edge, and a watchdog sends a loiterer off). A
+  phone has two of them, unlabelled. The tuning keeps U's about as common as the TENT4s'
+  A's: TUTs notice from further off, a short tail shortens more slowly, and a narrow
+  scene's mRNAs come with shorter tails, so they get short before swimming out.
   The water's colours are `--sea` and `--sea-deep`, which the script reads from the CSS.
   It runs at about 30 frames a second in vector at the device's pixel ratio, stops while
   out of view or in a hidden tab, shows one still frame under `prefers-reduced-motion`,
