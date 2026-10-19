@@ -984,6 +984,140 @@ blockquote {
     margin-bottom: 2px;
 }
 
+/* The photo viewer (_pages/photos.md, js/site.js): the dialog fills the
+   window over a nearly black backdrop, the photo as large as fits beside the
+   buttons and above the caption, at its own proportions. A click on the dark
+   ground closes it, like the close button and Escape. */
+.lightbox {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #ededee;
+    overflow: hidden;
+}
+
+.lightbox::backdrop {
+    background: rgba(12, 12, 12, 0.92);
+}
+
+/* No scrolling the page behind the viewer. */
+html.lightbox-open {
+    overflow: hidden;
+}
+
+.lightbox-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 56px 80px 20px;
+}
+
+.lightbox-figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.lightbox-img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: calc(100vw - 160px);
+    max-height: calc(100dvh - 140px);
+    margin: 0;
+    border-radius: 4px;
+}
+
+.lightbox-caption {
+    max-width: 48em;
+    font-size: 15px;
+    line-height: 1.45;
+    text-align: center;
+}
+
+.lightbox-date {
+    font-weight: 600;
+}
+
+.lightbox-count {
+    margin-left: 10px;
+    color: #a9a9b0;
+    font-variant-numeric: tabular-nums;
+}
+
+.lightbox-button {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.lightbox-button:hover, .lightbox-button:focus-visible {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+.lightbox-button:focus-visible {
+    outline: 3px solid var(--on-ink-link);
+    outline-offset: 2px;
+}
+
+.lightbox-prev, .lightbox-next {
+    top: 50%;
+    margin-top: -26px;
+}
+
+.lightbox-prev { left: 14px; }
+.lightbox-next { right: 14px; }
+
+.lightbox-close {
+    top: 10px;
+    right: 14px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+}
+
+/* A phone: the photo takes the full width, and the buttons sit over it near
+   the bottom, where a thumb reaches them. */
+@media (max-width: 699px) {
+    .lightbox-stage {
+        padding: 56px 12px 96px;
+    }
+
+    .lightbox-img {
+        max-width: calc(100vw - 24px);
+        max-height: calc(100dvh - 200px);
+    }
+
+    .lightbox-prev, .lightbox-next {
+        top: auto;
+        bottom: 22px;
+        margin-top: 0;
+    }
+
+    .lightbox-prev { left: calc(50% - 70px); }
+    .lightbox-next { right: calc(50% - 70px); }
+}
+
 /* ------------------------------------------------------------ footer */
 
 #footer {

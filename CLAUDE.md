@@ -59,7 +59,14 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
 - JS: `js/site.js` runs the home carousel, driving Bootstrap 3's CSS classes directly (no
   jQuery), and makes the email buttons mailto links. The carousel holds still while the
   mouse is over it or keyboard focus is in it (WCAG 2.2.2), stops autoplaying under
-  `prefers-reduced-motion`, and its arrows answer Enter and Space.
+  `prefers-reduced-motion`, and its arrows answer Enter and Space. It also runs the photos
+  page's viewer, a modal `<dialog class="lightbox">` in `_pages/photos.md`: a photo
+  (a link marked `data-lightbox`, which carries its date and caption) opens nearly full
+  window over the darkened page, at its own proportions; the side buttons, the arrow keys
+  and a sideways swipe move through the photos in page order, wrapping round at the ends;
+  the close button, Escape and a click on the dark ground close it, and focus returns to
+  the photo. Videos are not in it: they link to YouTube. Without scripts, or with a click
+  meant for a new tab, a photo is a plain link to its file.
 - The hero is static for now. The Chang lab's hero has an animated pixel scene
   (`js/ribosome.js`) where this one has the red band; one may come later.
 - Icons: Font Awesome Free 5.15.3 shapes as inline SVG (see Conventions). The site icon is
