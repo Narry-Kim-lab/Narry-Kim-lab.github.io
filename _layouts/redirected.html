@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{%- comment -%}
+  A stub that sends an old address on to its new one, for the pages in
+  _pages/redirects/ (their layout and sitemap: false come from `defaults` in
+  _config.yml). It redirects with a meta refresh and a link, since a
+  Content-Security-Policy without 'unsafe-inline' would block a script.
+{%- endcomment %}
+<html lang="en">
+<head>
+<title>Redirecting…</title>
+<link rel="canonical" href="{{ page.redirect_to | absolute_url }}"/>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="refresh" content="0;url={{ page.redirect_to | relative_url }}" />
+</head>
+<body>
+    <h1>Redirecting...</h1>
+      <a href="{{ page.redirect_to | relative_url }}">Click here if you are not redirected.</a>
+</body>
+</html>

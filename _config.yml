@@ -24,6 +24,16 @@ plugins:
 include:
   - _pages
 
+# The old WordPress site's addresses, each a stub in _pages/redirects/ that
+# sends the visitor on to the page that replaced it, so links and bookmarks
+# keep working once narrykim.org points here.
+defaults:
+  - scope:
+      path: "_pages/redirects"
+    values:
+      layout: redirected
+      sitemap: false
+
 # Repo-only files. Without this list Jekyll copies every unrecognised file at
 # the site root into _site/. Jekyll appends its own defaults (Gemfile,
 # vendor/, ...) to whatever is listed here, so those do not need repeating.

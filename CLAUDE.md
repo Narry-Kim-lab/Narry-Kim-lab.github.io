@@ -117,6 +117,11 @@ templates read -- when a template starts reading a new field, update the matchin
 - **homelay.html** — Two-column (8/4) with news sidebar.
 - **gridlay.html** — Full-width grid (people, publications, photos).
 - **textlay.html** — Full-width text (research, join, contact, all news, about, 404).
+- **redirected.html** — A stub that sends an old address on to its new one with a meta
+  refresh (no script, for the CSP). Used by `_pages/redirects/`, one file per address of
+  the old WordPress site (`/en/members/` → `/people/`, the Korean pages to their English
+  counterparts); `defaults` in `_config.yml` gives them this layout and `sitemap: false`,
+  so a stub is just `permalink` (the old address) and `redirect_to`.
 - **member.html** — A member's profile: photo, name and position, then the links (CV,
   GitHub, Google Scholar, PubMed, email) as icon buttons beside the text, and the member's
   papers from `{% include publication_in_profile.html %}` in the page body, which matches
