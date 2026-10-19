@@ -20,7 +20,7 @@ permalink: /publications/by-journal/
 {%- endcomment %}
 {%- assign journals = site.data.publist | group_by: "journal" | sort_natural: "name" %}
 {%- for journal in journals %}
-<h2 class="pub-group" id="{{ journal.name | slugify }}">{{ journal.name }}</h2>
+<h2 class="pub-group pub-journal" id="{{ journal.name | slugify }}">{{ journal.name }}</h2>
 <div class="publication-list" markdown="0">
 {%- for publi in journal.items %}
 <p>{% include publication_entry.html %}</p>

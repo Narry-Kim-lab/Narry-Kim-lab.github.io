@@ -825,6 +825,12 @@ ul.chronological span {
     font-size: 24px;
 }
 
+/* On /publications/by-journal/ the headings are journal names, set in
+   italic as the journal is in each entry. */
+#gridid h2.pub-journal {
+    font-style: italic;
+}
+
 .publication-list > p {
     margin: 0;
     padding: 14px 0;
