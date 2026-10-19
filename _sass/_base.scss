@@ -286,10 +286,13 @@ a {
   text-decoration: none;
 }
 a:hover,
-a:focus {
+a:focus-visible {
   text-decoration: underline;
 }
-a:focus {
+/* :focus-visible, where Bootstrap had :focus: the ring is for keyboard focus,
+   so a mouse click on a link that stays on the page (the carousel arrows, an
+   email button, a photo the viewer returns focus to) leaves no ring behind. */
+a:focus-visible {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -1448,7 +1451,7 @@ fieldset[disabled] input[type=checkbox] {
   background-repeat: repeat-x;
 }
 .carousel-control:hover,
-.carousel-control:focus {
+.carousel-control:focus-visible {
   outline: 0;
   color: #fff;
   text-decoration: none;

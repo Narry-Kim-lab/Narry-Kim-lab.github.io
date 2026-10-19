@@ -217,6 +217,10 @@ description from `title` and `position`. `sitemap: false` excludes a page from t
 
 ## Conventions
 
+- Focus styles use `:focus-visible`, never `:focus` (in `_sass/_base.scss` too): the ring
+  and the hover look are for keyboard focus, and a mouse click on something that stays
+  on the page -- a carousel arrow, an email button -- must leave no ring behind. The photo
+  viewer keeps focus on its dialog while it is paged, for the same reason.
 - Headings never skip a level: a page has one `#` (its title), and its sections are `##`.
   CSS sets their size per context; do not drop to `###`/`####` for size.
 - Member URL slugs: lowercase hyphenated (`jane-doe`); sort keys `lastname-firstname`.

@@ -89,7 +89,7 @@ a {
 }
 
 .body-container p a:hover, .body-container li a:hover, .body-container dd a:hover,
-.body-container p a:focus, .body-container li a:focus, .body-container dd a:focus {
+.body-container p a:focus-visible, .body-container li a:focus-visible, .body-container dd a:focus-visible {
     text-decoration-thickness: 2px;
 }
 
@@ -155,7 +155,7 @@ img[width][height] {
     text-decoration: none;
 }
 
-.wordmark:hover, .wordmark:focus {
+.wordmark:hover, .wordmark:focus-visible {
     text-decoration: none;
 }
 
@@ -209,7 +209,7 @@ img[width][height] {
     }
 }
 
-.site-nav nav a:hover, .site-nav nav a:focus,
+.site-nav nav a:hover, .site-nav nav a:focus-visible,
 .site-nav nav a[aria-current] {
     color: var(--link);
     text-decoration: underline;
@@ -232,7 +232,7 @@ img[width][height] {
     color: #ffffff;
 }
 
-.button-solid:hover, .button-solid:focus {
+.button-solid:hover, .button-solid:focus-visible {
     background: var(--ink);
     border-color: var(--ink);
     text-decoration: none;
@@ -243,7 +243,7 @@ img[width][height] {
     color: var(--link);
 }
 
-.button-outline:hover, .button-outline:focus {
+.button-outline:hover, .button-outline:focus-visible {
     color: var(--ink);
     border-color: var(--ink);
     text-decoration: none;
@@ -271,7 +271,7 @@ body.inner {
     color: #ffffff;
 }
 
-.inner .wordmark:hover, .inner .wordmark:focus {
+.inner .wordmark:hover, .inner .wordmark:focus-visible {
     color: #d4d4d4;
 }
 
@@ -279,7 +279,7 @@ body.inner {
     color: #d4d4d4;            /* 7.3:1 on the charcoal */
 }
 
-.inner .site-nav nav a:hover, .inner .site-nav nav a:focus,
+.inner .site-nav nav a:hover, .inner .site-nav nav a:focus-visible,
 .inner .site-nav nav a[aria-current] {
     color: #ffffff;
     text-decoration-color: var(--accent);
@@ -288,7 +288,7 @@ body.inner {
 
 /* The button turns white on hover, because the default hover colour (the
    ink) is lost on the charcoal. */
-.inner .button-solid:hover, .inner .button-solid:focus {
+.inner .button-solid:hover, .inner .button-solid:focus-visible {
     background: #ffffff;
     border-color: #ffffff;
     color: var(--link);
@@ -556,7 +556,7 @@ div#textid h2.minor {
     text-decoration: none;
 }
 
-.chip:hover, .chip:focus {
+.chip:hover, .chip:focus-visible {
     border-color: var(--link);
     text-decoration: none;
 }
@@ -633,7 +633,7 @@ div#textid h2.minor {
 /* The card -- the link -- is only as wide as its photo; the rest of the
    column is plain grid space, so a click or focus ring frames the photo
    instead of running past it. */
-.team-card, a.team-card:hover, a.team-card:focus {
+.team-card, a.team-card:hover, a.team-card:focus-visible {
     display: block;
     max-width: 180px;
     color: var(--muted);
@@ -661,14 +661,14 @@ div#textid h2.minor {
 }
 
 /* The name is already blue, so hovering underlines it instead. */
-a.team-card:hover .team-card-name, a.team-card:focus .team-card-name {
+a.team-card:hover .team-card-name, a.team-card:focus-visible .team-card-name {
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
 }
 
 /* The base sets focus rings 2px inside the link, over the text here. */
-a.team-card:focus {
+a.team-card:focus-visible {
     outline-offset: 4px;
 }
 
@@ -708,7 +708,7 @@ a.team-card:focus {
     text-decoration: none;
 }
 
-.alumni-name a:hover, .alumni-name a:focus {
+.alumni-name a:hover, .alumni-name a:focus-visible {
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
@@ -888,7 +888,7 @@ span.publi_author.lab {
     text-decoration: none;
 }
 
-.body-container a.publi_author:hover, .body-container a.publi_author:focus {
+.body-container a.publi_author:hover, .body-container a.publi_author:focus-visible {
     text-decoration: underline;
 }
 
@@ -954,6 +954,11 @@ blockquote {
     outline-offset: 3px;
 }
 
+/* A photo the viewer handed focus back to after a mouse click (js/site.js). */
+.photo-item a.quiet-focus:focus-visible {
+    outline: none;
+}
+
 .photo-play {
     position: absolute;
     left: 50%;
@@ -970,7 +975,7 @@ blockquote {
     font-size: 20px;
 }
 
-.photo-item a:hover .photo-play, .photo-item a:focus .photo-play {
+.photo-item a:hover .photo-play, .photo-item a:focus-visible .photo-play {
     background: var(--ink);
 }
 
@@ -1000,6 +1005,12 @@ blockquote {
     background: transparent;
     color: #ededee;
     overflow: hidden;
+}
+
+/* Focus rests on the dialog itself while the photos are paged with the arrow
+   keys (js/site.js); a ring round the whole window would mean nothing. */
+.lightbox:focus, .lightbox:focus-visible {
+    outline: none;
 }
 
 .lightbox::backdrop {
@@ -1141,7 +1152,7 @@ html.lightbox-open {
     text-underline-offset: 3px;
 }
 
-.panel-footer a:hover, .panel-footer a:focus {
+.panel-footer a:hover, .panel-footer a:focus-visible {
     color: var(--on-ink-link-hover);
 }
 
@@ -1172,7 +1183,7 @@ div.footer-left {
     color: white;
 }
 
-#footer .footer-icons a:hover .icon, #footer .footer-icons a:focus .icon {
+#footer .footer-icons a:hover .icon, #footer .footer-icons a:focus-visible .icon {
     opacity: 0.85;
 }
 

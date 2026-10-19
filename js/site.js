@@ -150,6 +150,12 @@
   // Escape and a click on the dark ground close it, and focus goes back to the
   // photo it was opened from. A click meant for a new tab still goes to the
   // file, and so does every click where dialogs are not supported.
+  //
+  // Focus rests on the dialog itself (tabindex="-1", no ring), not on a
+  // button: the browser would otherwise draw its keyboard ring on whichever
+  // button had focus at the first arrow key. A mouse click on a button hands
+  // focus back to the dialog for the same reason; Tab still reaches the
+  // buttons, ring and all.
   function lightbox(dialog) {
     const links = [...document.querySelectorAll('a[data-lightbox]')];
     if (!links.length || typeof dialog.showModal !== 'function') return;
@@ -160,6 +166,7 @@
     const wrap = (i) => (i + links.length) % links.length;
     let current = 0;
     let opener = null;
+    let openedByKey = false;
     let swipedAt = 0;
 
     function show(i) {
@@ -184,21 +191,41 @@
         if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
         e.preventDefault();
         opener = link;
+        openedByKey = e.detail === 0;   // Enter on the link, not a click
         show(i);
         document.documentElement.classList.add('lightbox-open');
         dialog.showModal();
+        dialog.focus();
       });
     });
 
     dialog.addEventListener('close', () => {
       document.documentElement.classList.remove('lightbox-open');
       img.removeAttribute('src');
-      if (opener) opener.focus();
+      // Back on the photo it was opened from, with the keyboard ring only if
+      // it was opened from the keyboard: after a mouse click, Escape would
+      // otherwise ring the photo. .quiet-focus holds the ring off until focus
+      // leaves the photo, so Tab back to it shows the ring as ever.
+      const photo = opener;
+      if (!photo) return;
+      if (!openedByKey) {
+        photo.classList.add('quiet-focus');
+        photo.addEventListener('blur', () => photo.classList.remove('quiet-focus'), { once: true });
+      }
+      photo.focus();
     });
 
-    dialog.querySelector('.lightbox-prev').addEventListener('click', () => show(current - 1));
-    dialog.querySelector('.lightbox-next').addEventListener('click', () => show(current + 1));
-    dialog.querySelector('.lightbox-close').addEventListener('click', close);
+    // e.detail is the click count: 0 for Enter or Space, which keep focus on
+    // the button they pressed.
+    const button = (selector, action) => {
+      dialog.querySelector(selector).addEventListener('click', (e) => {
+        action();
+        if (e.detail > 0 && dialog.open) dialog.focus();
+      });
+    };
+    button('.lightbox-prev', () => show(current - 1));
+    button('.lightbox-next', () => show(current + 1));
+    button('.lightbox-close', close);
 
     // The dark ground is the dialog and its stage around the photo; a click
     // there closes the viewer, unless it ended a swipe.

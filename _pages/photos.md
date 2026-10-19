@@ -38,7 +38,7 @@ permalink: /photos/
   at its own proportions, with buttons to the previous and next photo in page
   order (wrapping round at the ends) and to close it.
 {%- endcomment %}
-<dialog class="lightbox" aria-label="Photo viewer" markdown="0">
+<dialog class="lightbox" aria-label="Photo viewer" tabindex="-1" markdown="0">
 <div class="lightbox-stage">
 <figure class="lightbox-figure">
 <img class="lightbox-img" alt="" data-proofer-ignore>
