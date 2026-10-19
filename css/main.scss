@@ -22,20 +22,20 @@
  */
 :root {
     --ink: #222224;            /* text, the footer: the old site's #222 */
-    --muted: #505055;          /* secondary text, 6.9:1 on the masthead */
-    --faint: #626267;          /* fine print, 5.2:1 on the masthead */
+    --muted: #505055;          /* secondary text, 6.8:1 on the masthead */
+    --faint: #626267;          /* fine print, 5.1:1 on the masthead */
     --accent: #ca2017;         /* button fills and borders, the hero's bottom band, the current
                                   section's underline on the charcoal header: the old site's red */
     --link: #ae241d;           /* red text (links, member names, news dates, outline buttons): the
                                   old site's red with saturation and lightness each cut by a
                                   tenth (HSL), 6.9:1 on white, 5.8:1 on the masthead */
     --grey: #808084;           /* the IBS logo's grey */
-    --tint: #f4f4f6;           /* the masthead's top: the IBS grey, very pale */
-    --tint-warm: #f5ebe9;      /* the masthead's bottom: warmed towards the red band under it */
+    --tint: #f5f5f5;           /* the masthead's top: a neutral grey, very pale */
+    --tint-deep: #ececec;      /* the masthead's bottom, a step darker above the red band */
     --rule: #d9d9dd;
     --hairline: #e6e6e9;       /* rows (people, publications, all news), fine print */
-    --band: #f8f3f2;           /* the PI band, the member page head, photo placeholders: a misty
-                                  pink, the red at its palest, rather than a grey */
+    --band: #f4f4f4;           /* the PI band, the member page head, photo placeholders: a
+                                  neutral grey */
     --chip-rule: #d8d8dc;      /* .chip borders */
     --on-ink: #ededee;         /* footer text */
     --on-ink-link: #f4978e;    /* red text on dark grounds, the footer's links: 5:1 on the
@@ -351,10 +351,10 @@ body.inner {
 }
 
 /* Home: the hero's text centred on the masthead, with room above and below
-   that grows with the window. The masthead's pale grey warms towards the
-   bottom, where a band of the red closes it off. */
+   that grows with the window. The masthead's pale grey deepens a little
+   towards the bottom, where a band of the red closes it off. */
 .masthead-hero {
-    background: linear-gradient(180deg, var(--tint) 0%, var(--tint) 30%, var(--tint-warm) 100%);
+    background: linear-gradient(180deg, var(--tint) 0%, var(--tint) 30%, var(--tint-deep) 100%);
     border-bottom: 8px solid var(--accent);
 }
 

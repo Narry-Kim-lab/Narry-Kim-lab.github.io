@@ -22,10 +22,10 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
 - Design: colours, widths and the font stack are custom properties on `:root` at the top
   of `css/main.scss`; use them rather than new hex values. Two colours carry the lab's
   identity: the old site's red, the one point colour, and `--grey`, the IBS logo's mid
-  grey, from which the neutrals are drawn -- all but `--band` (`#f8f3f2`), the misty pink
-  behind the PI on /people/ and the head of every member page, which a grey with the
-  IBS logo's touch of blue in it made look cold beside the red. The red comes in three
-  strengths:
+  grey, from which the neutrals are drawn; the large pale grounds -- `--band` (`#f4f4f4`)
+  behind the PI on /people/ and the head of every member page, and the home masthead --
+  are neutral greys without the IBS logo's touch of blue, which looked cold beside the
+  red. The red comes in three strengths:
   `--accent` (`#ca2017`, the old site's own) fills and outlines the buttons and marks
   things -- the band along the bottom of the home masthead, the carousel's current dot,
   the current section's underline on the inner pages' header;
@@ -48,7 +48,7 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   On the text pages (textlay: research, join, contact, about, news) running text stops at
   36em, about 70 characters a line; floated figures keep the column's right-hand side.
 - Only the home page (the one with `hero:` front matter) has the pale masthead -- a
-  gradient from `--tint`, the IBS grey made very pale, to `--tint-warm`, warmed towards
+  gradient from `--tint` (`#f5f5f5`) to `--tint-deep` (`#ececec`), a step darker above
   the red band under it -- and the ink footer. Every other page gets
   `<body class="inner">`: a `--charcoal` header and footer (`#3d3d3d`, a neutral grey)
   and the same near-black running text as home, grey kept for labels (the `body.inner`
