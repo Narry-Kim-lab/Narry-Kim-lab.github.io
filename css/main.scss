@@ -340,17 +340,39 @@ body.inner {
 }
 
 /* At the foot of the hero, a cue that the page goes on below: two wide
-   chevrons in ink, red under the pointer, a link to the content. It comes
-   after the 7:3 spacers (order), so it sits just above the sea, and it
-   bobs gently, unless motion is reduced. Following it scrolls smoothly,
-   on the same terms. */
-.scroll-cue {
+   chevrons in ink, red under the pointer, a link to the content. Its room
+   comes after the 7:3 spacers (order), so it sits just above the sea, and
+   takes only space the text leaves over: it starts from nothing and grows
+   well ahead of the spacers up to the cue's height, and the cue shows only
+   once it fits (a container query). So where the window has none to
+   spare -- a phone, as a rule -- the cue is left out rather than push the
+   scene down, under Safari's toolbar on iOS. On touch screens it goes down
+   into the water below the scene instead (see .masthead-hero::after). It
+   bobs gently, unless motion is reduced; following it scrolls smoothly, on
+   the same terms. */
+.cue-room {
     order: 1;
-    display: block;
-    margin-top: 16px;
+    flex: 20 1 0;                     /* 20 to the spacers' 7 and 3 */
+    max-height: 54px;                 /* the cue, and 16px above it */
+    align-self: stretch;
+    container-type: size;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.scroll-cue {
+    display: none;
     padding: 6px 10px;                /* a target bigger than the drawing */
     color: var(--ink);
     line-height: 0;
+}
+
+@container (min-height: 54px) {
+    .scroll-cue {
+        display: block;
+    }
 }
 
 .scroll-cue:hover {
@@ -416,13 +438,29 @@ body.inner {
 /* On touch screens the browser may float its toolbar over the bottom of the
    page (Safari on iOS draws its address bar there, inside 100svh). There
    the masthead still fills the window, but the sea goes on for another 88px
-   below it, so the mRNAs swim above the toolbar and only water lies under it. */
+   below it, so the mRNAs swim above the toolbar and only water lies under it.
+   The scroll cue goes down into that water too, in the middle of it, out of
+   the hero's way, so it shows however little room the text leaves. */
 @media (hover: none) and (pointer: coarse) {
+    .masthead-hero {
+        position: relative;
+    }
+
     .masthead-hero::after {
         content: "";
         flex: none;
         height: 88px;
         background: var(--sea-deep);
+    }
+
+    .cue-room {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 88px;
+        max-height: none;
+        justify-content: center;
     }
 }
 

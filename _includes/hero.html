@@ -21,7 +21,7 @@
     {%- endfor %}
   </div>
   {%- endif %}
-  <a class="scroll-cue" href="#content" aria-label="Scroll down to the page"><svg viewBox="0 0 48 28" aria-hidden="true" focusable="false"><path d="M4 4 24 13 44 4M4 15 24 24 44 15"/></svg></a>
+  <div class="cue-room"><a class="scroll-cue" href="#content" aria-label="Scroll down to the page"><svg viewBox="0 0 48 28" aria-hidden="true" focusable="false"><path d="M4 4 24 13 44 4M4 15 24 24 44 15"/></svg></a></div>
 </section>
 <canvas class="scene" aria-hidden="true"></canvas>
 <script src="{{ '/js/tails.js' | relative_url }}?v={{ '/js/tails.js' | fingerprint }}" integrity="{{ '/js/tails.js' | sri }}" defer></script>

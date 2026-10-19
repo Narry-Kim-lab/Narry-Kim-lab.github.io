@@ -72,8 +72,10 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   the window's bottom edge, the masthead's 8px bottom border in the sea floor's colour
   (on touch screens the sea runs on 88px further, under a floating browser toolbar). Just
   above the sea, two wide chevrons cue that the page goes on below: a link to `#content`
-  (the `<main>`), bobbing gently and scrolling smoothly unless motion is reduced. The
-  scene is `js/tails.js` on `<canvas class="scene">`, an animation with no game: mRNAs
+  (the `<main>`), bobbing gently and scrolling smoothly unless motion is reduced. They
+  take only room the text leaves over (`.cue-room`, a container query), so where there
+  is none they are left out rather than push the scene down; on touch screens they sit
+  in the 88px of water below the scene instead. The scene is `js/tails.js` on `<canvas class="scene">`, an animation with no game: mRNAs
   swim like tadpoles in a sea, the 5' cap worn as a red cap and a messenger bag slung
   across them (messengers, after all), their poly(A) tails shortening bead by bead
   (deadenylation) until an mRNA with none left fades away. Four enzymes wander among
