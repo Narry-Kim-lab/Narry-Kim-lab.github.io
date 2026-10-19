@@ -1,0 +1,80 @@
+# Site-wide settings. `jekyll serve` does not reload this file: restart the
+# server (./run.sh) after changing it.
+
+# Site settings
+title: Narry Kim Lab
+# Dates the build prints (the footer's copyright year) are Korean ones, so the
+# rebuild at 00:05 KST on 1 January brings in the new year.
+timezone: Asia/Seoul
+email: narrykim@snu.ac.kr
+description: > # this means to ignore newlines until "baseurl:"
+  V. Narry Kim's RNA biology laboratory at the Institute for Basic Science and the
+  School of Biological Sciences, Seoul National University, South Korea.
+baseurl: ""
+# Absolute base for canonical links and Open Graph tags. `jekyll serve`
+# overrides this with the local address, so it does not leak into dev.
+url: "https://narrykim.org"
+
+destination: ./_site
+
+# Also listed in the Gemfile's :jekyll_plugins group, which is what pins it.
+plugins:
+  - jekyll-sitemap
+
+include:
+  - _pages
+
+# Repo-only files. Without this list Jekyll copies every unrecognised file at
+# the site root into _site/. Jekyll appends its own defaults (Gemfile,
+# vendor/, ...) to whatever is listed here, so those do not need repeating.
+exclude:
+  - CLAUDE.md
+  - README.md
+  - run.sh
+  - environment.yml
+
+# Presets for {% picture %} (_plugins/picture.rb). `widths` are the WebP
+# copies to make, in pixels; `sizes` tells the browser how wide the image is
+# drawn, so it can pick one before layout. The content stops growing at a
+# 1100px viewport (--page in css/main.scss), and below 960px its side gutters
+# are 5vw each, hence the 90vw. widths cover the largest drawn size at 1x and
+# 2x. Re-measure if a layout changes width.
+pictures:
+  slide:          # home carousel: 449-657px beside the news, up to 688px above it
+    widths: [660, 1320]
+    sizes: "(min-width: 1100px) 657px, (min-width: 960px) calc(66.67vw - 76px), (min-width: 768px) calc(60vw - 12px), calc(90vw - 2px)"
+  member-card:    # people page photos, the PI's and everyone's: up to 180px wide
+    widths: [260, 520]
+    sizes: "(min-width: 500px) 180px, 42vw"
+  figure-tall:    # 300px beside the text from 992px; below, at most 240px between paragraphs
+    widths: [300, 600]
+    sizes: "(min-width: 992px) 300px, 240px"
+  photo:          # photos page: three across at 305px, two from 640px, one below
+    widths: [400, 800]
+    sizes: "(min-width: 1100px) 305px, (min-width: 640px) calc(45vw - 46px), calc(90vw - 32px)"
+
+sass:
+  sass_dir: _sass
+  style: compressed
+  sourcemap: never
+
+# Conversion
+markdown: kramdown
+highlighter: rouge
+lsi: false
+excerpt_separator: "\n\n"
+incremental: false
+
+
+
+# Markdown Processing
+kramdown:
+  input: GFM
+  hard_wrap: false
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  enable_coderay: false
+  parse_block_html: true # default for kramdown is false. This will enable using Markdown links

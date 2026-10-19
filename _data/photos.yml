@@ -1,0 +1,200 @@
+# The photos page, newest first, in the periods it groups them by. A photo
+# is a file in images/photos/; a video is a YouTube id, shown as its
+# thumbnail (`thumb`, also in images/photos/) linking to YouTube.
+
+- period: 2021–2025
+  date: November 2025
+  caption: Asia RNA Club Symposium
+  photo: 2511-asia-rna-club-symposium.jpg
+
+- period: 2021–2025
+  date: May 2025
+  caption: FAOBMB
+  photo: 2505-faobmb.jpg
+
+- period: 2021–2025
+  date: February 2025
+  caption: Graduation
+  photo: 2502-graduation.jpg
+
+- period: 2021–2025
+  date: August 2024
+  caption: Graduation
+  photo: 2408-graduation.jpg
+
+- period: 2021–2025
+  date: February 2024
+  caption: Graduation
+  photo: 2402-graduation.jpg
+
+- period: 2021–2025
+  date: August 2023
+  caption: Graduation
+  photo: 2308-graduation.jpg
+
+- period: 2021–2025
+  date: February 2022
+  caption: Graduation
+  photo: 2202-graduation.jpg
+
+- period: 2021–2025
+  date: February 2022
+  caption: Graduation
+  photo: 2202-graduation-2.jpg
+
+- period: 2021–2025
+  date: August 2021
+  caption: Graduation
+  photo: 2108-graduation.jpg
+
+- period: 2016–2020
+  date: September 2020
+  caption: Lab tour video
+  youtube: "_C221Rq7fvo"
+  thumb: 2009-lab-tour-video.jpg
+
+- period: 2016–2020
+  date: August 2020
+  caption: Lab Introduction
+  youtube: vKLg7v5zBbE
+  thumb: 2008-lab-introduction.jpg
+
+- period: 2016–2020
+  date: December 2019
+  caption: SNU CNS lecture
+  youtube: "X3_7vnXbrgI"
+  thumb: 1912-snu-cns-lecture.jpg
+
+- period: 2016–2020
+  date: March 2019
+  caption: ASAN Award in Medicine
+  youtube: aN9JygrN8LQ
+  thumb: 1903-asan-award-in-medicine.jpg
+
+- period: 2016–2020
+  date: March 2019
+  caption: KAOS Interview
+  youtube: wf-BlVTUt04
+  thumb: 1903-kaos-interview.jpg
+
+- period: 2016–2020
+  date: March 2019
+  caption: Mechanism of mRNA deadenylation & decay
+  youtube: sbhRliZe238
+  thumb: 1903-mechanism-of-mrna-deadenylation-decay.jpg
+
+- period: 2016–2020
+  date: February 2019
+  caption: Graduation
+  photo: 1902-graduation.jpg
+
+- period: 2016–2020
+  date: February 2018
+  caption: Graduation
+  photo: 1802-graduation.jpg
+
+- period: 2016–2020
+  date: October 2017
+  caption: KAOS Lecture
+  youtube: Uk3y5Jvzz64
+  thumb: 1710-kaos-lecture.jpg
+
+- period: 2016–2020
+  date: September 2017
+  caption: Barbecue Party
+  photo: 1709-barbecue-party.jpg
+
+- period: 2016–2020
+  date: March 2017
+  caption: iBiology lecture
+  youtube: 0ZjDn9aaqV8
+  thumb: 1703-ibiology-lecture.jpg
+
+- period: 2016–2020
+  date: March 2017
+  caption: Lab Outing
+  photo: 1703-lab-outing.jpg
+
+- period: 2016–2020
+  date: February 2017
+  caption: Graduation
+  photo: 1702-graduation.jpg
+
+- period: 2016–2020
+  date: December 2016
+  photo: 1612.jpg
+
+- period: 2016–2020
+  date: August 2016
+  caption: Graduation
+  photo: 1608-graduation.jpg
+
+- period: 2011–2015
+  date: August 2015
+  photo: 1508.jpg
+
+- period: 2011–2015
+  date: February 2015
+  photo: 1502.jpg
+
+- period: 2011–2015
+  date: December 2014
+  youtube: "5_YdiWAkBOs"
+  thumb: 1412.jpg
+
+- period: 2011–2015
+  date: February 2014
+  photo: 1402.jpg
+
+- period: 2011–2015
+  date: December 2013
+  photo: 1312.jpg
+
+- period: 2011–2015
+  date: August 2013
+  photo: 1308.jpg
+
+- period: 2011–2015
+  date: February 2013
+  photo: 1302.jpg
+
+- period: 2011–2015
+  date: February 2012
+  photo: 1202.jpg
+
+- period: 2006–2010
+  date: May 2010
+  photo: 1005.jpg
+
+- period: 2006–2010
+  date: September 2009
+  photo: 0909.jpg
+
+- period: 2006–2010
+  date: September 2009
+  photo: 0909-2.jpg
+
+- period: 2006–2010
+  date: June 2009
+  photo: 0906.jpg
+
+- period: 2006–2010
+  date: April 2009
+  caption: "(with Dr. Andrew Z. Fire)"
+  photo: 0904.jpg
+
+- period: 2006–2010
+  date: February 2009
+  photo: 0902.jpg
+
+- period: 2006–2010
+  date: August 2008
+  photo: 0808.jpg
+
+- period: 2006–2010
+  date: December 2007
+  photo: 0712.jpg
+
+- period: 2006–2010
+  date: July 2006
+  photo: 0607.jpg

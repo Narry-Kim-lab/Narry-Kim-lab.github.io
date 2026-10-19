@@ -1,0 +1,16 @@
+# Jekyll: the built site and its caches (.jekyll-cache/pictures holds the
+# WebP copies _plugins/picture.rb makes; every build can remake them)
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+
+# Claude Code local settings and worktrees
+.claude/
+
+# macOS Finder metadata
+.DS_Store
+
+# Bundler: per-checkout config and gems installed with `bundle config set path vendor/bundle`
+.bundle/
+vendor/

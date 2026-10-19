@@ -1,0 +1,96 @@
+# Builds the site on every push to main and every pull request, and at the turn
+# of each month (see `schedule`); only main is deployed to GitHub Pages.
+name: Build and deploy to Pages
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # The people page shuffles its members once a month (_plugins/monthly_shuffle.rb,
+  # by the month in Korea), so the site is rebuilt at 00:05 KST on the 29th to
+  # the 1st: the run that lands on the 1st brings in the new month's order, and
+  # the others rebuild what is already there.
+  schedule:
+    - cron: "5 15 28-31 * *"
+
+# The build only reads (configure-pages looks up the Pages site); writing to
+# Pages and the OIDC token are the deploy job's alone, so a pull request's
+# build never holds them.
+permissions:
+  contents: read
+  pages: read
+
+# Deployments queue up and are never cancelled midway; a pull request's
+# superseded runs are.
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.ref) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          # ruby-version is read from .ruby-version
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          cache-version: 1 # Increment this number if you need to re-download cached gems
+      - name: Install libvips
+        # _plugins/picture.rb makes the WebP copies of the photos with it.
+        # The package took a t64 suffix in Ubuntu 24.04; older names as fallback.
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends libvips42t64 \
+            || sudo apt-get install -y -qq --no-install-recommends libvips42
+      - name: Cache WebP copies
+        # Keyed by content digest inside, so a stale restore is still correct;
+        # only images added since are encoded.
+        uses: actions/cache@v6
+        with:
+          path: .jekyll-cache/pictures
+          key: pictures-${{ hashFiles('images/**', '_plugins/picture.rb') }}
+          restore-keys: pictures-
+      - name: Setup Pages
+        id: pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v6
+      - name: Build with Jekyll
+        # Outputs to the './_site' directory by default
+        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        env:
+          JEKYLL_ENV: production
+      - name: Check links and images
+        # Internal only: external sites fail too often for reasons of their own.
+        run: >-
+          bundle exec htmlproofer ./_site
+          --disable-external
+          --no-enforce-https
+          --swap-urls '^https\://narrykim\.org:'
+      - name: Upload artifact
+        if: github.event_name != 'pull_request'
+        # Uploads the './_site' directory by default
+        uses: actions/upload-pages-artifact@v5
+
+  # Only main is deployed. A manual run on another branch builds and checks
+  # it (Setup Pages included) and stops there.
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

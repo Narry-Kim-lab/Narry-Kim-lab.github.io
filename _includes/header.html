@@ -1,0 +1,25 @@
+{%- comment -%}
+  Site header: the wordmark (which is also the way home), the four section
+  links and a button for /join/. aria-current marks the section the page
+  belongs to: "page" on the section's own page, "true" on the pages under it
+  (a member's profile under People). It wraps onto a second line on a phone
+  rather than collapsing behind a menu button: there are only five targets.
+  The section links end in a slash, as their permalinks do, so following one
+  costs no redirect.
+{%- endcomment -%}
+{%- assign section = page.url | split: "/" | where_exp: "s", "s != ''" | first | default: "" -%}
+{%- assign here = page.url | append: "/" | replace: "//", "/" -%}
+{%- assign section_home = "/" | append: section | append: "/" -%}
+{%- if here == section_home %}{% assign current = "page" %}{% else %}{% assign current = "true" %}{% endif -%}
+<header class="site-header">
+  <a class="wordmark" href="{{ site.baseurl }}/">Narry Kim Lab</a>
+  <div class="site-nav">
+    <nav aria-label="Main">
+      <a href="{{ site.baseurl }}/people/"{% if section == "people" %} aria-current="{{ current }}"{% endif %}>People</a>
+      <a href="{{ site.baseurl }}/research/"{% if section == "research" %} aria-current="{{ current }}"{% endif %}>Research</a>
+      <a href="{{ site.baseurl }}/publications/"{% if section == "publications" %} aria-current="{{ current }}"{% endif %}>Publications</a>
+      <a href="{{ site.baseurl }}/photos/"{% if section == "photos" %} aria-current="{{ current }}"{% endif %}>Photos</a>
+    </nav>
+    <a class="button button-solid" href="{{ site.baseurl }}/join/"{% if section == "join" %} aria-current="{{ current }}"{% endif %}>Join us</a>
+  </div>
+</header>

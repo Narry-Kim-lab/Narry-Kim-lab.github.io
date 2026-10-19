@@ -1,0 +1,25 @@
+{%- comment -%}
+  The people page's opening band: the principal investigator, with a large
+  photo and her links as buttons: CV, PubMed and email
+  (_includes/email_chip.html, kept from address harvesters as on the member
+  pages). The photo's alt is empty: the name is the heading beside it, and
+  would otherwise be read twice.
+{%- endcomment -%}
+{%- assign leads = site.data.team | where: "category", "principal-investigator" | where_exp: "memb", "memb.active" | sort: "sort-key" -%}
+{%- for member in leads %}
+<section class="team-lead" aria-label="{{ member.info }}" markdown="0">
+{% picture member-card images/members/{{ member.photo }} alt="" %}
+<div class="team-lead-text">
+<p class="team-role">{{ member.info }}</p>
+<h2>{{ member.name }}</h2>
+{%- if member.intro %}
+<p class="team-lead-intro">{{ member.intro }}</p>
+{%- endif %}
+<div class="chip-row">
+{%- if member.cv %}<a class="chip" href="{{ member.cv | relative_url }}">{% include icon.html name="file-alt" %}CV</a>{% endif %}
+{%- if member.pubmed %}<a class="chip" href="{{ member.pubmed }}">{% include icon.html name="search" %}PubMed</a>{% endif %}
+{%- if member.email %}{% include email_chip.html address=member.email %}{% endif %}
+</div>
+</div>
+</section>
+{%- endfor %}

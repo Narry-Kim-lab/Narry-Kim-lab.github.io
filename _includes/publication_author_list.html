@@ -1,0 +1,22 @@
+{%- comment -%}
+  An entry's authors, as printed in the data (initials and surname), joined
+  by commas and a final "and". A lab member with a profile here is a link to
+  it; any other lab member is in bold, as on the old site.
+{%- endcomment -%}
+{%- for author in publi.authors -%}
+{%- if forloop.first -%}
+{%- elsif forloop.last and forloop.length >= 3 -%}
+, and
+{% else -%},
+{% endif -%}
+{%- if author.link -%}
+  <a class="publi_author" href="{{ site.baseurl }}/people/{{ author.link }}">{{ author.name }}</a>
+{%- elsif author.lab -%}
+  <span class="publi_author lab">{{ author.name }}</span>
+{%- else -%}
+  <span class="publi_author">{{ author.name }}</span>
+{%- endif -%}
+{%- if author.is_first -%}<sup>1</sup>{%- endif -%}
+{%- if author.is_corresponding -%}<sup>&#42;</sup>{%- endif -%}
+{%- endfor -%}
+<br/>

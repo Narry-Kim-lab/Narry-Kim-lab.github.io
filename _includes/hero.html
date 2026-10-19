@@ -1,0 +1,22 @@
+{%- comment -%}
+  The home page's opening: a headline, a line under it and two buttons, on
+  the masthead's tint. Driven by the page's front matter:
+
+    hero:
+      title: RNA lies at the core of gene regulation.
+      text: ...
+      buttons:
+        - { label: See our research, url: /research/ }
+        - { label: Meet the people, url: /people/, style: outline }
+{%- endcomment -%}
+<section class="hero" aria-labelledby="hero-title">
+  <h1 id="hero-title">{{ page.hero.title }}</h1>
+  <p>{{ page.hero.text }}</p>
+  {%- if page.hero.buttons %}
+  <div class="hero-buttons">
+    {%- for b in page.hero.buttons %}
+    <a class="button {% if b.style == 'outline' %}button-outline{% else %}button-solid{% endif %}" href="{{ b.url | relative_url }}">{{ b.label }}</a>
+    {%- endfor %}
+  </div>
+  {%- endif %}
+</section>

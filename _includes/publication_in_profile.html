@@ -1,0 +1,23 @@
+{%- comment -%}
+  A member's papers with the lab, at the end of their profile page's body:
+  the entries of _data/publist.yml and _data/chapters.yml with an author
+  whose `link` is this page's file name.
+{%- endcomment -%}
+{%- assign authorid = page.name | split: "." | first -%}
+{%- assign all_publications = site.data.publist | concat: site.data.chapters -%}
+{%- assign mine = "" | split: "" -%}
+{%- for publi in all_publications -%}
+{%- assign authormatches = publi.authors | where: "link", authorid -%}
+{%- if authormatches.size > 0 %}{% assign mine = mine | push: publi %}{% endif -%}
+{%- endfor -%}
+
+{% if mine.size > 0 %}
+
+## Publications with our lab
+
+<ul class="publications_in_profile" markdown="0">
+{%- for publi in mine %}
+<li>{% include publication_entry.html %}</li>
+{%- endfor %}
+</ul>
+{% endif %}

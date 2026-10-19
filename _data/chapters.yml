@@ -1,0 +1,43 @@
+# Book chapters, newest first. The fields are those of publist.yml.
+
+- authors:
+    - name: Y. Lee
+      lab: true
+    - name: V. N. Kim
+      lab: true
+  title: In vitro and in vivo assays for the activity of drosha complex
+  journal: Methods in Enzymology
+  vip: "427:87-106"
+  year: 2007
+  doi: 10.1016/S0076-6879(07)27005-3
+  url: "https://doi.org/10.1016/S0076-6879(07)27005-3"
+
+- authors:
+    - name: Y. Lee
+      lab: true
+    - name: J. Han
+      lab: true
+    - name: K. H. Yeom
+      lab: true
+    - name: H. Jin
+      lab: true
+    - name: V. N. Kim
+      lab: true
+  title: Drosha in primary microRNA processing
+  journal: Cold Spring Harbor Symposia on Quantitative Biology
+  vip: "71:51-7"
+  year: 2006
+  doi: 10.1101/sqb.2006.71.041
+  url: "https://doi.org/10.1101/sqb.2006.71.041"
+
+- authors:
+    - name: Y. Lee
+      lab: true
+    - name: V. N. Kim
+      lab: true
+  title: Preparation and analysis of Drosha
+  journal: Methods in Molecular Biology
+  vip: "309:17-28"
+  year: 2005
+  doi: "10.1385/1-59259-935-4:017"
+  url: "https://doi.org/10.1385/1-59259-935-4:017"
