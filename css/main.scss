@@ -9,12 +9,12 @@
  * One family (Ubuntu Sans, _sass/_fonts.scss) and one palette, kept as
  * custom properties here so a colour changes in one place.
  *
- * Three colours carry the lab's identity: the red of the old narrykim.org,
- * the mid grey of the IBS logo (the neutrals are drawn from it) and a lime
- * green. Lime is too light to read as text on white (2:1), so it marks
- * things instead -- the hero's bottom edge, the current section on the dark
- * header -- and is a text colour only on the dark footer; where green has to
- * be read on a light ground it is the darker --green.
+ * Two colours carry the lab's identity: the red of the old narrykim.org,
+ * the one point colour, and the mid grey of the IBS logo, from which the
+ * neutrals are drawn. The red comes in three strengths: the old site's own
+ * for the buttons and marks (--accent), a deeper one for text on light
+ * grounds (--link), and a lighter one for text and marks on the dark header
+ * and footer (--on-ink-link).
  *
  * No style="..." attributes anywhere: a Content-Security-Policy without
  * 'unsafe-inline' in style-src makes the browser drop them. A page that
@@ -22,21 +22,22 @@
  */
 :root {
     --ink: #222224;            /* text, the footer: the old site's #222 */
-    --muted: #505055;          /* secondary text, 7:1 on the tint */
-    --faint: #626267;          /* fine print, 5.3:1 on the tint */
-    --accent: #ca2017;         /* buttons: the old site's red, 5.6:1 on white */
-    --green: #3f6b14;          /* news dates, the current section: the lime darkened, 5.5:1 on the tint */
-    --link: #ca2017;           /* links, member names: the same red */
-    --lime: #8dc63f;           /* marks only: 2:1 on white, 7.8:1 on ink */
+    --muted: #505055;          /* secondary text, 6.9:1 on the masthead */
+    --faint: #626267;          /* fine print, 5.2:1 on the masthead */
+    --accent: #ca2017;         /* button fills and borders, the hero's bottom band: the old site's red */
+    --link: #ae241d;           /* red text (links, member names, news dates, outline buttons): the
+                                  old site's red with saturation and lightness each cut by a
+                                  tenth (HSL), 6.9:1 on white, 5.8:1 on the masthead */
     --grey: #808084;           /* the IBS logo's grey */
-    --tint: #efeff1;           /* the masthead: the IBS grey, very pale */
+    --tint: #f4f4f6;           /* the masthead's top: the IBS grey, very pale */
+    --tint-warm: #f5ebe9;      /* the masthead's bottom: warmed towards the red band under it */
     --rule: #d9d9dd;
     --hairline: #e6e6e9;       /* rows (people, publications, all news), fine print */
     --band: #f4f4f5;           /* the PI band, the member page head, photo placeholders */
     --chip-rule: #d8d8dc;      /* .chip borders */
     --on-ink: #ededee;         /* footer text */
-    --on-ink-link: #a5d65a;    /* footer links on ink: the lime, 9.4:1 */
-    --on-ink-link-hover: #cdeb9b;
+    --on-ink-link: #f0867d;    /* red on ink: footer links, the current section's underline, 6.4:1 */
+    --on-ink-link-hover: #f7bdb7;
     --page: 1100px;            /* content width */
     --gutter: clamp(20px, 5vw, 48px);
     --sans: 'Ubuntu Sans', 'Helvetica Neue', Arial, sans-serif;
@@ -198,7 +199,7 @@ img[width][height] {
 
 .site-nav nav a:hover, .site-nav nav a:focus,
 .site-nav nav a[aria-current] {
-    color: var(--green);
+    color: var(--link);
     text-decoration: underline;
     text-underline-offset: 6px;
 }
@@ -227,7 +228,7 @@ img[width][height] {
 
 .button-outline {
     background: #ffffff;
-    color: var(--accent);
+    color: var(--link);
 }
 
 .button-outline:hover, .button-outline:focus {
@@ -238,7 +239,7 @@ img[width][height] {
 
 /* Inner pages (every page but home, see _layouts/default.html) have a dark
    header bar and footer, the old site's #222, with grey section links; the
-   current one is white with a lime underline. The text is a darker grey than
+   current one is white with a red underline. The text is a darker grey than
    on home. The tokens below repoint every rule that uses them; the rest are
    named here and further down. */
 body.inner {
@@ -268,7 +269,7 @@ body.inner {
 .inner .site-nav nav a:hover, .inner .site-nav nav a:focus,
 .inner .site-nav nav a[aria-current] {
     color: #ffffff;
-    text-decoration-color: var(--lime);
+    text-decoration-color: var(--on-ink-link);
     text-decoration-thickness: 2px;
 }
 
@@ -277,10 +278,8 @@ body.inner {
 .inner .button-solid:hover, .inner .button-solid:focus {
     background: #ffffff;
     border-color: #ffffff;
-    color: var(--accent);
+    color: var(--link);
 }
-
-.inner .news-date { color: var(--link); }
 
 /* The home page's opening (_includes/hero.html). */
 .hero {
@@ -338,10 +337,12 @@ body.inner {
     }
 }
 
-/* Home: the hero's text centred on the tint, with room above and below that
-   grows with the window, and a lime band along the masthead's bottom edge. */
+/* Home: the hero's text centred on the masthead, with room above and below
+   that grows with the window. The masthead's pale grey warms towards the
+   bottom, where a band of the red closes it off. */
 .masthead-hero {
-    border-bottom: 8px solid var(--lime);
+    background: linear-gradient(180deg, var(--tint) 0%, var(--tint) 30%, var(--tint-warm) 100%);
+    border-bottom: 8px solid var(--accent);
 }
 
 .masthead-hero .hero {
@@ -447,8 +448,8 @@ div#textid h2.minor {
 }
 
 .carousel-indicators .active {
-    border-color: var(--green);
-    background-color: var(--lime);
+    border-color: var(--accent);
+    background-color: var(--accent);
 }
 
 /* The base drops the arrows' focus outline; a keyboard user needs to see it. */
@@ -499,7 +500,7 @@ div#textid h2.minor {
     display: block;
     font-size: 13px;
     font-weight: 600;
-    color: var(--green);
+    color: var(--link);
 }
 
 .news-more {

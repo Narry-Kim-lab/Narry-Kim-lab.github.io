@@ -20,15 +20,16 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   SCSS, mixins or variables remain, and Sass builds with no deprecations silenced -- keep it
   that way (`@use`, not `@import`).
 - Design: colours, widths and the font stack are custom properties on `:root` at the top
-  of `css/main.scss`; use them rather than new hex values. Three colours carry the lab's
-  identity: `--accent`/`--link`, the old site's red `#ca2017` (buttons, links, member
-  names); `--grey`, the IBS logo's mid grey, from which the neutrals are drawn; and
-  `--lime`, a lime green that is too light to be text on white (2:1), so it only marks
-  things -- the band along the bottom of the home masthead, the current section's
-  underline on the dark header, the carousel's current dot -- and is the link colour on
-  the dark footer. Where green must be read on a light ground it is `--green`, the lime
-  darkened (news dates, the home page's current section). Check contrast (4.5:1 for text)
-  before adding a colour.
+  of `css/main.scss`; use them rather than new hex values. Two colours carry the lab's
+  identity: the old site's red, the one point colour, and `--grey`, the IBS logo's mid
+  grey, from which the neutrals are drawn. The red comes in three strengths:
+  `--accent` (`#ca2017`, the old site's own) fills and outlines the buttons and marks
+  things -- the band along the bottom of the home masthead, the carousel's current dot;
+  `--link` (`#ae241d`, the same red with saturation and lightness each cut by a tenth) is
+  every red that is text on a light ground -- links, member names, news dates, the home
+  page's current section, the outline button's label; and `--on-ink-link` (`#f0867d`) is
+  red on the dark header and footer -- footer links, the current section's underline.
+  Check contrast (4.5:1 for text) before adding a colour.
   The type is Ubuntu Sans, self-hosted (`fonts/`, `@font-face` in `_sass/_fonts.scss`):
   Latin-only variable cuts of the roman and italic, weight 400-800. Their
   `unicode-range` lists exactly the characters the files have, so anything else (Greek
@@ -37,8 +38,9 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   a modified copy (`fonts/UbuntuSans-LICENCE.txt`); it is the Chang lab's cut, unchanged.
   On the text pages (textlay: research, join, contact, about, news) running text stops at
   36em, about 70 characters a line; floated figures keep the column's right-hand side.
-- Only the home page (the one with `hero:` front matter) has the pale `--tint` masthead
-  and the ink footer. Every other page gets `<body class="inner">`: a dark `--charcoal`
+- Only the home page (the one with `hero:` front matter) has the pale masthead -- a
+  gradient from `--tint`, the IBS grey made very pale, to `--tint-warm`, warmed towards
+  the red band under it -- and the ink footer. Every other page gets `<body class="inner">`: a dark `--charcoal`
   header and footer (the old site's #222) and a darker grey text (the `body.inner`
   block in `css/main.scss` repoints the tokens).
 - Content pages share the people page's pieces (the "shared pieces" block in
@@ -49,7 +51,7 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   mouse is over it or keyboard focus is in it (WCAG 2.2.2), stops autoplaying under
   `prefers-reduced-motion`, and its arrows answer Enter and Space.
 - The hero is static for now. The Chang lab's hero has an animated pixel scene
-  (`js/ribosome.js`) where this one has the lime band; one may come later.
+  (`js/ribosome.js`) where this one has the red band; one may come later.
 - Icons: Font Awesome Free 5.15.3 shapes as inline SVG (see Conventions). The site icon is
   the old site's black RNA strand: `favicon.ico` (16, 32, 48px), `favicon-192.png`, and
   `apple-touch-icon.png` (180px on white, since iOS fills transparency with black).
