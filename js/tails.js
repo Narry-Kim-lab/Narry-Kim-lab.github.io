@@ -8,8 +8,9 @@
  * its end, so it is plain that they add: TENT4A and TENT4B top up a short
  * tail with a few A's and a G (mixed tailing), and a tail ending in a G
  * shortens no further for a while, as the deadenylase stalls at it; TUT4 and
- * TUT7 add U's to a tail that is nearly gone (uridylation), and that mRNA
- * swims on with its U's, its tail shortening no more. A tail a helper is
+ * TUT7 add U's to a tail that is nearly gone (uridylation), and soon a
+ * Pac-Man races in from the left, gobbles the tail from its 3' end and
+ * shoots off to the right, leaving the mRNA to fade. A tail a helper is
  * reaching for loses no beads, so no helper is seen near a tail as it
  * shrinks. Two helpers that happen to linger side by side give each other a
  * high five, and one left outside by a narrowing window dashes back in,
@@ -36,6 +37,7 @@
   const still = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   const INK = '#222224', RED = '#ca2017', GREY = '#3d3d3d';
+  const PAC = '#7cb342';                                // the Pac-Man, a soft lime
   const STRAND = '#9fb0b7', A_EDGE = '#9aa3a8', A_TEXT = '#5e676c', LABEL = '#4f6168';
   // Messenger bags in three canvas colours: body, flap and strap.
   const BAGS = [
@@ -55,7 +57,7 @@
   // no smaller than 0.85 of that, so a phone's shorter scene keeps them legible.
   let W = 0, H = 0, u = 1, t = 0;
   const LANES = [0.3, 0.55, 0.8];
-  const tadpoles = [], crumbs = [], rings = [], claps = [], helpers = [], flights = [], bubbles = [];
+  const tadpoles = [], crumbs = [], rings = [], claps = [], helpers = [], flights = [], eaters = [], bubbles = [];
 
   function size() {
     const r = canvas.getBoundingClientRect();
@@ -124,7 +126,7 @@
     return {
       x, lane, s, v: between(16, 25) * s, phase: between(0, 2 * Math.PI), bag: BAGS[Math.floor(between(0, BAGS.length))],
       tail: Array(length).fill('A'), nibble: between(2.5, 5.5),
-      stalled: false, marked: false, held: false, fade: 1, dying: false, gone: false
+      stalled: false, marked: false, doom: 0, held: false, fade: 1, dying: false, gone: false
     };
   }
 
@@ -227,7 +229,7 @@
     p.tail.push(...f.bases);
     p.held = false;
     if (tent(f.kind)) { p.stalled = false; p.nibble = Math.max(p.nibble, 2.5); }
-    else p.marked = true;
+    else { p.marked = true; p.doom = between(0.3, 1); }     // the Pac-Man is on its way
     rings.push({ x: end.x - spacing(p), y: end.y, life: 1, color: tent(f.kind) ? GREY : RED });
   }
 
@@ -403,6 +405,90 @@
     if (p && dist < 26 * u) deliver(h);
   }
 
+  // ---- The Pac-Man -------------------------------------------------------------
+  // A uridylated tail is not left for long: soon after the U's land, a
+  // Pac-Man races in from the left, gobbles the tail bead by bead from its 3'
+  // end, and with the tail gone (and the mRNA fading), leaps over the head
+  // and shoots off to the right. It keeps to the open water between the
+  // lanes, dropping into the lane only to eat.
+
+  function eater(p) {
+    const cruise = (p.lane === 0 ? 0.425 : p.lane === 2 ? 0.675 : rand() < 0.5 ? 0.425 : 0.675) * H;
+    return { p, x: -16 * u, y: cruise, cruise, v: Math.max(300 * u, (tailEnd(p).x + 16 * u) / 1.2),
+             mode: 'rush', chomp: 0, bite: 0, angle: 0, hop: null };
+  }
+
+  function flee(e) {
+    e.mode = 'flee';
+    e.v = Math.max(e.v, 120 * u);
+    // over the head, if there is one still to clear, landing between the lanes
+    e.hop = { x0: e.x, x1: e.p.gone ? e.x : e.p.x + 30 * e.p.s * u, y0: e.y };
+  }
+
+  function stepEaters(dt) {
+    for (let i = eaters.length - 1; i >= 0; i--) {
+      const e = eaters[i], p = e.p, x = e.x, y = e.y;
+      e.chomp += dt;
+      if (e.mode !== 'flee' && p.gone) flee(e);
+      if (e.mode === 'rush') {                          // to the end of the tail, dropping into its lane at the last
+        const end = tailEnd(p);
+        e.x += e.v * dt;
+        const k = Math.min(1, Math.max(0, (end.x - e.x) / (60 * u)));
+        e.y += (end.y + (e.cruise - end.y) * k - e.y) * Math.min(1, 10 * dt);
+        if (e.x >= end.x - 9 * u) { e.mode = 'eat'; e.bite = 0.05; }
+      } else if (e.mode === 'eat') {                    // a bead at a bite, each in its turn in the mouth
+        const end = tailEnd(p);
+        e.x += (end.x - 3 * u - e.x) * Math.min(1, 14 * dt);
+        e.y += (end.y - e.y) * Math.min(1, 14 * dt);
+        if ((e.bite -= dt) <= 0) {
+          p.tail.pop();
+          e.bite = 0.12;
+          if (!p.tail.length) { p.dying = true; flee(e); }
+        }
+      } else {                                          // off and away, faster and faster
+        e.v = Math.min(700 * u, e.v + 1500 * u * dt);
+        e.x += e.v * dt;
+        const h = e.hop, s = h.x1 > h.x0 ? Math.min(1, (e.x - h.x0) / (h.x1 - h.x0)) : 1;
+        e.y = h.y0 + (e.cruise - h.y0) * s - 36 * u * Math.sin(Math.PI * s);
+        if (e.x > W + 30 * u) { eaters.splice(i, 1); continue; }
+      }
+      if (Math.hypot(e.x - x, e.y - y) > 0.5 * u) e.angle = Math.atan2(e.y - y, e.x - x);
+    }
+  }
+
+  function drawEater(e) {
+    const r = 10.5 * u, gape = (0.04 + 0.22 * Math.abs(Math.sin(e.chomp * Math.PI / 0.12))) * Math.PI;
+    if (e.mode !== 'eat') {                             // speed lines, trailing
+      ctx.lineWidth = 1.3 * u; ctx.lineCap = 'round'; ctx.strokeStyle = LABEL;
+      ctx.globalAlpha = 0.55;
+      for (const [dy, len] of [[-5, 9], [0, 13], [5, 9]]) {
+        const bx = e.x - (r + 4 * u) * Math.cos(e.angle) - dy * u * Math.sin(e.angle);
+        const by = e.y - (r + 4 * u) * Math.sin(e.angle) + dy * u * Math.cos(e.angle);
+        ctx.beginPath();
+        ctx.moveTo(bx, by);
+        ctx.lineTo(bx - len * u * Math.cos(e.angle), by - len * u * Math.sin(e.angle));
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1; ctx.lineCap = 'butt';
+    }
+    ctx.beginPath();
+    ctx.moveTo(e.x, e.y);
+    ctx.arc(e.x, e.y, r, e.angle + gape, e.angle + 2 * Math.PI - gape);
+    ctx.closePath();
+    ctx.fillStyle = PAC; ctx.fill();
+    // an eye, above the mouth; once the tail is eaten, a pleased arch
+    const ex = e.x + 1.5 * u * Math.cos(e.angle) + 5.5 * u * Math.sin(e.angle);
+    const ey = e.y + 1.5 * u * Math.sin(e.angle) - 5.5 * u * Math.cos(e.angle);
+    ctx.beginPath();
+    if (e.mode === 'flee') {
+      ctx.arc(ex, ey + 0.8 * u, 1.8 * u, Math.PI * 1.15, Math.PI * 1.85);
+      ctx.lineWidth = 1.3 * u; ctx.lineCap = 'round'; ctx.strokeStyle = INK; ctx.stroke(); ctx.lineCap = 'butt';
+    } else {
+      ctx.arc(ex, ey, 1.6 * u, 0, 2 * Math.PI);
+      ctx.fillStyle = INK; ctx.fill();
+    }
+  }
+
   // ---- Time --------------------------------------------------------------------
 
   function step(dt) {
@@ -422,6 +508,7 @@
       // uridylated one.
       const attended = p.held || helpers.some((h) => h.target === p);
       if (!p.dying && !p.marked && !attended && (p.nibble -= dt) <= 0) nibble(p);
+      if (p.doom > 0 && (p.doom -= dt) <= 0) eaters.push(eater(p));
       if (p.dying && (p.fade -= dt / 2.2) <= 0) p.gone = true;
       if (tailEnd(p).x > W + 12 * u) p.gone = true;
     }
@@ -442,6 +529,7 @@
     for (let i = rings.length - 1; i >= 0; i--) if (rings[i].life <= 0) rings.splice(i, 1);
     for (const c of claps) c.life -= dt / 0.4;
     for (let i = claps.length - 1; i >= 0; i--) if (claps[i].life <= 0) claps.splice(i, 1);
+    stepEaters(dt);
     helpers.forEach((h) => stepHelper(h, dt));
     meet(dt);
     stepBubbles(dt);
@@ -628,6 +716,7 @@
     }
     ctx.globalAlpha = 1;
     [...tadpoles].sort((a, b) => a.s - b.s).forEach(drawTadpole);
+    eaters.forEach(drawEater);
     helpers.forEach(drawHelper);
     for (const c of claps) {                            // the slap of a high five: a few short strokes, flaring
       ctx.globalAlpha = Math.max(0, c.life);

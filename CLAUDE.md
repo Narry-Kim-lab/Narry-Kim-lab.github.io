@@ -77,8 +77,10 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   (deadenylation) until an mRNA with none left fades away. Four enzymes wander among
   them -- TENT4A and TENT4B (grey) throw A's and a G onto a short tail that passes near
   (mixed tailing; the deadenylase stalls at the G), TUT4 and TUT7 (red) throw U's onto a
-  nearly bare one (uridylation; it then stops shortening) -- blinking, winking, glancing
-  about, and smiling with a hop after a delivery. Two that linger side by side give each
+  nearly bare one (uridylation) -- blinking, winking, glancing about, and smiling with a
+  hop after a delivery. Soon after U's land, a lime Pac-Man races in from the left,
+  gobbles the tail from its 3' end, leaps over the head and shoots off to the right,
+  leaving the mRNA to fade. Two that linger side by side give each
   other a high five (none seeks one out); a helper left outside by a narrowing window
   dashes back in, startled, and glides on a little; and none stays in one spot more than
   a few seconds (it turns back from an edge, and a watchdog sends a loiterer off). A
