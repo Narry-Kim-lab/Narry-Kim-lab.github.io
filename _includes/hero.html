@@ -1,6 +1,7 @@
 {%- comment -%}
   The home page's opening: a headline, a line under it and two buttons, on
-  the masthead's tint. Driven by the page's front matter:
+  the masthead's tint, and under them the scene of mRNA tadpoles
+  (js/tails.js). Driven by the page's front matter:
 
     hero:
       title: RNA lies at the core of gene regulation.
@@ -20,3 +21,5 @@
   </div>
   {%- endif %}
 </section>
+<canvas class="scene" aria-hidden="true"></canvas>
+<script src="{{ '/js/tails.js' | relative_url }}?v={{ '/js/tails.js' | fingerprint }}" integrity="{{ '/js/tails.js' | sri }}" defer></script>

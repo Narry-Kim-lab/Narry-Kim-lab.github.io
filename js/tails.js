@@ -1,0 +1,528 @@
+/*
+ * The home page's scene, under the hero: mRNAs swimming like tadpoles from
+ * 5' to 3', each wearing its 5' cap as a red cap, carrying a messenger bag
+ * in one of three colours (they are messengers, after all) and trailing its
+ * poly(A) tail. As they swim, the tails shorten bead by bead (deadenylation), and an
+ * mRNA whose tail is gone fades away. Four helpers wander among them, and
+ * one that a suitable tail passes close by throws the base it carries onto
+ * its end, so it is plain that they add: TENT4A and TENT4B top up a short
+ * tail with a few A's and a G (mixed tailing), and a tail ending in a G
+ * shortens no further for a while, as the deadenylase stalls at it; TUT4 and
+ * TUT7 add U's to a tail that is nearly gone (uridylation), and that mRNA
+ * swims on with its U's, its tail shortening no more. A tail a helper is
+ * reaching for loses no beads, so no helper is seen near a tail as it
+ * shrinks.
+ *
+ * They swim in a sea: water under a slowly rippling surface, deepening
+ * towards the bottom, with a few bubbles rising through it.
+ * Its two colours are --sea and --sea-deep in css/main.scss, read here.
+ *
+ * Drawn in vector on <canvas class="scene"> (_includes/hero.html) at the
+ * device's pixel ratio, about 30 frames a second, in the site's colours. It
+ * draws nothing while the scene is out of view or the tab is hidden; under
+ * prefers-reduced-motion it shows one still frame instead, and follows the
+ * setting if it changes. The scene starts the same on every visit.
+ *
+ * Loaded with defer from _includes/hero.html, only on the page with a hero.
+ */
+(() => {
+  'use strict';
+
+  const canvas = document.querySelector('canvas.scene');
+  if (!canvas || !canvas.getContext) return;
+  const ctx = canvas.getContext('2d');
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const INK = '#222224', RED = '#ca2017', GREY = '#3d3d3d';
+  const STRAND = '#9fb0b7', A_EDGE = '#9aa3a8', A_TEXT = '#5e676c', LABEL = '#4f6168';
+  // Messenger bags in three canvas colours: body, flap and strap.
+  const BAGS = [
+    { body: '#e8be7c', flap: '#c98f3d', strap: '#8c6326' },  // tan
+    { body: '#a9bd5c', flap: '#7f9634', strap: '#5b6d22' },  // olive green
+    { body: '#5f7fae', flap: '#3f5f8f', strap: '#2f4870' }   // navy
+  ];
+  let sea = '#dce9ee', seaDeep = '#bcd3dc';
+  const FACE = '"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif';
+
+  // A fixed-seed generator, so the scene starts the same on every visit.
+  let seed = 20251119;
+  function rand() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
+  const between = (a, b) => a + (b - a) * rand();
+
+  // Sizes are drawn for a 150px-high scene and scaled by u for others, but
+  // no smaller than 0.85 of that, so a phone's shorter scene keeps them legible.
+  let W = 0, H = 0, u = 1, t = 0;
+  const LANES = [0.3, 0.55, 0.8];
+  const tadpoles = [], crumbs = [], rings = [], helpers = [], flights = [], bubbles = [];
+
+  function size() {
+    const r = canvas.getBoundingClientRect();
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = r.width; H = r.height; u = Math.max(0.85, H / 150);
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const cs = getComputedStyle(canvas);
+    sea = cs.getPropertyValue('--sea').trim() || sea;
+    seaDeep = cs.getPropertyValue('--sea-deep').trim() || seaDeep;
+  }
+
+  // ---- The sea ---------------------------------------------------------------
+  // The surface: two slow ripples over a level about 12px down.
+  const surface = (x) => 12 * u + 2.6 * u * Math.sin(x / (70 * u) + t * 0.9) + 1.3 * u * Math.sin(x / (31 * u) - t * 1.3);
+
+  function bubble(atFloor) {
+    return { x: between(0, W), y: atFloor ? H + between(2, 30) * u : between(0.3, 1) * H,
+             r: between(1.4, 3.2), v: between(7, 13), phase: between(0, 6) };
+  }
+
+  function stepBubbles(dt) {
+    const want = Math.max(4, Math.round(W / 160));
+    while (bubbles.length < want) bubbles.push(bubble(false));
+    for (let i = bubbles.length - 1; i >= 0; i--) {
+      const b = bubbles[i];
+      b.y -= b.v * u * dt;
+      b.x += 6 * u * Math.cos(t * 1.7 + b.phase) * dt;
+      if (b.y < surface(b.x) + 3 * u) bubbles[i] = bubble(true);
+    }
+  }
+
+  function drawSea() {
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    for (let x = 0; x <= W + 8; x += 8) ctx.lineTo(x, surface(x));
+    ctx.lineTo(W + 8, H);
+    ctx.closePath();
+    const g = ctx.createLinearGradient(0, 8 * u, 0, H);
+    g.addColorStop(0, sea);
+    g.addColorStop(1, seaDeep);
+    ctx.fillStyle = g;
+    ctx.fill();
+    ctx.beginPath();                                    // a sheen along the surface
+    for (let x = 0; x <= W + 8; x += 8) { const y = surface(x); if (x) ctx.lineTo(x, y); else ctx.moveTo(x, y); }
+    ctx.lineWidth = 1.6 * u; ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)'; ctx.stroke();
+    ctx.lineWidth = 1 * u; ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+    for (const b of bubbles) { ctx.beginPath(); ctx.arc(b.x, b.y, b.r * u, 0, 2 * Math.PI); ctx.stroke(); }
+  }
+
+  // ---- The mRNAs ---------------------------------------------------------------
+  // x is the head's centre; the tail streams out to its left, one bead per base.
+
+  const headY = (p) => LANES[p.lane] * H + 2.2 * u * Math.sin(t * 1.3 + p.phase);
+  const spacing = (p) => 10.3 * p.s * u;
+  function beadAt(p, i) {
+    const s = p.s * u;
+    const amp = Math.min(1, (i + 1) / 5) * 5 * s;
+    return { x: p.x - 23 * s - i * spacing(p), y: headY(p) + amp * Math.sin(t * 3.2 + p.phase - i * 0.55) };
+  }
+  const tailEnd = (p) => beadAt(p, Math.max(0, p.tail.length - 1));
+
+  function tadpole(x, lane, length) {
+    const s = between(0.86, 1.06);
+    return {
+      x, lane, s, v: between(16, 25) * s, phase: between(0, 2 * Math.PI), bag: BAGS[Math.floor(between(0, BAGS.length))],
+      tail: Array(length).fill('A'), nibble: between(2.5, 5.5),
+      stalled: false, marked: false, held: false, fade: 1, dying: false, gone: false
+    };
+  }
+
+  // The deadenylase takes the last base: an A at once, a G only after a pause.
+  function nibble(p) {
+    const last = p.tail[p.tail.length - 1];
+    if (!last) { p.dying = true; return; }
+    if (last === 'G' && !p.stalled) { p.stalled = true; p.nibble = between(6, 9); return; }
+    p.stalled = false;
+    const at = tailEnd(p);
+    p.tail.pop();
+    crumbs.push({ x: at.x, y: at.y, base: last, s: p.s, vx: between(-7, -2), vy: between(6, 12), life: 1 });
+    p.nibble = between(2.8, 5.2);
+    if (!p.tail.length) p.dying = true;
+  }
+
+  const wanted = () => Math.max(3, Math.min(6, Math.round(W / 220)));
+
+  // A newcomer enters at the left, in the lane with the most room.
+  function spawn() {
+    let best = -1, room = -Infinity;
+    LANES.forEach((_, lane) => {
+      const inLane = tadpoles.filter((p) => p.lane === lane);
+      const r = inLane.length ? Math.min(...inLane.map((p) => tailEnd(p).x)) : Infinity;
+      if (r > room) { room = r; best = lane; }
+    });
+    if (room < 60 * u) return;
+    tadpoles.push(tadpole(-24 * u, best, Math.round(between(8, 14))));
+  }
+
+  // ---- The helpers -------------------------------------------------------------
+  // Four little enzymes, two of each sort: TENT4A and TENT4B (grey) add A's
+  // and a G, TUT4 and TUT7 (red) add U's. They wander at random, and only a
+  // tail that comes their way draws one aside: within reach of a tail it can
+  // serve, a helper leans towards it, unhurried, and throws its base once
+  // close.
+
+  const tent = (kind) => kind.startsWith('TENT');
+  const REACH = 90;                                     // how near a tail must come to be noticed
+
+  function helper(kind, at) {
+    return { kind, x: at * W, y: between(0.35, 0.65) * H, heading: between(0, 2 * Math.PI),
+             face: 1, target: null, cool: between(1, 4), phase: between(0, 6),
+             // the face: where the eyes look (-1 left to 1 right), and its moods
+             look: 0, lookGoal: 0, lookHold: 0, nextLook: between(2, 7),
+             blinks: [], nextBlink: between(0.5, 4), wink: 0, happy: 0 };
+  }
+
+  // Where the next base goes: one bead past the end of the tail.
+  function attach(p) {
+    const end = tailEnd(p);
+    return { x: end.x - spacing(p), y: end.y };
+  }
+
+  function serves(h, p) {
+    const n = p.tail.length;
+    return tent(h.kind) ? n >= 2 && n <= 7 && p.tail[n - 1] !== 'G' : n >= 1 && n <= 4;
+  }
+
+  function notice(h) {
+    let best = null, d = REACH * u;
+    for (const p of tadpoles) {
+      if (p.dying || p.marked || p.held || !serves(h, p)) continue;
+      if (helpers.some((o) => o !== h && o.target === p)) continue;
+      const at = attach(p);
+      if (at.x < 0.05 * W || at.x > 0.88 * W) continue;
+      const dd = Math.hypot(at.x - h.x, at.y - h.y);
+      if (dd < d) { d = dd; best = p; }
+    }
+    return best;
+  }
+
+  // Close enough, a helper throws its base: it flies to the end of the tail,
+  // and the bases join the tail when it lands (step, below).
+  function deliver(h) {
+    const p = h.target;
+    let bases = ['U', 'U'];
+    if (tent(h.kind)) {
+      bases = ['A', 'A', 'G', 'A'].slice(0, Math.round(between(2, 4)));
+      if (bases.length === 2) bases[1] = 'G';
+    }
+    flights.push({ p, kind: h.kind, bases, x0: h.x + 17 * u * h.face, y0: h.y + 2 * u, k: 0, x: 0, y: 0 });
+    p.held = true;
+    h.target = null;
+    h.cool = between(5, 10);
+    h.happy = 0.9;                                      // pleased with itself: smiling eyes and a hop
+  }
+
+  function land(f) {
+    const p = f.p, end = tailEnd(p);
+    p.tail.push(...f.bases);
+    p.held = false;
+    if (tent(f.kind)) { p.stalled = false; p.nibble = Math.max(p.nibble, 2.5); }
+    else p.marked = true;
+    rings.push({ x: end.x - spacing(p), y: end.y, life: 1, color: tent(f.kind) ? GREY : RED });
+  }
+
+  // The face, between the helper's errands: now and then it blinks (once,
+  // or twice running), winks one eye, or glances to one side for a moment;
+  // otherwise it looks where it is going, or at the tail it has noticed.
+  function stepFace(h, dt) {
+    if (h.blinks.length) { h.blinks[0] -= dt; if (h.blinks[0] <= 0) h.blinks.shift(); }
+    if (h.wink) h.wink = Math.abs(h.wink) - dt > 0 ? Math.sign(h.wink) * (Math.abs(h.wink) - dt) : 0;
+    if (h.happy > 0) h.happy = Math.max(0, h.happy - dt);
+    if ((h.nextBlink -= dt) <= 0) {
+      const r = rand();
+      if (r < 0.18) h.wink = (rand() < 0.5 ? -1 : 1) * 0.4;              // a wink, left or right eye
+      else if (r < 0.38) h.blinks = [0.11, 0.1, 0.11];                   // a double blink: shut, open, shut
+      else h.blinks = [0.13];
+      h.nextBlink = between(1.8, 5.5);
+    }
+    if (h.lookHold > 0) h.lookHold -= dt;
+    else if ((h.nextLook -= dt) <= 0) {
+      h.lookGoal = rand() < 0.5 ? -1 : 1;
+      h.lookHold = between(0.6, 1.3);
+      h.nextLook = between(3, 8);
+    }
+    if (h.lookHold <= 0) h.lookGoal = h.target ? Math.sign(attach(h.target).x - h.x) || h.face : 0.6 * h.face;
+    h.look += (h.lookGoal - h.look) * Math.min(1, 9 * dt);
+  }
+
+  function stepHelper(h, dt) {
+    stepFace(h, dt);
+    h.cool -= dt;
+    let p = h.target;
+    if (p && (p.gone || p.dying || p.marked || p.held || !serves(h, p))) p = h.target = null;
+    if (!p && h.cool <= 0) p = h.target = notice(h);
+    let at = null, dist = Infinity;
+    if (p) {
+      at = attach(p);
+      dist = Math.hypot(at.x - h.x, at.y - h.y);
+      if (dist > 1.4 * REACH * u) { p = h.target = null; at = null; }   // it got away: let it go
+    }
+    // Wandering: the heading drifts at random, flattened (the scene is wide
+    // and shallow), and turns back from the edges. A tail it has noticed
+    // only bends that course towards it.
+    h.heading += between(-1, 1) * 2.4 * dt;
+    let vx = Math.cos(h.heading), vy = 0.55 * Math.sin(h.heading);
+    if (h.x < 40 * u) vx += 1.2; else if (h.x > W - 40 * u) vx -= 1.2;
+    if (h.y < 22 * u) vy += 0.8; else if (h.y > H - 22 * u) vy -= 0.8;
+    if (at) { vx += 1.1 * (at.x - h.x) / dist; vy += 1.1 * (at.y - h.y) / dist; }
+    const len = Math.hypot(vx, vy) || 1, speed = (at ? 22 : 12) * u;
+    h.x += vx / len * speed * dt;
+    h.y += vy / len * speed * dt;
+    if (Math.abs(vx) > 0.15) h.face = vx > 0 ? 1 : -1;
+    // Never on top of another helper, nor, unless it is reaching a tail, on
+    // top of an mRNA: within reach of a helper, a head or a bead, it drifts off.
+    const away = (x, y, reach) => {
+      const ox = h.x - x, oy = h.y - y, od = Math.hypot(ox, oy) || 1;
+      if (od < reach) { const push = (reach - od) * Math.min(1, 3 * dt); h.x += ox / od * push; h.y += oy / od * push; }
+    };
+    for (const o of helpers) if (o !== h) away(o.x, o.y, 60 * u);
+    for (const q of tadpoles) {
+      away(q.x, headY(q), 30 * u);
+      if (q !== p) for (let i = 0; i < q.tail.length; i++) { const b = beadAt(q, i); away(b.x, b.y, 18 * u); }
+    }
+    h.y = Math.min(H - 12 * u, Math.max(12 * u, h.y));
+    if (p && dist < 26 * u) deliver(h);
+  }
+
+  // ---- Time --------------------------------------------------------------------
+
+  function step(dt) {
+    t += dt;
+    for (const p of tadpoles) {
+      // One that catches up with another in its lane keeps a gap behind its
+      // tail: it slows to the other's pace near it, and waits when closer.
+      let v = p.v;
+      for (const q of tadpoles) {
+        if (q === p || q.lane !== p.lane || q.x <= p.x) continue;
+        const gap = tailEnd(q).x - 8 * q.s * u - (p.x + 17 * p.s * u);
+        if (gap < 12 * u) v = 0;
+        else if (gap < 40 * u) v = Math.min(v, q.v);
+      }
+      p.x += v * u * dt;
+      // No bead is lost to a tail a helper is bringing a base to, nor to a
+      // uridylated one.
+      const attended = p.held || helpers.some((h) => h.target === p);
+      if (!p.dying && !p.marked && !attended && (p.nibble -= dt) <= 0) nibble(p);
+      if (p.dying && (p.fade -= dt / 2.2) <= 0) p.gone = true;
+      if (tailEnd(p).x > W + 12 * u) p.gone = true;
+    }
+    for (let i = tadpoles.length - 1; i >= 0; i--) if (tadpoles[i].gone) tadpoles.splice(i, 1);
+    if (tadpoles.length < wanted()) spawn();
+    for (const c of crumbs) { c.x += c.vx * u * dt; c.y += c.vy * u * dt; c.life -= dt / 1.6; }
+    for (const r of rings) r.life -= dt / 0.7;
+    for (let i = flights.length - 1; i >= 0; i--) {
+      const f = flights[i];
+      if (f.p.gone || f.p.dying) { flights.splice(i, 1); continue; }
+      f.k = Math.min(1, f.k + dt / 0.45);
+      const end = tailEnd(f.p), e = f.k * f.k * (3 - 2 * f.k);
+      f.x = f.x0 + (end.x - spacing(f.p) - f.x0) * e;
+      f.y = f.y0 + (end.y - f.y0) * e - 10 * u * Math.sin(Math.PI * f.k);
+      if (f.k >= 1) { land(f); flights.splice(i, 1); }
+    }
+    for (let i = crumbs.length - 1; i >= 0; i--) if (crumbs[i].life <= 0) crumbs.splice(i, 1);
+    for (let i = rings.length - 1; i >= 0; i--) if (rings[i].life <= 0) rings.splice(i, 1);
+    helpers.forEach((h) => stepHelper(h, dt));
+    stepBubbles(dt);
+  }
+
+  // ---- Drawing -----------------------------------------------------------------
+
+  function bead(x, y, base, s) {
+    ctx.beginPath();
+    ctx.arc(x, y, 6.4 * s, 0, 2 * Math.PI);
+    if (base === 'A') {
+      ctx.fillStyle = '#ffffff'; ctx.fill();
+      ctx.lineWidth = 1.1 * s; ctx.strokeStyle = A_EDGE; ctx.stroke();
+      ctx.fillStyle = A_TEXT;
+    } else {
+      ctx.fillStyle = base === 'G' ? GREY : RED; ctx.fill();
+      ctx.fillStyle = '#ffffff';
+    }
+    ctx.fillText(base, x, y + 0.4 * s);
+  }
+
+  // A rounded rectangle's path (ctx.roundRect is too new to count on).
+  function rounded(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  // The messenger bag, worn across the body: the strap runs from the bag, at
+  // the front of the head's underside, up and over the back of the head; the
+  // bag swings a little as the mRNA swims. The strap is drawn first, clipped
+  // to the head, so that it ends exactly at the head's outline, drawn over it;
+  // the bag goes on after.
+  const swingOf = (p) => 0.16 * Math.sin(t * 3.2 + p.phase + 0.8);
+
+  function drawStrap(p, x, y, s) {
+    const a = swingOf(p), sx = -5 * s, sy = 2.2 * s;    // where it meets the bag, in the bag's frame
+    const gx = x + 3 * s + sx * Math.cos(a) - sy * Math.sin(a);
+    const gy = y + 6 * s + sx * Math.sin(a) + sy * Math.cos(a);
+    ctx.beginPath();
+    ctx.moveTo(gx, gy);
+    ctx.quadraticCurveTo(x - 5 * s, y + 1 * s, x - 13 * s, y - 13 * s);   // on past the outline
+    ctx.lineWidth = 1.7 * s; ctx.strokeStyle = p.bag.strap; ctx.stroke();
+  }
+
+  function drawBag(p, x, y, s) {
+    ctx.save();
+    ctx.translate(x + 3 * s, y + 6 * s);
+    ctx.rotate(swingOf(p));
+    rounded(-5.8 * s, 2 * s, 11.6 * s, 8.8 * s, 2.2 * s);
+    ctx.fillStyle = p.bag.body; ctx.fill();
+    ctx.lineWidth = 1.1 * s; ctx.strokeStyle = INK; ctx.stroke();
+    rounded(-5.8 * s, 2 * s, 11.6 * s, 4.6 * s, 2.2 * s); // the flap
+    ctx.fillStyle = p.bag.flap; ctx.fill(); ctx.stroke();
+    ctx.beginPath();                                    // and its buckle
+    ctx.arc(0, 6.6 * s, 1.1 * s, 0, 2 * Math.PI);
+    ctx.fillStyle = '#ffffff'; ctx.fill();
+    ctx.lineWidth = 0.8 * s; ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawTadpole(p) {
+    const s = p.s * u, x = p.x, y = headY(p), n = p.tail.length;
+    ctx.globalAlpha = Math.max(0, p.fade);
+    ctx.font = `600 ${8.4 * s}px ${FACE}`;
+    // the strand, then its beads from the 3' end in
+    ctx.beginPath();
+    ctx.moveTo(x - 14 * s, y);
+    for (let i = 0; i < n; i++) { const b = beadAt(p, i); ctx.lineTo(b.x, b.y); }
+    ctx.lineWidth = 1.4 * s; ctx.strokeStyle = STRAND; ctx.stroke();
+    for (let i = n - 1; i >= 0; i--) { const b = beadAt(p, i); bead(b.x, b.y, p.tail[i], s); }
+    // the head, an eye, the messenger bag, and the 5' cap worn as a cap, brim forward
+    const head = () => { ctx.beginPath(); ctx.ellipse(x, y, 16 * s, 11.5 * s, 0, 0, 2 * Math.PI); };
+    head();
+    ctx.fillStyle = '#ffffff'; ctx.fill();
+    ctx.save();
+    ctx.clip();
+    drawStrap(p, x, y, s);
+    ctx.restore();
+    head();
+    ctx.lineWidth = 1.7 * s; ctx.strokeStyle = INK; ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(x + 8.6 * s, y - 1.2 * s, 1.9 * s, 0, 2 * Math.PI);
+    ctx.fillStyle = INK; ctx.fill();
+    drawBag(p, x, y, s);
+    ctx.beginPath();
+    ctx.ellipse(x + 0.5 * s, y - 8.7 * s, 9.4 * s, 6.7 * s, 0, Math.PI, 2 * Math.PI);
+    ctx.closePath();
+    ctx.fillStyle = RED; ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(x + 10.9 * s, y - 8.5 * s, 7.5 * s, 1.8 * s, 0, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
+  function drawHelper(h) {
+    const hop = h.happy > 0 ? 4 * u * Math.sin(Math.PI * (1 - h.happy / 0.9)) : 0;
+    const x = h.x, y = h.y + 1.5 * u * Math.sin(t * 2 + h.phase) - hop, f = h.face;
+    ctx.beginPath();
+    ctx.ellipse(x, y, 12 * u, 9.2 * u, 0, 0, 2 * Math.PI);
+    ctx.fillStyle = tent(h.kind) ? GREY : RED; ctx.fill();
+    // two eyes, turned the way it looks: open (white, with a pupil), shut in
+    // a blink or a wink (a line), or smiling after a delivery (an arch)
+    const blink = h.blinks.length % 2 === 1;            // the queue alternates shut, open, shut
+    ctx.lineWidth = 1.3 * u; ctx.lineCap = 'round'; ctx.strokeStyle = '#ffffff';
+    for (const side of [-1, 1]) {
+      const ex = x + side * 3.9 * u + h.look * 2.3 * u, ey = y - 1.8 * u;
+      ctx.beginPath();
+      if (h.happy > 0) {
+        ctx.arc(ex, ey + 1 * u, 1.9 * u, Math.PI * 1.15, Math.PI * 1.85);
+        ctx.stroke();
+      } else if (blink || Math.sign(h.wink) === side) {
+        ctx.moveTo(ex - 1.9 * u, ey); ctx.lineTo(ex + 1.9 * u, ey);
+        ctx.stroke();
+      } else {
+        ctx.ellipse(ex, ey, 2.2 * u, 2.6 * u, 0, 0, 2 * Math.PI);
+        ctx.fillStyle = '#ffffff'; ctx.fill();
+        ctx.beginPath();
+        ctx.arc(ex + h.look * 0.8 * u, ey + 0.3 * u, 1.25 * u, 0, 2 * Math.PI);
+        ctx.fillStyle = INK; ctx.fill();
+      }
+    }
+    ctx.lineCap = 'butt';
+    if (h.target) {                                     // the base it is bringing, held out in front
+      ctx.font = `600 ${8.4 * 0.85 * u}px ${FACE}`;
+      bead(x + 17 * u * f, y + 2 * u, tent(h.kind) ? 'G' : 'U', 0.85 * u);
+    }
+    if (W >= 600) {                                     // its name, where there is room to read it
+      ctx.font = `500 ${8.5 * u}px ${FACE}`;
+      ctx.fillStyle = LABEL;
+      ctx.fillText(h.kind, x, y + 18 * u);
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    drawSea();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for (const c of crumbs) {
+      ctx.globalAlpha = Math.max(0, c.life);
+      ctx.font = `600 ${8.4 * c.s * u}px ${FACE}`;
+      bead(c.x, c.y, c.base, c.s * u * (0.7 + 0.3 * c.life));
+    }
+    for (const r of rings) {
+      ctx.globalAlpha = Math.max(0, r.life);
+      ctx.beginPath();
+      ctx.arc(r.x, r.y, (5 + 12 * (1 - r.life)) * u, 0, 2 * Math.PI);
+      ctx.lineWidth = 1.5 * u; ctx.strokeStyle = r.color; ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    [...tadpoles].sort((a, b) => a.s - b.s).forEach(drawTadpole);
+    helpers.forEach(drawHelper);
+    for (const f of flights) {                          // a base on its way to a tail
+      ctx.font = `600 ${8.4 * 0.85 * u}px ${FACE}`;
+      bead(f.x, f.y, tent(f.kind) ? 'G' : 'U', 0.85 * u);
+    }
+  }
+
+  // ---- Start, and the clock ------------------------------------------------------
+  // The scene opens already under way: tadpoles across the width, the ones
+  // further on with shorter tails, and some seconds run so the helpers are busy.
+
+  size();
+  if (!W || !H) return;
+  for (let i = 0, n = wanted(); i < n; i++) {
+    const x = (i + 0.5) / n * W + between(-30, 30) * u;
+    tadpoles.push(tadpole(x, i % LANES.length, Math.max(3, Math.round(13 - 9 * x / W + between(-2, 2)))));
+  }
+  // Four across a wide scene, grey and red in turn; a phone has room for two.
+  if (W >= 600) [['TENT4A', 0.18], ['TUT4', 0.4], ['TENT4B', 0.6], ['TUT7', 0.82]].forEach(([k, at]) => helpers.push(helper(k, at)));
+  else [['TENT4A', 0.3], ['TUT7', 0.7]].forEach(([k, at]) => helpers.push(helper(k, at)));
+  for (let i = 0; i < 120; i++) step(1 / 15);
+
+  let raf = 0, last = 0, inView = true;
+  function frame(now) {
+    raf = requestAnimationFrame(frame);
+    if (now - last < 30) return;                        // about 30 frames a second
+    const dt = Math.min(0.1, (now - last) / 1000);
+    last = now;
+    step(dt);
+    draw();
+  }
+  function schedule() {
+    cancelAnimationFrame(raf);
+    raf = 0;
+    draw();
+    if (!inView || document.hidden || still.matches) return;
+    last = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+
+  new IntersectionObserver((entries) => {
+    const was = inView;
+    inView = entries[entries.length - 1].isIntersecting;
+    if (inView !== was) schedule();
+  }).observe(canvas);
+  document.addEventListener('visibilitychange', schedule);
+  still.addEventListener('change', schedule);
+  window.addEventListener('resize', () => { size(); draw(); });
+  if (document.fonts) document.fonts.ready.then(draw);  // the bead letters, once the face is in
+  schedule();
+})();

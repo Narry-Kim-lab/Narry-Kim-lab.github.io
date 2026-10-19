@@ -27,7 +27,7 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   are neutral greys without the IBS logo's touch of blue, which looked cold beside the
   red. The red comes in three strengths:
   `--accent` (`#ca2017`, the old site's own) fills and outlines the buttons and marks
-  things -- the band along the bottom of the home masthead, the carousel's current dot,
+  things -- the carousel's current dot,
   the current section's underline on the inner pages' header;
   `--link` (`#ae241d`, the same red with saturation and lightness each cut by a tenth) is
   every red that is text on a light ground -- links, member names, news dates, the home
@@ -49,7 +49,7 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   36em, about 70 characters a line; floated figures keep the column's right-hand side.
 - Only the home page (the one with `hero:` front matter) has the pale masthead -- a
   gradient from `--tint` (`#f5f5f5`) to `--tint-deep` (`#ececec`), a step darker above
-  the red band under it -- and the ink footer. Every other page gets
+  the sea under it -- and the ink footer. Every other page gets
   `<body class="inner">`: a `--charcoal` header and footer (`#3d3d3d`, a neutral grey)
   and the same near-black running text as home, grey kept for labels (the `body.inner`
   block in `css/main.scss` repoints the tokens).
@@ -67,8 +67,22 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   the close button, Escape and a click on the dark ground close it, and focus returns to
   the photo. Videos are not in it: they link to YouTube. Without scripts, or with a click
   meant for a new tab, a photo is a plain link to its file.
-- The hero is static for now. The Chang lab's hero has an animated pixel scene
-  (`js/ribosome.js`) where this one has the red band; one may come later.
+- Home's first screen fills the window, as on the Chang lab site: the masthead is at
+  least `100svh`, the hero text sits 7:3 in the space it has, and the scene lies along
+  the window's bottom edge, the masthead's 8px bottom border in the sea floor's colour
+  (on touch screens the sea runs on 88px further, under a floating browser toolbar). The
+  scene is `js/tails.js` on `<canvas class="scene">`, an animation with no game: mRNAs
+  swim like tadpoles in a sea, the 5' cap worn as a red cap and a messenger bag slung
+  across them (messengers, after all), their poly(A) tails shortening bead by bead
+  (deadenylation) until an mRNA with none left fades away. Four enzymes wander among
+  them -- TENT4A and TENT4B (grey) throw A's and a G onto a short tail that passes near
+  (mixed tailing; the deadenylase stalls at the G), TUT4 and TUT7 (red) throw U's onto a
+  nearly bare one (uridylation; it then stops shortening) -- blinking, winking, glancing
+  about, and smiling with a hop after a delivery. A phone has two of them, unlabelled.
+  The water's colours are `--sea` and `--sea-deep`, which the script reads from the CSS.
+  It runs at about 30 frames a second in vector at the device's pixel ratio, stops while
+  out of view or in a hidden tab, shows one still frame under `prefers-reduced-motion`,
+  and starts the same on every visit (a fixed seed).
 - Icons: Font Awesome Free 5.15.3 shapes as inline SVG (see Conventions). The site icon is
   the old site's black RNA strand on a white rounded square with transparent corners:
   `favicon.ico` (16, 32, 48px), `favicon-192.png`, and
@@ -160,7 +174,7 @@ All news from the home page.
   `aria-current` marks the section of the current page (its first URL segment): "page" on
   the section's own page, "true" on a page under it (a profile under People).
 - **hero.html** — The home page's headline, intro and buttons, from the page's `hero:`
-  front matter (see `_pages/home.md`).
+  front matter (see `_pages/home.md`), then the scene's canvas and its script.
 - **team_lead.html** — The people page's opening band: the PI's photo, role, name, intro
   and buttons (her full profile, email).
 - **team_list.html** — The member cards (4:5 photo, name, role, optional intro; each a link
