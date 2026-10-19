@@ -5,6 +5,19 @@
 # volume and pages; `url` is where the title links.
 
 - authors:
+    - name: Y. Park
+      link: yeonwoo-park
+      is_corresponding: true
+    - name: V. N. Kim
+      link: v-narry-kim
+      is_corresponding: true
+  title: The drifting biochemical basis of an essential molecular interaction
+  journal: Cell Systems
+  year: 2026
+  doi: 10.1016/j.cels.2026.101736
+  url: "https://www.cell.com/cell-systems/fulltext/S2405-4712(26)00218-8"
+
+- authors:
     - name: J. J. Seo
       lab: true
       is_first: true
