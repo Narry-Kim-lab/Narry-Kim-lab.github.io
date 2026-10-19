@@ -89,8 +89,7 @@ templates read -- when a template starts reading a new field, update the matchin
   `name`, `photo` (file in `images/members/`), `info` (the role line), `category`
   (principal-investigator/postdoc/student/research-assistant/support), `sort-key`
   (lastname-firstname), `active`, optional `intro` (one line on the card), `email`, and
-  `link`, the slug of the profile page `_pages/people/<link>.md`. The PI has no `link` and
-  no profile page: the people page's opening band shows her `cv`, `pubmed` and `email`.
+  `link`, the slug of the profile page `_pages/people/<link>.md`.
 - **publist.yml** — Papers, newest first; /publications/ groups them by `year` as they
   come, so the order matters (the data check enforces it). Fields: `authors`, `title`,
   `journal`, `year`, `vip` (volume and pages, optional), `doi`, `url` (where the title
@@ -125,7 +124,8 @@ templates read -- when a template starts reading a new field, update the matchin
 - **member.html** — A member's profile: photo, name and position, then the links (CV,
   GitHub, Google Scholar, PubMed, email) as icon buttons beside the text, and the member's
   papers from `{% include publication_in_profile.html %}` in the page body, which matches
-  the page's file name against author `link`s. The email button is
+  the page's file name against author `link`s (the PI's page leaves it out: it would be
+  the whole list; hers has Education and Positions instead). The email button is
   `_includes/email_chip.html`: text with a hidden word in the HTML, against harvesters,
   which `js/site.js` makes a mailto link.
 
@@ -143,8 +143,8 @@ All news from the home page.
   the section's own page, "true" on a page under it (a profile under People).
 - **hero.html** — The home page's headline, intro and buttons, from the page's `hero:`
   front matter (see `_pages/home.md`).
-- **team_lead.html** — The people page's opening band: the PI's photo, role, name and
-  buttons.
+- **team_lead.html** — The people page's opening band: the PI's photo, role, name, intro
+  and buttons (her full profile, email).
 - **team_list.html** — The member cards (4:5 photo, name, role, optional intro; each a link
   to the profile), for the active members in `selected_categories`. With
   `order="monthly"` they are shuffled into an order seeded by the month in Korea

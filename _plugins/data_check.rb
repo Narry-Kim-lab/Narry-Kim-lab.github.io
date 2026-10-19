@@ -68,8 +68,7 @@ module Jekyll
       end
 
       # A member without `link` has no profile: their card is not a link, and
-      # no author can point at them. The PI is one, her links being on the
-      # people page itself.
+      # no author can point at them.
       def check_team
         links = {}
         list("team").each_with_index do |m, i|
@@ -87,9 +86,6 @@ module Jekyll
           end
           if m["photo"] && !source_file?("images/members/#{m["photo"]}")
             problem("team", m, i, "photo images/members/#{m["photo"]} does not exist")
-          end
-          if m["cv"] && !source_file?(m["cv"].delete_prefix("/"))
-            problem("team", m, i, "cv #{m["cv"]} does not exist")
           end
         end
         links

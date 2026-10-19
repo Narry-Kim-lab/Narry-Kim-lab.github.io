@@ -6,8 +6,8 @@
   photo: v-narry-kim.jpg
   info: Principal Investigator
   email: "narrykim@snu.ac.kr"
-  cv: "/assets/cv/cv-narry-kim.pdf"
-  pubmed: "https://pubmed.ncbi.nlm.nih.gov/?term=Kim+VN&cauthor_id=25480299"
+  intro: Finding out how RNA regulates genes, and putting it to work in RNA medicine
+  link: v-narry-kim
   category: principal-investigator
   sort-key: kim-v-narry
   active: true

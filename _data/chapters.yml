@@ -4,7 +4,7 @@
     - name: Y. Lee
       lab: true
     - name: V. N. Kim
-      lab: true
+      link: v-narry-kim
   title: In vitro and in vivo assays for the activity of drosha complex
   journal: Methods in Enzymology
   vip: "427:87-106"
@@ -22,7 +22,7 @@
     - name: H. Jin
       lab: true
     - name: V. N. Kim
-      lab: true
+      link: v-narry-kim
   title: Drosha in primary microRNA processing
   journal: Cold Spring Harbor Symposia on Quantitative Biology
   vip: "71:51-7"
@@ -34,7 +34,7 @@
     - name: Y. Lee
       lab: true
     - name: V. N. Kim
-      lab: true
+      link: v-narry-kim
   title: Preparation and analysis of Drosha
   journal: Methods in Molecular Biology
   vip: "309:17-28"
