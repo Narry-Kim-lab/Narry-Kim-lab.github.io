@@ -339,6 +339,49 @@ body.inner {
     font-size: 17px;
 }
 
+/* At the foot of the hero, a cue that the page goes on below: two wide
+   chevrons in ink, red under the pointer, a link to the content. It comes
+   after the 7:3 spacers (order), so it sits just above the sea, and it
+   bobs gently, unless motion is reduced. Following it scrolls smoothly,
+   on the same terms. */
+.scroll-cue {
+    order: 1;
+    display: block;
+    margin-top: 16px;
+    padding: 6px 10px;                /* a target bigger than the drawing */
+    color: var(--ink);
+    line-height: 0;
+}
+
+.scroll-cue:hover {
+    color: var(--accent);
+}
+
+.scroll-cue svg {
+    width: 44px;
+    height: 26px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .scroll-cue svg {
+        animation: cue-bob 2.2s ease-in-out infinite;
+    }
+}
+
+@keyframes cue-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+}
+
 /* A phone: the two buttons share one row. */
 @media (max-width: 699px) {
     .hero-buttons {

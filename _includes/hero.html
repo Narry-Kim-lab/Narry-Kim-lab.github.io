@@ -1,7 +1,8 @@
 {%- comment -%}
   The home page's opening: a headline, a line under it and two buttons, on
-  the masthead's tint, and under them the scene of mRNA tadpoles
-  (js/tails.js). Driven by the page's front matter:
+  the masthead's tint, a cue at its foot that the page goes on below (two
+  chevrons, a link to the content), and under them the scene of mRNA
+  tadpoles (js/tails.js). Driven by the page's front matter:
 
     hero:
       title: RNA lies at the core of gene regulation.
@@ -20,6 +21,7 @@
     {%- endfor %}
   </div>
   {%- endif %}
+  <a class="scroll-cue" href="#content" aria-label="Scroll down to the page"><svg viewBox="0 0 48 28" aria-hidden="true" focusable="false"><path d="M4 4 24 13 44 4M4 15 24 24 44 15"/></svg></a>
 </section>
 <canvas class="scene" aria-hidden="true"></canvas>
 <script src="{{ '/js/tails.js' | relative_url }}?v={{ '/js/tails.js' | fingerprint }}" integrity="{{ '/js/tails.js' | sri }}" defer></script>
