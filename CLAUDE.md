@@ -51,7 +51,8 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   gradient from `--tint`, the IBS grey made very pale, to `--tint-warm`, warmed towards
   the red band under it -- and the ink footer. Every other page gets
   `<body class="inner">`: a `--charcoal` header and footer (`#3d3d3d`, a neutral grey)
-  and a darker grey text (the `body.inner` block in `css/main.scss` repoints the tokens).
+  and the same near-black running text as home, grey kept for labels (the `body.inner`
+  block in `css/main.scss` repoints the tokens).
 - Content pages share the people page's pieces (the "shared pieces" block in
   `css/main.scss`): `.chip` icon buttons for links, `.team-role` for a bold grey role
   line, photos with 12px corners and no shadow, and rows split by `--hairline` rules.

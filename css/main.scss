@@ -251,15 +251,16 @@ img[width][height] {
 
 /* Inner pages (every page but home, see _layouts/default.html) have a
    charcoal header bar and footer, with light grey section links, the
-   current one white with a red underline. The text is a darker grey than on
-   home. The tokens below repoint every rule that uses them; the rest are
-   named here and further down. */
+   current one white with a red underline. Their running text is the ink,
+   as on home; grey is for labels (roles, dates, fine print). The tokens
+   below repoint every rule that uses them; the rest are named here and
+   further down. */
 body.inner {
-    --ink: #222222;            /* headings, names */
-    --muted: #4a4a4e;          /* running text, 8.8:1 on white */
+    --ink: #222222;            /* headings, names, running text */
+    --muted: #4a4a4e;          /* labels and secondary text, 8.8:1 on white */
     --faint: #6e6e73;          /* 5:1 on white */
     --charcoal: #3d3d3d;       /* the header and footer: a neutral grey, 24% lightness */
-    color: var(--muted);
+    color: var(--ink);
 }
 
 .inner .masthead {
