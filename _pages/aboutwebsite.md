@@ -83,12 +83,14 @@ THE SOFTWARE.
 </p>
 </blockquote>
 
-## Ubuntu Sans
+## Montserrat and IBM Plex Sans
 {: .minor}
 
-The text is set in [Ubuntu Sans](https://github.com/canonical/Ubuntu-Sans-fonts),
-Copyright 2011, 2022, 2023 Canonical Ltd., served from this site in a Latin-only cut
-under the [Ubuntu Font Licence 1.0](https://ubuntu.com/legal/font-licence). As that
-license asks of a modified copy, the cut is named "Ubuntu Sans derivative QBio"; what
-was changed, and the full license text, are in
-[fonts/UbuntuSans-LICENCE.txt]({{ '/fonts/UbuntuSans-LICENCE.txt' | relative_url }}).
+The headings are set in [Montserrat](https://github.com/JulietaUla/Montserrat),
+Copyright 2024 The Montserrat.Git Project Authors, served from this site in a
+Latin-only cut; what was changed, and the full license text, are in
+[fonts/Montserrat-OFL.txt]({{ '/fonts/Montserrat-OFL.txt' | relative_url }}).
+The text is set in [IBM Plex Sans](https://github.com/IBM/plex), Copyright 2017 IBM
+Corp., served from this site in IBM's own Latin, symbol and Greek web fonts, unmodified;
+see [fonts/IBMPlexSans-OFL.txt]({{ '/fonts/IBMPlexSans-OFL.txt' | relative_url }}).
+Both are licensed under the [SIL Open Font License 1.1](https://openfontlicense.org).

@@ -6,8 +6,8 @@
 
 /*
  * The site's own look, on top of the Bootstrap 3 base in _sass/_base.scss.
- * One family (Ubuntu Sans, _sass/_fonts.scss) and one palette, kept as
- * custom properties here so a colour changes in one place.
+ * Two families (Montserrat and IBM Plex Sans, _sass/_fonts.scss) and one
+ * palette, kept as custom properties here so a colour changes in one place.
  *
  * Two colours carry the lab's identity: the red of the old narrykim.org,
  * the one point colour, and the mid grey of the IBS logo, from which the
@@ -43,7 +43,16 @@
     --on-ink-link-hover: #f7bdb7;
     --page: 1100px;            /* content width */
     --gutter: clamp(20px, 5vw, 48px);
-    --sans: 'Ubuntu Sans', 'Helvetica Neue', Arial, sans-serif;
+    /* Two families (_sass/_fonts.scss): IBM Plex Sans for the text, and
+       Montserrat for headings and the other display text -- the wordmark,
+       section links, buttons and member names. */
+    --sans: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    --display: 'Montserrat', var(--sans);
+}
+
+h1, h2, h3, h4, h5, h6, .wordmark, .site-nav nav, .button, .chip,
+.team-card-name, .alumni-name {
+    font-family: var(--display);
 }
 
 body {

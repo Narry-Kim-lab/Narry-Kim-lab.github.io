@@ -34,12 +34,17 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   page's current section, the outline button's label; and `--on-ink-link` (`#f4978e`) is
   red text on the dark footers, their links.
   Check contrast (4.5:1 for text) before adding a colour.
-  The type is Ubuntu Sans, self-hosted (`fonts/`, `@font-face` in `_sass/_fonts.scss`):
-  Latin-only variable cuts of the roman and italic, weight 400-800. Their
-  `unicode-range` lists exactly the characters the files have, so anything else (Greek
-  letters such as the β in some titles) falls back to a system font. The cut is named
-  "Ubuntu Sans derivative QBio" inside the files, as the Ubuntu Font Licence requires of
-  a modified copy (`fonts/UbuntuSans-LICENCE.txt`); it is the Chang lab's cut, unchanged.
+  The type is two families, self-hosted (`fonts/`, `@font-face` in `_sass/_fonts.scss`):
+  `--display`, Montserrat, for headings, the wordmark, section links, buttons, chips and
+  member names, and `--sans`, IBM Plex Sans, for the text. Montserrat is our own
+  Latin-only cut of the variable roman and italic, weight 400-800
+  (`fonts/Montserrat-OFL.txt` says what was changed; its licence reserves no name).
+  IBM Plex Sans is IBM's own split web fonts, unmodified -- its licence reserves the
+  name "Plex", so a cut of our own would have to be renamed: Latin1, Pi (primes and
+  other symbols) and Greek files for 400, 600 and 700, roman and italic; the browser
+  fetches Pi or Greek only on a page with such a character (`fonts/IBMPlexSans-OFL.txt`).
+  Each `unicode-range` lists exactly the characters its file has, so anything else falls
+  back to a system font.
   On the text pages (textlay: research, join, contact, about, news) running text stops at
   36em, about 70 characters a line; floated figures keep the column's right-hand side.
 - Only the home page (the one with `hero:` front matter) has the pale masthead -- a
