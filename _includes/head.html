@@ -52,8 +52,9 @@
   <link rel="preload" href="{{ '/fonts/Montserrat-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{{ '/fonts/IBMPlexSans-Regular-Latin1.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}">
-  {%- comment -%} The icon is the old site's: a strand of RNA, black. The .ico holds 16, 32
-      and 48px; iOS gets a 180px PNG on white. {%- endcomment %}
+  {%- comment -%} The icon is the old site's strand of RNA, black on a white rounded square
+      with transparent corners. The .ico holds 16, 32 and 48px; iOS gets a 180px PNG on
+      white, square, and rounds it itself. {%- endcomment %}
   <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" sizes="32x32">
   <link rel="icon" href="{{ '/favicon-192.png' | relative_url }}" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="{{ '/apple-touch-icon.png' | relative_url }}">

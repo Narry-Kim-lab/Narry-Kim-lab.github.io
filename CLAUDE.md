@@ -70,7 +70,8 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
 - The hero is static for now. The Chang lab's hero has an animated pixel scene
   (`js/ribosome.js`) where this one has the red band; one may come later.
 - Icons: Font Awesome Free 5.15.3 shapes as inline SVG (see Conventions). The site icon is
-  the old site's black RNA strand: `favicon.ico` (16, 32, 48px), `favicon-192.png`, and
+  the old site's black RNA strand on a white rounded square with transparent corners:
+  `favicon.ico` (16, 32, 48px), `favicon-192.png`, and
   `apple-touch-icon.png` (180px on white, since iOS fills transparency with black).
 
 ## Build & Serve
