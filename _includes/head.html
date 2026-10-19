@@ -57,5 +57,5 @@
   <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" sizes="32x32">
   <link rel="icon" href="{{ '/favicon-192.png' | relative_url }}" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="{{ '/apple-touch-icon.png' | relative_url }}">
-  <script src="{{ '/js/site.js' | relative_url }}" integrity="{{ '/js/site.js' | sri }}" defer></script>
+  <script src="{{ '/js/site.js' | relative_url }}?v={{ '/js/site.js' | fingerprint }}" integrity="{{ '/js/site.js' | sri }}" defer></script>
 </head>

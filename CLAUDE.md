@@ -223,7 +223,10 @@ description from `title` and `position`. `sitemap: false` excludes a page from t
 - Publication author superscripts: `<sup>1</sup>` = co-first author, `<sup>*</sup>` =
   co-corresponding author.
 - Custom plugins: `_plugins/sri.rb` adds an `sri` filter that hashes a local file at build
-  time: `<script src="..." integrity="{{ '/js/x.js' | sri }}">`. Use it for every script tag.
+  time, and a `fingerprint` filter for its URL:
+  `<script src="/js/x.js?v={{ '/js/x.js' | fingerprint }}" integrity="{{ '/js/x.js' | sri }}">`.
+  Use both for every script tag. Without the fingerprint, a browser holding the old file in
+  its cache finds it fails the new page's integrity check and runs no script at all.
   `_plugins/data_check.rb` validates `_data/` (see above).
 - Photos go through `{% picture <preset> <path> alt="..." %}` (`_plugins/picture.rb`), not a
   bare `<img>`: it publishes WebP copies at the widths of the preset (`pictures:` in
