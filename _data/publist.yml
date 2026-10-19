@@ -592,7 +592,7 @@
   journal: Molecular Cell
   vip: "81(13):2838-2850"
   year: 2021
-  doi: 10.1101/2020.11.02.364497
+  doi: 10.1016/j.molcel.2021.04.022
   url: "https://doi.org/10.1016/j.molcel.2021.04.022"
 
 - authors:
@@ -729,7 +729,7 @@
   journal: Nature Communications
   vip: "12:880"
   year: 2021
-  doi: 10.21203/rs.3.rs-40207/v1
+  doi: 10.1038/s41467-021-21197-1
   url: "https://doi.org/10.1038/s41467-021-21197-1"
 
 - authors:
@@ -746,7 +746,7 @@
   journal: Analytical Chemistry
   vip: 92(7), 4926-4934
   year: 2020
-  doi: 10.1021/acs.analchem.9b05035.s006
+  doi: 10.1021/acs.analchem.9b05035
   url: "https://pubs.acs.org/doi/10.1021/acs.analchem.9b05035"
 
 - authors:
@@ -835,7 +835,7 @@
   journal: Cell
   vip: "181(4):914-921.e10"
   year: 2020
-  doi: 10.1101/2020.03.12.988865
+  doi: 10.1016/j.cell.2020.04.011
   url: "https://doi.org/10.1016/j.cell.2020.04.011"
 
 - authors:
@@ -957,22 +957,6 @@
   url: "https://doi.org/10.1007/s10120-020-01052-w"
 
 - authors:
-    - name: S. Shin
-    - name: J. H. Hong
-    - name: Y. Na
-    - name: M. Lee
-    - name: W. J. Qian
-    - name: V. N. Kim
-      lab: true
-    - name: J. S. Kim
-  title: Development of Multiplexed Immuno-N-Terminomics to Reveal the Landscape of Proteolytic Processing in Early Embryogenesis of Drosophila melanogaster
-  journal: Analytical Chemistry
-  vip: "92(7):4926-4934"
-  year: 2020
-  doi: 10.1021/acs.analchem.9b05035.s006
-  url: "https://doi.org/10.1021/acs.analchem.9b05035"
-
-- authors:
     - name: Y. Choi
       lab: true
       is_first: true
@@ -998,7 +982,7 @@
   journal: Analytical Chemistry
   vip: "92(7):4980–4989"
   year: 2020
-  doi: 10.1021/acs.analchem.9b05148.s004
+  doi: 10.1021/acs.analchem.9b05148
   url: "https://doi.org/10.1021/acs.analchem.9b05148"
 
 - authors:
@@ -1086,7 +1070,7 @@
   journal: Journal of Proteome Research
   vip: "18(3):1078-1087"
   year: 2019
-  doi: 10.1021/acs.jproteome.8b00775.s007
+  doi: 10.1021/acs.jproteome.8b00775
   url: "https://pubs.acs.org/doi/10.1021/acs.jproteome.8b00775"
 
 - authors:
@@ -1791,7 +1775,7 @@
   journal: Nature Reviews Molecular Cell Biology
   vip: 15, 509–524
   year: 2014
-  doi: "10.1096/fasebj.23.1_supplement.422.1"
+  doi: 10.1038/nrm3838
   url: "http://www.nature.com/nrm/journal/v15/n8/full/nrm3838.html"
 
 - authors:
@@ -2422,7 +2406,7 @@
   journal: Nature Structural & Molecular Biology
   vip: "14(9):847-53"
   year: 2007
-  doi: 10.2210/pdb2yt4/pdb
+  doi: 10.1038/nsmb1294
   url: "http://www.nature.com/nsmb/journal/v14/n9/full/nsmb1294.html"
 
 - authors:
