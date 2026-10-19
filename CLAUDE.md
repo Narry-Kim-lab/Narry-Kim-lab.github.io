@@ -22,13 +22,17 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
 - Design: colours, widths and the font stack are custom properties on `:root` at the top
   of `css/main.scss`; use them rather than new hex values. Two colours carry the lab's
   identity: the old site's red, the one point colour, and `--grey`, the IBS logo's mid
-  grey, from which the neutrals are drawn. The red comes in three strengths:
+  grey, from which the neutrals are drawn -- all but `--band` (`#f8f3f2`), the misty pink
+  behind the PI on /people/ and the head of every member page, which a grey with the
+  IBS logo's touch of blue in it made look cold beside the red. The red comes in three
+  strengths:
   `--accent` (`#ca2017`, the old site's own) fills and outlines the buttons and marks
-  things -- the band along the bottom of the home masthead, the carousel's current dot;
+  things -- the band along the bottom of the home masthead, the carousel's current dot,
+  the current section's underline on the inner pages' header;
   `--link` (`#ae241d`, the same red with saturation and lightness each cut by a tenth) is
   every red that is text on a light ground -- links, member names, news dates, the home
-  page's current section, the outline button's label; and `--on-ink-link` (`#f0867d`) is
-  red on the dark header and footer -- footer links, the current section's underline.
+  page's current section, the outline button's label; and `--on-ink-link` (`#f4978e`) is
+  red text on the dark footers, their links.
   Check contrast (4.5:1 for text) before adding a colour.
   The type is Ubuntu Sans, self-hosted (`fonts/`, `@font-face` in `_sass/_fonts.scss`):
   Latin-only variable cuts of the roman and italic, weight 400-800. Their
@@ -40,9 +44,9 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   36em, about 70 characters a line; floated figures keep the column's right-hand side.
 - Only the home page (the one with `hero:` front matter) has the pale masthead -- a
   gradient from `--tint`, the IBS grey made very pale, to `--tint-warm`, warmed towards
-  the red band under it -- and the ink footer. Every other page gets `<body class="inner">`: a dark `--charcoal`
-  header and footer (the old site's #222) and a darker grey text (the `body.inner`
-  block in `css/main.scss` repoints the tokens).
+  the red band under it -- and the ink footer. Every other page gets
+  `<body class="inner">`: a `--charcoal` header and footer (`#3d3d3d`, a neutral grey)
+  and a darker grey text (the `body.inner` block in `css/main.scss` repoints the tokens).
 - Content pages share the people page's pieces (the "shared pieces" block in
   `css/main.scss`): `.chip` icon buttons for links, `.team-role` for a bold grey role
   line, photos with 12px corners and no shadow, and rows split by `--hairline` rules.

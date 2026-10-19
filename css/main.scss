@@ -13,8 +13,8 @@
  * the one point colour, and the mid grey of the IBS logo, from which the
  * neutrals are drawn. The red comes in three strengths: the old site's own
  * for the buttons and marks (--accent), a deeper one for text on light
- * grounds (--link), and a lighter one for text and marks on the dark header
- * and footer (--on-ink-link).
+ * grounds (--link), and a lighter one for text on the dark footers
+ * (--on-ink-link).
  *
  * No style="..." attributes anywhere: a Content-Security-Policy without
  * 'unsafe-inline' in style-src makes the browser drop them. A page that
@@ -24,7 +24,8 @@
     --ink: #222224;            /* text, the footer: the old site's #222 */
     --muted: #505055;          /* secondary text, 6.9:1 on the masthead */
     --faint: #626267;          /* fine print, 5.2:1 on the masthead */
-    --accent: #ca2017;         /* button fills and borders, the hero's bottom band: the old site's red */
+    --accent: #ca2017;         /* button fills and borders, the hero's bottom band, the current
+                                  section's underline on the charcoal header: the old site's red */
     --link: #ae241d;           /* red text (links, member names, news dates, outline buttons): the
                                   old site's red with saturation and lightness each cut by a
                                   tenth (HSL), 6.9:1 on white, 5.8:1 on the masthead */
@@ -33,10 +34,12 @@
     --tint-warm: #f5ebe9;      /* the masthead's bottom: warmed towards the red band under it */
     --rule: #d9d9dd;
     --hairline: #e6e6e9;       /* rows (people, publications, all news), fine print */
-    --band: #f4f4f5;           /* the PI band, the member page head, photo placeholders */
+    --band: #f8f3f2;           /* the PI band, the member page head, photo placeholders: a misty
+                                  pink, the red at its palest, rather than a grey */
     --chip-rule: #d8d8dc;      /* .chip borders */
     --on-ink: #ededee;         /* footer text */
-    --on-ink-link: #f0867d;    /* red on ink: footer links, the current section's underline, 6.4:1 */
+    --on-ink-link: #f4978e;    /* red text on dark grounds, the footer's links: 5:1 on the
+                                  charcoal, 7.3:1 on ink */
     --on-ink-link-hover: #f7bdb7;
     --page: 1100px;            /* content width */
     --gutter: clamp(20px, 5vw, 48px);
@@ -237,16 +240,16 @@ img[width][height] {
     text-decoration: none;
 }
 
-/* Inner pages (every page but home, see _layouts/default.html) have a dark
-   header bar and footer, the old site's #222, with grey section links; the
-   current one is white with a red underline. The text is a darker grey than
-   on home. The tokens below repoint every rule that uses them; the rest are
+/* Inner pages (every page but home, see _layouts/default.html) have a
+   charcoal header bar and footer, with light grey section links, the
+   current one white with a red underline. The text is a darker grey than on
+   home. The tokens below repoint every rule that uses them; the rest are
    named here and further down. */
 body.inner {
     --ink: #222222;            /* headings, names */
     --muted: #4a4a4e;          /* running text, 8.8:1 on white */
     --faint: #6e6e73;          /* 5:1 on white */
-    --charcoal: #222224;       /* the header and footer */
+    --charcoal: #3d3d3d;       /* the header and footer: a neutral grey, 24% lightness */
     color: var(--muted);
 }
 
@@ -259,17 +262,17 @@ body.inner {
 }
 
 .inner .wordmark:hover, .inner .wordmark:focus {
-    color: #c8c8cc;
+    color: #d4d4d4;
 }
 
 .inner .site-nav nav a {
-    color: #c8c8cc;            /* 9.5:1 on the charcoal */
+    color: #d4d4d4;            /* 7.3:1 on the charcoal */
 }
 
 .inner .site-nav nav a:hover, .inner .site-nav nav a:focus,
 .inner .site-nav nav a[aria-current] {
     color: #ffffff;
-    text-decoration-color: var(--on-ink-link);
+    text-decoration-color: var(--accent);
     text-decoration-thickness: 2px;
 }
 
