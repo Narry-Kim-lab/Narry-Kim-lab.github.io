@@ -308,8 +308,9 @@ body.inner {
 }
 
 /* At least 40px, except where the column is too narrow for the title's
-   longest word ("regulation.", about 5.6 times the font size): below 320px
-   the size follows the column so that word still fits. */
+   longest word (room is kept for one as long as "regulation.", about 5.6
+   times the font size): below 320px the size follows the column so that
+   word still fits. */
 .hero h1 {
     margin: 0;
     max-width: 12em;
