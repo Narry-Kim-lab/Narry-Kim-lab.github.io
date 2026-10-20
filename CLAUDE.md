@@ -319,3 +319,7 @@ activity; re-enable the workflow in the Actions tab if the order stops changing)
 single "Broken external links" issue open while any fail; it ignores 403/429, which
 publishers send to every bot. Dependabot proposes action and gem updates monthly.
 There is no `CNAME` yet: add one holding `narrykim.org` when the domain moves here.
+Until then the site is served at narrykimlab.github.io while narrykim.org is still the
+old WordPress site, so `url` in `_config.yml` is `https://narrykimlab.github.io`: the
+canonical, Open Graph, sitemap and `robots.txt` addresses follow it, and a link preview
+(Notion, Slack) can load its image. Set it back to `https://narrykim.org` with the CNAME.
