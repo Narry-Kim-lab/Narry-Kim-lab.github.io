@@ -66,7 +66,11 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
   and a sideways swipe move through the photos in page order, wrapping round at the ends;
   the close button, Escape and a click on the dark ground close it, and focus returns to
   the photo. Videos are not in it: they link to YouTube. Without scripts, or with a click
-  meant for a new tab, a photo is a plain link to its file.
+  meant for a new tab, a photo is a plain link to its file. On /publications/by-topic/
+  the topics, with their numbers of papers, are a column beside the papers on a wide
+  screen (992px up) that stays in view as the list scrolls (`position: sticky`), and the
+  script marks the one being read (`aria-current`, a red rule): the last heading above a
+  line a third of the way down the window. On a narrower screen they are a list on top.
 - Home's first screen fills the window, as on the Chang lab site: the masthead is at
   least `100svh`, the hero text sits 7:3 in the space it has, and the scene lies along
   the window's bottom edge, the masthead's 8px bottom border in the sea floor's colour
@@ -131,9 +135,9 @@ invocation is in `.github/workflows/jekyll.yml` and README.md. Run it before pus
 
 All dynamic content lives in YAML data files. `_plugins/data_check.rb` checks them on every
 build and fails it with a list of problems: missing required fields, an author `link` that
-is not in team.yml, unknown categories, a non-boolean `active`, missing photos, years or
-dates out of order, icon names missing from `icons.yml`. Its rules mirror what the
-templates read -- when a template starts reading a new field, update the matching rule.
+is not in team.yml, unknown categories or topics, a non-boolean `active`, missing photos,
+years or dates out of order, icon names missing from `icons.yml`. Its rules mirror what
+the templates read -- when a template starts reading a new field, update the matching rule.
 
 - **team.yml** — Members, current (`active: true`, shown on /people/) and former. Fields:
   `name`, `photo` (file in `images/members/`), `info` (the role line), `category`
@@ -143,11 +147,17 @@ templates read -- when a template starts reading a new field, update the matchin
 - **publist.yml** — Papers, newest first; /publications/ groups them by `year` as they
   come, so the order matters (the data check enforces it). Fields: `authors`, `title`,
   `journal`, `year`, `vip` (volume and pages, optional), `doi`, `url` (where the title
-  links), and `supplement` (optional, a link to supplementary data or code). Each author has `name` as printed ("J. J. Seo") and, for a lab member, either
+  links), `supplement` (optional, a link to supplementary data or code), and `topics`
+  (one or more ids from topics.yml, a list: `[mirna-biogenesis, methods]`). Each author
+  has `name` as printed ("J. J. Seo") and, for a lab member, either
   `link` (a team.yml link, for someone with a profile page) or `lab: true` (bold, no
   link), plus `is_first`/`is_corresponding` for the superscripts. Journal names are
   spelled out in full and consistently, since /publications/by-journal/ groups by them.
-- **chapters.yml** — Book chapters, the same fields as publist.yml.
+- **topics.yml** — The topics of /publications/by-topic/, in the order it lists them
+  (the Research page's sections first, in its order): `id`, which a paper's `topics`
+  names, and `name`, the heading. A paper is listed under each of its topics; `other`
+  is for a paper no other topic fits, and goes alone.
+- **chapters.yml** — Book chapters, the same fields as publist.yml but no `topics`.
 - **patents.yml** — Patents, by `title`.
 - **alumni_members.yml** — Former members, most recently departed first (the people page
   keeps file order): `name`, `position`, `years` ([first, last] or [last]), `current`
@@ -182,9 +192,9 @@ templates read -- when a template starts reading a new field, update the matchin
 ### Pages (`_pages/`)
 
 Content pages live here. Member profiles are in `_pages/people/[link].md`. The sections
-are People (/people/), Research, Publications (with /publications/by-journal/), Photos,
-and the "Join us" button (/join/); Contact and About this site are linked from the footer,
-All news from the home page.
+are People (/people/), Research, Publications (with /publications/by-topic/ and
+/publications/by-journal/), Photos, and the "Join us" button (/join/); Contact and About
+this site are linked from the footer, All news from the home page.
 
 ### Key includes (`_includes/`)
 
@@ -234,7 +244,7 @@ Replace the text and drop the marker.
 ### Add a publication
 
 Add an entry to the top of `_data/publist.yml`. Give lab authors `link:` if they have a
-profile page, `lab: true` otherwise.
+profile page, `lab: true` otherwise, and the paper its `topics` (`_data/topics.yml`).
 
 ### Add news
 

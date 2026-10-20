@@ -1,0 +1,22 @@
+# The topics of /publications/by-topic/, in the order it lists them: the
+# sections of the Research page first, in its order (microRNA in two), then
+# three more. A paper names one or more by `id` in its `topics`
+# (_data/publist.yml) and is listed under each; `name` is the heading.
+# `other` is for a paper no other topic fits, and goes alone.
+
+- id: mrna-stability
+  name: mRNA Stability and Modification
+- id: viral-rna
+  name: Viral Regulatory RNAs and mRNA Therapeutics
+- id: exogenous-rna
+  name: Cellular Regulation of Exogenous RNAs
+- id: mirna-biogenesis
+  name: microRNA Biogenesis
+- id: mirna-function
+  name: microRNA Function and Disease
+- id: rna-binding-proteins
+  name: RNA-Binding Proteins
+- id: methods
+  name: Methods and Resources
+- id: other
+  name: Other Topics

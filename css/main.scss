@@ -980,10 +980,88 @@ ul.chronological span {
 
 /* ------------------------------------------------------------ publications */
 
-/* "By year" and "By journal": two buttons over the list, the current one
-   ringed in the link colour. */
+/* "By year", "By topic" and "By journal": three buttons over the list, the
+   current one ringed in the link colour. */
 .chip[aria-current] {
     border-color: var(--link);
+}
+
+/* On /publications/by-topic/, the topics as links to their headings, each
+   with its number of papers, hung on a hairline. On a wide screen they are a
+   column beside the papers that stays in view as the list scrolls past, and
+   the topic being read is marked with a red rule (js/site.js sets
+   aria-current); on a narrower one they are a list over the papers. */
+.topic-nav {
+    margin-top: 32px;
+}
+
+.topic-nav p {
+    margin: 0 0 8px;
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faint);
+}
+
+.topic-nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-left: 2px solid var(--hairline);
+}
+
+.body-container .topic-nav a {
+    display: block;
+    margin-left: -2px;
+    padding: 6px 0 6px 14px;
+    border-left: 2px solid transparent;
+    color: var(--muted);
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-decoration: none;
+}
+
+.body-container .topic-nav a:hover, .body-container .topic-nav a:focus-visible {
+    color: var(--link);
+}
+
+.body-container .topic-nav a[aria-current] {
+    border-left-color: var(--accent);
+    color: var(--ink);
+}
+
+.topic-count {
+    font-family: var(--sans);
+    font-weight: 400;
+    color: var(--faint);
+    font-variant-numeric: tabular-nums;
+}
+
+/* A link to a topic leaves a little room above its heading. */
+#gridid .topic-sections h2.pub-group {
+    scroll-margin-top: 24px;
+}
+
+@media (min-width: 992px) {
+    .topic-layout {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        column-gap: 56px;
+        align-items: start;
+    }
+
+    /* Level with the first heading, whose top margin it shares. */
+    .topic-nav {
+        position: sticky;
+        top: 24px;
+        max-height: calc(100vh - 48px);
+        overflow-y: auto;
+        margin-top: 48px;
+    }
 }
 
 /* The year (or journal) headings over each run of entries. */

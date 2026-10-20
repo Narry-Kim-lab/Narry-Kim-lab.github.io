@@ -29,6 +29,7 @@ module Jekyll
         team_links = check_team
         check_publications("publist", team_links)
         check_publications("chapters", team_links)
+        check_topics
         list("patents").each_with_index { |p, i| require_fields("patents", p, i, "title") }
         check_alumni_members
         check_news
@@ -125,6 +126,27 @@ module Jekyll
               problem(file, p, i, "author #{j + 1}: `lab` is either true or left out")
             end
           end
+        end
+      end
+
+      # /publications/by-topic/ lists a paper under each topic it names, so a
+      # paper with none, or only unknown ones, would be missing from it.
+      def check_topics
+        ids = []
+        list("topics").each_with_index do |t, i|
+          require_fields("topics", t, i, "id", "name")
+          problem("topics", t, i, "id #{t["id"].inspect} is used by an earlier entry too") if ids.include?(t["id"])
+          ids << t["id"]
+        end
+        list("publist").each_with_index do |p, i|
+          topics = p["topics"]
+          unless topics.is_a?(Array) && !topics.empty?
+            problem("publist", p, i, "no `topics` list (one or more of: #{ids.join(", ")})")
+            next
+          end
+          (topics - ids).each { |t| problem("publist", p, i, "unknown topic #{t.inspect} (one of: #{ids.join(", ")})") }
+          problem("publist", p, i, "a topic is named twice") if topics.uniq.size < topics.size
+          problem("publist", p, i, "`other` is for a paper no other topic fits; it goes alone") if topics.include?("other") && topics.size > 1
         end
       end
 

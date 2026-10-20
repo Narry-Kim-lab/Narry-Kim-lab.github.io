@@ -1,6 +1,7 @@
 /*
  * The site's script: the home page photo carousel, the photos page's
- * viewer, and the email buttons on the people and member pages. It drives Bootstrap 3's carousel classes
+ * viewer, the topic list on /publications/by-topic/, and the email buttons
+ * on the people and member pages. It drives Bootstrap 3's carousel classes
  * itself, without jQuery or Bootstrap's own JS.
  *
  * Loaded with `defer` from _includes/head.html, so it runs once the document
@@ -262,6 +263,41 @@
   }
 
   document.querySelectorAll('dialog.lightbox').forEach(lightbox);
+
+  // The topic list beside the papers on /publications/by-topic/ marks the
+  // topic being read: the last heading to have scrolled above a line a third
+  // of the way down the window. Above the first topic, and past the last
+  // (the book chapters and patents), none is marked.
+  document.querySelectorAll('.topic-nav').forEach((nav) => {
+    const links = new Map([...nav.querySelectorAll('a[href^="#"]')].map((a) => [a.hash.slice(1), a]));
+    const headings = [...document.querySelectorAll('.topic-sections h2[id]')];
+    let marked = null;
+    let queued = false;
+
+    function mark() {
+      queued = false;
+      const line = window.innerHeight / 3;
+      let current = null;
+      for (const heading of headings) {
+        if (heading.getBoundingClientRect().top > line) break;
+        current = heading;
+      }
+      const link = (current && links.get(current.id)) || null;
+      if (link === marked) return;
+      marked?.removeAttribute('aria-current');
+      link?.setAttribute('aria-current', 'true');
+      marked = link;
+    }
+
+    const queue = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(mark);
+    };
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    mark();
+  });
 
   // An email button holds the address as text with a hidden word inside it
   // (_includes/email_chip.html), which address harvesters reading the HTML

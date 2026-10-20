@@ -9,6 +9,7 @@ permalink: /publications/
 
 <div class="chip-row" markdown="0">
 <a class="chip" href="{{ site.baseurl }}/publications/" aria-current="page">By year</a>
+<a class="chip" href="{{ site.baseurl }}/publications/by-topic/">By topic</a>
 <a class="chip" href="{{ site.baseurl }}/publications/by-journal/">By journal</a>
 </div>
 <p class="publication-key" markdown="0"><sup>1</sup> Co-first author &nbsp;&middot;&nbsp; <sup>*</sup> Co-corresponding author &nbsp;&middot;&nbsp; Lab members in bold</p>
