@@ -4,9 +4,10 @@ layout: homelay
 excerpt: "The Narry Kim lab at the Institute for Basic Science and Seoul National University studies how RNA steers the fate of cells, from microRNAs and mRNA tails to viral RNA, and puts what it learns to work in RNA medicine."
 permalink: /
 hero:
-  title: RNA steers the fate of the cell.
+  title: RNA steers <span class="phrase">the fate</span> of the cell.
   text: >-
-    From microRNAs to mRNA tails, we decode how RNA makes a cell what it is.
+    From microRNAs to mRNA tails, <span class="phrase">we decode</span> how RNA
+    makes a cell what it is.
   buttons:
     - { label: See our research, url: /research/ }
     - { label: Meet the people, url: /people/, style: outline }
