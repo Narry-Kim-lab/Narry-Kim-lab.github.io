@@ -24,4 +24,11 @@ engines fueled (orders and stock) and the crew on course, and is the
 reason the −80 °C freezer alarm has not gone off since the last ice
 age.
 
+## Education
+
+{% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
+<ul class="chronological">
+  <li><span>2002–2006</span> B.S. in Starship Operations, Starfleet Academy</li>
+</ul>
+
 {% include publication_in_profile.html %}

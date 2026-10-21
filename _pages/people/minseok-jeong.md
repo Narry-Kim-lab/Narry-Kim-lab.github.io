@@ -19,12 +19,11 @@ foreign RNA (*Science*, 2025), on the genome packaging signal of SARS-CoV-2
 (*Nature Communications*, 2026) and on viral RNA elements that stabilize
 RNA and enhance translation (*Cell*, 2026).
 
-## Current project
+## Education
 
 {% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
-**Project ARGO-NAUTICA.** Building a submarine small enough to ride
-inside the RNA-induced silencing complex and film the guide strand being
-loaded, live and in 4K. The submarine is ready; the popcorn is on
-order.
+<ul class="chronological">
+  <li><span>2017–2021</span> B.S. in Submarine Driving, Mrs. Puff's Boating School, Bikini Bottom</li>
+</ul>
 
 {% include publication_in_profile.html %}

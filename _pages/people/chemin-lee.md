@@ -17,12 +17,11 @@ atlas of RNA elements from vertebrate viruses, identifying sequences that
 stabilize RNA and enhance translation: a resource for designing mRNAs that
 last longer and make more protein.
 
-## Current project
+## Education
 
 {% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
-**Project Elixir.** Brewing the ultimate RNA element, one so stabilizing
-that the mRNAs carrying it will outlive the lab's oldest freezer. Field
-trials are under way, and the mRNAs are reported to be in excellent
-spirits.
+<ul class="chronological">
+  <li><span>2016–2020</span> B.S. in Potions, Hogwarts School of Witchcraft and Wizardry</li>
+</ul>
 
 {% include publication_in_profile.html %}

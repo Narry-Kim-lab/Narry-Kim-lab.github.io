@@ -13,11 +13,11 @@ stability enhancers able to make base-modified mRNA therapeutics last
 longer in cells, part of the lab's effort to bring what it has learned
 about RNA stability to medicine.
 
-## Current project
+## Education
 
 {% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
-**Operation Forever mRNA.** A top-secret program to give therapeutic
-mRNAs a shield of invincibility, so that they can travel further into the
-cell than any mRNA has gone before, and send back photos.
+<ul class="chronological">
+  <li><span>2016–2020</span> B.S. in Shield Charms, Beauxbatons Academy of Magic</li>
+</ul>
 
 {% include publication_in_profile.html %}

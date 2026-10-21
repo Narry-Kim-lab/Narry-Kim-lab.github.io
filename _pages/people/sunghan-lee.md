@@ -15,11 +15,11 @@ Acids Research* study showing that the SARS-CoV-2 protein Nsp2 recruits
 GIGYF2 near viral replication sites to support viral protein
 production.
 
-## Current project
+## Education
 
 {% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
-**Operation Long Haul.** Engineering an mRNA that runs a marathon
-through the cytoplasm, refuels at every ribosome along the way, and still
-has the energy for a victory lap.
+<ul class="chronological">
+  <li><span>2016–2020</span> B.S. in Interplanetary Delivery, Planet Express Academy, New New York</li>
+</ul>
 
 {% include publication_in_profile.html %}

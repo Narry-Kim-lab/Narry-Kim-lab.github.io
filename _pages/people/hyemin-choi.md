@@ -16,11 +16,11 @@ questions, and RNA, a little intimidated, usually answers.
 
 In spare moments Hyemin is teaching the lab's ribosomes to read aloud.
 
-## Current project
+## Education
 
 {% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
-**Project TAILWIND.** Teaching poly(A) tails to fly in formation.
-Early results show the tails can already hold a respectable V shape;
-landing remains a work in progress.
+<ul class="chronological">
+  <li><span>2016–2020</span> B.S. in Care of Magical Creatures, Hogwarts School of Witchcraft and Wizardry</li>
+</ul>
 
 {% include publication_in_profile.html %}

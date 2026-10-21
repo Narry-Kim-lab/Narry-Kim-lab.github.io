@@ -19,12 +19,11 @@ viral hijacking of the TENT4–ZCCHC14 complex for mixed tailing (*Nature
 Structural & Molecular Biology*, 2020), and the functional viromic screens
 that uncovered regulatory RNA elements (*Cell*, 2023).
 
-## Current project
+## Education
 
 {% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
-**Guardian of the MicroRNA Archives.** Keeper of a decade of the lab's
-know-how, and the one everyone asks when a protocol from 2014 needs
-decoding. Rumored to know every DROSHA cleavage site by heart, and to
-hum them while pipetting.
+<ul class="chronological">
+  <li><span>2008–2012</span> B.S. in Ancient Runes, Hogwarts School of Witchcraft and Wizardry</li>
+</ul>
 
 {% include publication_in_profile.html %}

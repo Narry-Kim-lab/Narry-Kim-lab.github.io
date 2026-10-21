@@ -23,17 +23,10 @@ to ionizing radiation combined with PARP inhibitors (*Clinical Cancer
 Research*, 2019), followed by work modeling pediatric brain tumors (DIPG)
 in human neural stem cells.
 
-## Current project
-
-{% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
-**Mission Pack & Go.** Finding out how a coronavirus decides which RNA
-to pack for the trip, and, along the way, writing the definitive guide to
-fitting a 30-kilobase genome into a very small suitcase.
-
 ## Education
 
 <ul class="chronological">
-  <li><span>2017</span> Ph.D., Johns Hopkins University, USA</li>
+  <li><span>2011?–2017</span> Ph.D., Johns Hopkins University, USA</li>
 </ul>
 
 {% include publication_in_profile.html %}

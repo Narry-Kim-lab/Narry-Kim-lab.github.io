@@ -14,11 +14,11 @@ they hum along with the incubator. No contamination has ever dared to
 enter Sunyoung's hood; mold spores are reported to turn around at the
 door.
 
-## Current project
+## Education
 
 {% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
-**Operation Golden Flask.** Raising a legendary line of cells so well
-behaved that they line up in alphabetical order before every
-experiment.
+<ul class="chronological">
+  <li><span>2015–2019</span> B.S. in Laugh Energy Engineering, Monsters University</li>
+</ul>
 
 {% include publication_in_profile.html %}
