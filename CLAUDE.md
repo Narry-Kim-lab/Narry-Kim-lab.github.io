@@ -74,14 +74,14 @@ Tech stack: Jekyll 4.x (Gemfile pins `~> 4.3`), Kramdown (GFM), Liquid templates
 - Home's first screen fills the window, as on the Chang lab site: the masthead is at
   least `100svh`, the hero text sits 7:3 in the space it has, and the scene lies along
   the window's bottom edge, the masthead's 8px bottom border in the sea floor's colour
-  (on touch screens the sea runs on 88px further, for a floating browser toolbar to cover,
-  and then 120px past the window's bottom, since Safari on iOS 26 ends `100svh` at its
-  toolbar's top edge and shows the page below the window through the toolbar). Just
+  (on touch screens the sea runs on 88px past the window's bottom, since Safari on iOS 26
+  ends `100svh` at its floating toolbar's top edge and shows the page below the window
+  through the toolbar: only water lies there). Just
   above the sea, two wide chevrons cue that the page goes on below: a link to `#content`
   (the `<main>`), bobbing gently and scrolling smoothly unless motion is reduced. They
   take only room the text leaves over (`.cue-room`, a container query), so where there
   is none they are left out rather than push the scene down; on touch screens they sit
-  in the 88px of water below the scene instead. The scene is `js/tails.js` on `<canvas class="scene">`, an animation with no game: mRNAs
+  in that 88px of water below the window's bottom instead. The scene is `js/tails.js` on `<canvas class="scene">`, an animation with no game: mRNAs
   swim like tadpoles in a sea, the 5' cap worn as a red cap and a messenger bag slung
   across them (messengers, after all), their poly(A) tails shortening bead by bead
   (deadenylation) until an mRNA with none left fades away. Four enzymes wander among
