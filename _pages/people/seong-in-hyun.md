@@ -25,6 +25,9 @@ Biotechnology*, 2025).
 
 <ul class="chronological">
   <li><span>2011?–2017</span> Ph.D., University of Maryland, College Park, USA</li>
+{% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
+  <li><span>2009–2011</span> M.S. in Exovirology, Starfleet Medical Academy</li>
+  <li><span>2005–2009</span> B.S. in Viral Genetics, Gotham University</li>
 </ul>
 
 {% include publication_in_profile.html %}

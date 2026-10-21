@@ -28,6 +28,7 @@ age.
 
 {% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
 <ul class="chronological">
+  <li><span>2006–2008</span> M.S. in Mission Control, Starfleet Academy</li>
   <li><span>2002–2006</span> B.S. in Starship Operations, Starfleet Academy</li>
 </ul>
 

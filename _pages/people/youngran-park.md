@@ -27,6 +27,8 @@ in human neural stem cells.
 
 <ul class="chronological">
   <li><span>2011?–2017</span> Ph.D., Johns Hopkins University, USA</li>
+{% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
+  <li><span>2007–2011</span> B.S. in Poké Ball Packaging, Pallet Town College (under Prof. Oak)</li>
 </ul>
 
 {% include publication_in_profile.html %}

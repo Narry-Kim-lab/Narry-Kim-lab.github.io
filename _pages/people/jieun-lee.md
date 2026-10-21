@@ -17,6 +17,7 @@ about RNA stability to medicine.
 
 {% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
 <ul class="chronological">
+  <li><span>2020–2022</span> M.S. in Shield Engineering, S.H.I.E.L.D. Academy</li>
   <li><span>2016–2020</span> B.S. in Shield Charms, Beauxbatons Academy of Magic</li>
 </ul>
 

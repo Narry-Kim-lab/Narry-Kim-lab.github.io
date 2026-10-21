@@ -23,6 +23,7 @@ that uncovered regulatory RNA elements (*Cell*, 2023).
 
 {% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
 <ul class="chronological">
+  <li><span>2012–2014</span> M.S. in Library Science, Unseen University, Ankh-Morpork</li>
   <li><span>2008–2012</span> B.S. in Ancient Runes, Hogwarts School of Witchcraft and Wizardry</li>
 </ul>
 
