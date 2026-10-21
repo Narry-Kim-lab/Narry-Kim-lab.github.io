@@ -3,6 +3,11 @@ layout: member
 title: Sunyoung Bang
 position: Research Assistant
 email: golden.flask@sunyoung.example  # placeholder
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/sunyoung-bang.jpg
 permalink: /people/sunyoung-bang
 ---

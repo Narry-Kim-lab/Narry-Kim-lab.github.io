@@ -3,6 +3,11 @@ layout: member
 title: Junyoung Park
 position: Graduate Student
 email: cluster.cmdr@junyoung.example  # placeholder
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/junyoung-park.jpg
 permalink: /people/junyoung-park
 ---

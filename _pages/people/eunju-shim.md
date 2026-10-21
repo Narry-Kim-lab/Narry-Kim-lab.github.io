@@ -3,6 +3,11 @@ layout: member
 title: Eunju Shim
 position: Senior Administrative Assistant
 email: shimej@snu.ac.kr
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/eunju-shim.jpg
 permalink: /people/eunju-shim
 ---

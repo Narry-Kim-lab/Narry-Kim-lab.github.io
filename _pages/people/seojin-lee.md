@@ -3,6 +3,11 @@ layout: member
 title: Seojin Lee
 position: Graduate Student
 email: speedy@seojin.example  # placeholder
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/seojin-lee.jpg
 permalink: /people/seojin-lee
 ---

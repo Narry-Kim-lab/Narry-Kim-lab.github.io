@@ -4,7 +4,10 @@ title: Hyejun Kim
 position: Graduate Student
 email: hyejun.rna@gmail.com
 github: hyejun18
+orcid:
 scholar: YgDx6N8AAAAJ
+pubmed:
+cv:
 image: /images/members/hyejun-kim.jpg
 permalink: /people/hyejun-kim
 ---

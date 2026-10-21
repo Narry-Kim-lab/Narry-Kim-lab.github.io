@@ -3,6 +3,11 @@ layout: member
 title: Dongbin Lim
 position: Graduate Student
 email: time.capsule@dongbin.example  # placeholder
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/dongbin-lim.jpg
 permalink: /people/dongbin-lim
 ---

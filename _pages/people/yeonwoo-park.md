@@ -3,7 +3,11 @@ layout: member
 title: Yeonwoo Park
 position: Postdoctoral Fellow
 email: whatdoidohaha@snu.ac.kr
+github:
+orcid:
 scholar: c-QaWs0AAAAJ
+pubmed:
+cv:
 image: /images/members/yeonwoo-park.jpg
 permalink: /people/yeonwoo-park
 ---

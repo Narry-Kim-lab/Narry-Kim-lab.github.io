@@ -3,6 +3,11 @@ layout: member
 title: Chemin Lee
 position: Graduate Student
 email: elixir@chemin.example  # placeholder
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/chemin-lee.jpg
 permalink: /people/chemin-lee
 ---

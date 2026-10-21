@@ -3,6 +3,11 @@ layout: member
 title: Yeekyung Moon
 position: Graduate Student
 email: moonshot01@yeekyung.example  # placeholder
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/yeekyung-moon.jpg
 permalink: /people/yeekyung-moon
 ---

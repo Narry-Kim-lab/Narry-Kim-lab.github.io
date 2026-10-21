@@ -38,6 +38,9 @@ layout: default
         {%- if member.github %}
         <a class="chip" href="https://github.com/{{ member.github }}">{% include icon.html name="github-alt" %}GitHub</a>
         {%- endif %}
+        {%- if member.orcid %}
+        <a class="chip" href="https://orcid.org/{{ member.orcid }}">{% include icon.html name="orcid" %}ORCID</a>
+        {%- endif %}
         {%- if member.scholar %}
         <a class="chip" href="https://scholar.google.com/citations?user={{ member.scholar }}">{% include icon.html name="book" %}Google Scholar</a>
         {%- endif %}

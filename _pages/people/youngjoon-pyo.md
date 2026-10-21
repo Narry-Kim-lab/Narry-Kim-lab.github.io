@@ -2,7 +2,12 @@
 layout: member
 title: Youngjoon Pyo
 position: Graduate Student
-email: proton.detector@youngjoon.example  # placeholder
+email: jaden1076@gmail.com
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/youngjoon-pyo.jpg
 permalink: /people/youngjoon-pyo
 ---
@@ -15,9 +20,8 @@ viruses, from their own.
 
 ## Education
 
-{% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
 <ul class="chronological">
-  <li><span>2017–2021</span> B.S. in Spider-Sense Studies, Midtown School of Science and Technology</li>
+  <li><span>2017–2021</span> B.S. in Biological Sciences, Seoul National University</li>
 </ul>
 
 {% include publication_in_profile.html %}

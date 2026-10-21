@@ -3,6 +3,11 @@ layout: member
 title: Daniel Lee
 position: Graduate Student
 email: risc.rider@daniel.example  # placeholder
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/daniel-lee.jpg
 permalink: /people/daniel-lee
 ---

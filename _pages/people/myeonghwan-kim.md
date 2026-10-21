@@ -3,7 +3,11 @@ layout: member
 title: Myeonghwan Kim
 position: Postdoctoral Fellow
 email: night.watch@myeonghwan.example  # placeholder
+github:
+orcid:
+scholar:
 pubmed: "https://pubmed.ncbi.nlm.nih.gov/?term=%28Kim+VN%29+AND+%28Kim+M%29"
+cv:
 image: /images/members/myeonghwan-kim.jpg
 permalink: /people/myeonghwan-kim
 ---

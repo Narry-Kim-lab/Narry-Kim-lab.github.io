@@ -184,7 +184,7 @@ the templates read -- when a template starts reading a new field, update the mat
   counterparts); `defaults` in `_config.yml` gives them this layout and `sitemap: false`,
   so a stub is just `permalink` (the old address) and `redirect_to`.
 - **member.html** — A member's profile: photo, name and position, then the links (CV,
-  GitHub, Google Scholar, PubMed, email) as icon buttons beside the text, and the member's
+  GitHub, ORCID, Google Scholar, PubMed, email) as icon buttons beside the text, and the member's
   papers from `{% include publication_in_profile.html %}` in the page body, which matches
   the page's file name against author `link`s (the PI's page leaves it out: it would be
   the whole list; hers has Education and Positions instead). The email button is
@@ -223,9 +223,11 @@ this site are linked from the footer, All news from the home page.
 
 1. Add an entry to `_data/team.yml` with `active: true`
 2. Create `_pages/people/<link>.md` (copy an existing one): front matter `layout: member`,
-   `title` (the name), `position`, `image`, `permalink: /people/<link>`, and any of
-   `email`, `github`, `scholar` (the user id), `pubmed` (a full search URL), `cv` that
-   apply; then the body: a bio, `## Current project` (`## Role` for the office staff),
+   `title` (the name), `position`, then every link key, left empty where there is none
+   (an empty one shows no button, and the member can fill it in): `email`, `github`,
+   `orcid` (the iD, `0000-0000-0000-0000`), `scholar` (the user id), `pubmed` (a full
+   search URL), `cv`; then `image` and `permalink: /people/<link>`, in that order as in
+   every profile; then the body: a bio, `## Current project` (`## Role` for the office staff),
    `## Education` as a `<ul class="chronological">` where known, and
    `{% include publication_in_profile.html %}`
 3. Add the photo as `images/members/<link>.jpg`, at least 520px wide (the people page

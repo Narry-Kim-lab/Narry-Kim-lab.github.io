@@ -3,7 +3,11 @@ layout: member
 title: Minseok Jeong
 position: Graduate Student
 email: argo.nautica@minseok.example  # placeholder
+github:
+orcid:
 scholar: 230tVPYAAAAJ
+pubmed:
+cv:
 image: /images/members/minseok-jeong.jpg
 permalink: /people/minseok-jeong
 ---

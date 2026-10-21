@@ -3,6 +3,11 @@ layout: member
 title: Eunji Kim
 position: Technician
 email: beautifulej@naver.com
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/eunji-kim.jpg
 permalink: /people/eunji-kim
 ---

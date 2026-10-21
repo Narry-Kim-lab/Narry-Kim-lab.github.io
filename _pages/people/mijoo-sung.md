@@ -3,6 +3,11 @@ layout: member
 title: Mijoo Sung
 position: Lab Manager
 email: mjsung@snu.ac.kr
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/mijoo-sung.jpg
 permalink: /people/mijoo-sung
 ---

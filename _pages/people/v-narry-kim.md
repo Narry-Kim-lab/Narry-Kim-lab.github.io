@@ -3,9 +3,12 @@ layout: member
 title: V. Narry Kim
 position: Principal Investigator
 email: narrykim@snu.ac.kr
+github:
+orcid:
+scholar:
 pubmed: "https://pubmed.ncbi.nlm.nih.gov/?term=Kim+VN&cauthor_id=25480299"
-image: /images/members/v-narry-kim.jpg
 cv: /assets/cv/cv-narry-kim.pdf
+image: /images/members/v-narry-kim.jpg
 permalink: /people/v-narry-kim
 ---
 

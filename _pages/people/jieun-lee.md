@@ -3,6 +3,11 @@ layout: member
 title: Jieun Lee
 position: Research Assistant
 email: forever.mrna@jieun.example  # placeholder
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/jieun-lee.jpg
 permalink: /people/jieun-lee
 ---

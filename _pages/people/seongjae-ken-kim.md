@@ -3,6 +3,11 @@ layout: member
 title: Seongjae Ken Kim
 position: Graduate Student
 email: knotbuster@ken.example  # placeholder
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/seongjae-ken-kim.jpg
 permalink: /people/seongjae-ken-kim
 ---

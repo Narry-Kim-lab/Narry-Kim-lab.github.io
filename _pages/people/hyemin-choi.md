@@ -3,6 +3,11 @@ layout: member
 title: Hyemin Choi
 position: Graduate Student
 email: tailwind@hyemin.example  # placeholder
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/hyemin-choi.jpg
 permalink: /people/hyemin-choi
 ---

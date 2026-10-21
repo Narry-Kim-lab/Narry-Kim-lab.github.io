@@ -3,7 +3,11 @@ layout: member
 title: Youngran Park
 position: Postdoctoral Fellow
 email: pack.and.go@youngran.example  # placeholder
+github:
+orcid:
 scholar: R_2N7cMAAAAJ
+pubmed:
+cv:
 image: /images/members/youngran-park.jpg
 permalink: /people/youngran-park
 ---

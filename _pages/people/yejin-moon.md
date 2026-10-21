@@ -3,6 +3,11 @@ layout: member
 title: Yejin Moon
 position: Research Assistant
 email: infinite.pipette@yejin.example  # placeholder
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/yejin-moon.jpg
 permalink: /people/yejin-moon
 ---

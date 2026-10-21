@@ -3,6 +3,11 @@ layout: member
 title: Hyojin Park
 position: Administrative Assistant
 email: anita9992@snu.ac.kr
+github:
+orcid:
+scholar:
+pubmed:
+cv:
 image: /images/members/hyojin-park.jpg
 permalink: /people/hyojin-park
 ---

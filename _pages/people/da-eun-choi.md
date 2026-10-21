@@ -3,7 +3,11 @@ layout: member
 title: Da-Eun Choi
 position: Research Assistant
 email: daeun7291@gmail.com
+github:
+orcid:
+scholar:
 pubmed: "https://pubmed.ncbi.nlm.nih.gov/?term=%28Kim+VN%29+AND+%28Choi+DE%29"
+cv:
 image: /images/members/da-eun-choi.jpg
 permalink: /people/da-eun-choi
 ---
