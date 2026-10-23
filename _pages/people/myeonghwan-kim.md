@@ -27,9 +27,8 @@ responses to mRNA vaccines (*Nature Communications*, 2024).
 ## Education
 
 <ul class="chronological">
-  <li><span>2019?–2025</span> Ph.D. in Biological Sciences, Seoul National University</li>
-{% comment %}PLACEHOLDER: invented, and over the top on purpose. Replace with the member's own.{% endcomment %}
-  <li><span>2015–2019</span> B.S. in Demonology, UC Sunnydale</li>
+  <li><span>2019–2025</span> Ph.D. in Biological Sciences, Seoul National University</li>
+  <li><span>2015–2019</span> B.S. in Biological Sciences, Seoul National University</li>
 </ul>
 
 {% include publication_in_profile.html %}
