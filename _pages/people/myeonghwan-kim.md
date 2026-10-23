@@ -2,7 +2,7 @@
 layout: member
 title: Myeonghwan Kim
 position: Postdoctoral Fellow
-email: night.watch@myeonghwan.example  # placeholder
+email: kimmh1242@gmail.com
 github:
 orcid:
 scholar:
